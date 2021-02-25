@@ -1,0 +1,62 @@
+<div class="">
+    <div class="d-flex algin-items-center mb-n3">
+        <div class="flex-fill">
+            <h4 mat-dialog-title class="pb-2 font">
+                Upload Attachment
+            </h4>
+        </div>
+    </div>
+    <!-- Start of main content -->
+    <div class="text-muted fullwidth"
+    mat-dialog-content>
+        <div>
+            <p>
+                Kindly complete the following form below
+            </p>
+            <div>
+                <form [formGroup]="uploadForm" name="frm"
+                (ngSubmit)="submitForm(uploadForm)" class="w-100-p">
+
+                <!-- Custom file upload input -->
+                <div class="w-100-p pt-1">
+                    <div class="input-wrapper fullwidth">
+                        <mat-form-field appearance="outline"
+                        color="primary" class="pb-0 mb-0 w-100-p">
+                            <mat-label>File Description</mat-label>
+                            <textarea name="description" id="" matInput
+                            cols="30" rows="2" formControlName="description"
+                            placeholder="Kindly enter a file descripition..."></textarea>
+                        </mat-form-field>
+                    </div>
+                    <div *ngIf="f.description.invalid && 
+                    (f.description.touched || f.description.dirty)"  
+                    class="invalid-feedback">
+                        <div *ngIf="f.description.errors.required">
+                            Description is required
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-100-p">
+                    <app-file-upload formControlName="attachment"
+                    [progress]="progress"></app-file-upload>
+                    <div class="invalid-feedback d-flex">
+                        <div *ngIf="hasError('attachment', 'required')">This field is required</div>
+                        <div *ngIf="hasError('attachment', 'requiredFileType')">Attach a PDF File</div>
+                    </div>
+                </div>
+
+                <!-- Action buttons -->
+                <div class="btn-container d-flex justify-content-end w-100-p">
+                    <button mat-button mat-dialog-close
+                    type="button" (click)="closeDialog()">CLOSE</button>
+                    <button mat-button type="submit"
+                    [class.spiner]="loading" [disabled]="loading">SUBMIT</button>
+                </div>
+                <!-- End of action buttons -->
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- End of main content -->
+</div>

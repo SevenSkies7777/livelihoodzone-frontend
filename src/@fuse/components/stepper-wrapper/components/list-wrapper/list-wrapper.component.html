@@ -1,0 +1,43 @@
+<div *ngIf="loading" class="w-100-p">
+    <div class="w-100-p d-flex justify-content-center py-28">
+        <mat-spinner diameter="45"></mat-spinner>
+    </div>
+</div>
+<div class="w-100-p" *ngIf="item?.id">
+    <dynamic-table title="Listing"
+    [tabbedItem]="item" [modelKey]="configs?.modelKey"
+    [cmptParams]="configs?.cmptParams"
+    class="w-100-p" [addOrg]="true"
+    [headers]="configs?.headers" [no-card]="true"
+    [has-action]="true" [store]="configs?.getStore"
+    [topActions]="configs?.topActions" [hasSearch]="true"
+    [actions]="configs?.actions" [rows]="configs.rows">
+    </dynamic-table>
+</div>
+<div class="btn-cont px-20 pb-12 pt-3 border-top">
+    <div class="btn-cont mb-3 pt-12 w-100-p
+    d-flex justify-content-between">
+        <button mat-raised-button
+        class="float-left"
+        (click)="changeStep('prev')">
+        <mat-icon class="btn-icon">keyboard_arrow_left</mat-icon>
+        <mat-icon class="btn-icon">keyboard_arrow_left</mat-icon>
+            &nbsp;&nbsp;BACK
+        </button>
+        <button mat-raised-button
+        *ngIf="!isLast"
+        class="mt-10 float-right mr-0"
+        color="accent" 
+        (click)="changeStep('next')">
+            NEXT&nbsp;
+            <mat-icon class="btn-icon">keyboard_arrow_right</mat-icon>
+            <mat-icon class="btn-icon">keyboard_arrow_right</mat-icon>
+        </button>
+        <button mat-raised-button
+        *ngIf="isLast" color="success"
+        class="mt-10 float-right mr-0"
+        (click)="changeStep('next')">
+            COMPLETE
+        </button>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+<div class="px-16 pt-8 pb-20">
+    <div mat-dialog-title class="pb-3 d-flex">
+        <div class="title-text flex-fill">
+            {{data?.configs.title || 'REVIEW COMPLAINT' }}
+        </div>
+        <div>
+            <mat-icon class="hover-pointer"
+            (click)="closeDialog()">close</mat-icon>
+        </div>
+    </div>
+    <div mat-dialog-content class="">
+        <div>{{data?.configs.description}}</div>
+        <!-- Start of adding review attachment -->
+        <div class="">
+            <div class="attachemnt-wrapper mb-1 pt-3">
+                <input type="file" [hidden]="true" class="ng-hide"
+                id="input-attachment" (change)="fileChange($event)">
+                <label for="input-attachment" class="mat-button w-100-p
+                d-flex pl-16 mat-elevation-z1 pt-2">
+                    <div class="mt-2 pr-2"><mat-icon class="">
+                        {{fileName ? 'attachment' : 'cloud_upload' }}
+                    </mat-icon></div>
+                    <div class="pl-2"> 
+                        {{ fileName || 'Upload Approval Attachments' }} 
+                    </div>
+                </label>
+            </div>
+            <!-- Note input -->
+           
+        </div>
+    </div>
+    <div mat-dialog-actions class="w-100-p pt-16 pb-4">
+        <form [formGroup]="commentForm" name="fmr" 
+        (ngSubmit)="submitReview()" class="w-100-p">
+            <div class="w-100-p pt-1">
+                <div class="input-wrapper w-100-p">
+                    <mat-form-field appearance="outline" color="primary"
+                    class="w-100-p pb-0 mb-0">
+                        <mat-label>Enter a comment</mat-label>
+                        <textarea name="notes" matInput
+                        id="" cols="30" rows="6" 
+                        placeholder="Kindly enter a comment..."
+                        formControlName="notes"></textarea>
+                    </mat-form-field>
+                </div>
+                <div *ngIf="f.notes.invalid && 
+                (f.notes.touched || f.notes.dirty)"  
+                class="invalid-feedback">
+                    <div *ngIf="f.notes.errors.required">
+                        Comment is required
+                    </div>
+                </div>
+            </div>
+            <div class="btn-container d-flex justify-content-end">
+                <button mat-button mat-dialog-close
+                type="button"
+                (click)="closeDialog()">CLOSE</button>
+                <button mat-button type="submit"
+                [class.spinner]="loading" [disabled]="loading">
+                    {{data?.configs.action || 'SUBMIT' }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

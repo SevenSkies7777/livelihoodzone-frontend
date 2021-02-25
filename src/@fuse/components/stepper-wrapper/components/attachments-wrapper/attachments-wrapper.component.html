@@ -1,0 +1,195 @@
+<div class="w-100-p">
+    <div class="card">
+        <div class="card-header bg-white">
+            <div class="title flex-fill font-weight-600 font-size-16 
+            pt-2 pl-3 d-flex align-items-center">
+                <div>
+                    <mat-icon>attachment</mat-icon>&nbsp;
+                </div>
+                <div class="flex-fill pl-3 mt-n2">Attachments</div>
+                <div class="actions" *ngIf="configs?.headerAction">
+                    <input type="file" [hidden]="true" class="ng-hide"
+                    id="input-file-id" (change)="budgetAttachmentUpload($event)">
+                    <label for="input-file-id" class="mat-button 
+                    mat-stroked-button md-primary d-flex pl-3"
+                    [class.spinner]="uploadLoader">
+                        <mat-icon class="mt-2">cloud_upload</mat-icon>&nbsp;
+                        &nbsp;UPLOAD FILE
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div>
+                <table class="table borderless">
+                    <thead class="thead-light"
+                    *ngIf="!configs?.attachmentStore">
+                        <th class="pl-24">
+                            File
+                        </th>
+                        <th>
+                            Required
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th style="width:1px;">
+                            Action
+                        </th>
+                    </thead>
+                    <tbody *ngIf="!configs?.attachmentStore">
+                        <tr *ngFor="let attachment of list;let i = index">
+                            <td class="pl-24 valign-middle" valign="middle">
+                                {{ attachment?.name }}
+                            </td>
+                            <td valign="middle" class="valign-middle">
+                                <span class="badge py-2 px-3 font-size-12 {{ 
+                                    attachment?.required ? 'badge-danger' : 'badge-info'
+                                }}" *ngIf="!attachment?.attachment_data">
+                                    {{ attachment?.required ? 'Required' : 'Not Required' }}
+                                </span>
+                                <span class="badge badge-success 
+                                py-2 px-3 font-size-12" 
+                                *ngIf="attachment?.attachment_data">
+                                    Uploaded
+                                </span>
+                            </td>
+                            <td class="valign-middle" valign="middle">
+                                {{ attachment?.description }}
+                            </td>
+                            <td class="pr-24">
+                                <!-- <input [hidden]="true" class="ng-hide" id="input-file-id-{{i}}"
+                                (change)="fileChange($event, attachment)" type="file" />
+                                <label for="input-file-id-{{i}}" class="mat-button 
+                                mat-stroked-button md-primary d-flex"
+                                *ngIf="!attachment?.attachment_data">
+                                    <mat-icon class="mt-2">cloud_upload</mat-icon>&nbsp;
+                                    Upload
+                                </label> -->
+                                <button mat-stroked-button 
+                                *ngIf="!attachment?.attachment_data"
+                                (click)="selectDocType(attachment)">
+                                    <mat-icon class="mt-2">cloud_upload</mat-icon>&nbsp;
+                                    Upload
+                                </button>
+                                <a mat-stroked-button download target="_blank"
+                                *ngIf="attachment?.attachment_data"
+                                [attr.href]="attachment?.attachment_data['file']">
+                                    <mat-icon>cloud_download</mat-icon>&nbsp;
+                                    Download
+                                </a>
+                            </td>
+                        </tr>
+                        <tr *ngIf="!list?.length && !loading">
+                            <td colspan="3" class="pb-0 mb-0 pl-24">
+                                <div class="w-100-p px-3">
+                                    <div class="alert alert-primary mb-0 pb-2 pt-3">
+                                        <div class="d-flex align-items-center">
+                                            <div class="pr-20">
+                                                <mat-icon>
+                                                    info_circle
+                                                </mat-icon>
+                                            </div>
+                                            <div class="flex-fill">
+                                                There is currently no documents setup for this organization.
+                                                Kindly contact the administrator
+                                            </div>
+                                            <div class="pr-8">
+                                                <button mat-raised-button color="default"
+                                                (click)="toggleCreateForm()" class="pl-3 mt-n2">
+                                                    <mat-icon>add</mat-icon>&nbsp;
+                                                    ADD ACCOUNT
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <thead class="thead-light"
+                    *ngIf="configs?.attachmentStore">
+                        <th class="pl-24">
+                            Name
+                        </th>
+                        <th>
+                            Uploaded At
+                        </th>
+                        <th style="width:1px;">
+                            Action
+                        </th>
+                    </thead>
+                    <tbody *ngIf="configs?.attachmentStore">
+                        <tr *ngFor="let attachment of list">
+                            <td class="pl-20"
+                            *ngIf="attachment?.file">
+                                {{ attachment?.file.name || 'Unknown' }}
+                            </td>
+                            <td class="pl-20"
+                            *ngIf="attachment?.file">
+                                {{ attachment?.file.created | date: 'medium' }}
+                                <mat-icon *ngIf="!attachment?.file.created">
+                                    remove
+                                </mat-icon>
+                            </td>
+                            <td class="pr-20" style="width: 1px;">
+                                <a mat-raised-button download 
+                                target="_blank"
+                                [attr.href]="attachment?.file.file" >
+                                    <mat-icon>cloud_download</mat-icon>
+                                    &nbsp;Download
+                                </a>
+                            </td>
+                        </tr>
+                        <tr *ngIf="!attachmentsList?.length">
+                            <td colspan="3" class="pb-0 mb-0">
+                                <div class="w-100-p px-3">
+                                    <div class="alert alert-primary mb-0 pb-2 pt-3">
+                                        <div class="d-flex">
+                                            <div class="pr-20">
+                                                <mat-icon>
+                                                    info_circle
+                                                </mat-icon>
+                                            </div>
+                                            <div>
+                                                There are currently no 
+                                                attachments for this {{ context }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="btn-cont px-20 pb-12 pt-3 border-top">
+    <div class="btn-cont mb-3 pt-12 w-100-p
+    d-flex justify-content-between">
+        <button mat-raised-button
+        class="float-left"
+        (click)="changeStep('prev')">
+        <mat-icon class="btn-icon">keyboard_arrow_left</mat-icon>
+        <mat-icon class="btn-icon">keyboard_arrow_left</mat-icon>
+            &nbsp;BACK
+        </button>
+        <button mat-raised-button
+        *ngIf="!isLast"
+        class="mt-10 float-right mr-0"
+        color="accent" 
+        (click)="changeStep('next')">
+            NEXT&nbsp;
+            <mat-icon class="btn-icon">keyboard_arrow_right</mat-icon>
+            <mat-icon class="btn-icon">keyboard_arrow_right</mat-icon>
+        </button>
+        <button mat-raised-button
+        *ngIf="isLast" color="success"
+        class="mt-10 float-right mr-0"
+        (click)="changeStep('next')">
+            COMPLETE
+        </button>
+    </div>
+</div>

@@ -1,0 +1,78 @@
+:host{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.feedback-img {
+    background-image: url(../../../../assets/images/signup-feedback.png);
+    background-size: cover;
+    min-height: 33rem;
+}
+.login-wrapper {
+    position: relative;
+    max-width: 1120px;
+    width: 94%;
+    margin: 0 auto;
+    z-index: 10;
+    .login-main-content{
+        // display: flex;
+        // flex-direction: row;
+        // flex-wrap: wrap;
+        background-color: #fff;
+        -o-box-shadow: 0 1px 4px 0 rgba(0,0,0,.25);
+        box-shadow: 0 1px 4px 0 rgba(0,0,0,.25);
+        border-radius: 10px;
+        font-size: 14px;
+        overflow: hidden;
+        .login-content{
+            background-position: 100%;
+            object-position: right;
+            background-size: cover;
+            background-repeat: no-repeat;
+            position: relative;
+            padding: 35px 35px 20px;
+            &.order-2{
+                order: 2;
+            }
+            &.with-img {
+                background-color: #f1f1f1!important;
+                background-image: url(../../../../assets//images/receive-payment.jpg);
+                background-position: 100%;
+                -webkit-filter: brightness(.85);
+                filter: brightness(.85);
+                object-position: right;
+                background-size: cover;
+                background-repeat: no-repeat;
+                // width: 50%;
+                position: relative;
+                padding: 35px 35px 20px;
+                text-shadow: 0.5px 0.5px #483131;
+                &:after {
+                    content: "";
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    left: 0;
+                    top: 0;
+                    background-color: rgba(20,86,59,.82);
+                    z-index: 0;
+                }
+            }
+            .logo-img {
+                background-image: url(../../../../assets/images/logos/logo.png);
+                background-size: cover;
+                min-height: 33rem;
+            }
+        }
+    }
+    .login-form {
+        width: 384px;
+        max-width: 384px;
+        padding: 32px;
+        text-align: center;
+            box-shadow: 0 8px 10px -5px rgba(0,0,0,.2), 
+                0 16px 24px 2px rgba(0,0,0,.14), 
+                0 6px 30px 5px rgba(0,0,0,.12);
+    }
+}

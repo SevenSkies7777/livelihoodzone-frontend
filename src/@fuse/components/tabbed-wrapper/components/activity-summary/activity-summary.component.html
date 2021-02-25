@@ -1,0 +1,120 @@
+<div class="w-100-p pt-3">
+    <div class="px-5 pt-5 pb-3">
+        <div class="card">
+            <div class="card-header pt-2 pb-1 bg-white">
+                <div class="pl-3 text-muted font-weight-bold
+                pb-2 d-flex align-items-center">
+                    <div class="pt-2 pr-2"><mat-icon>games</mat-icon>&nbsp;</div>
+                    <div>Activity</div>
+                </div>
+            </div>
+            <div class="card-body px-0 pb-16 pt-0">
+                <div>
+                    <table class="table borderless font-ize-13 mb-0">
+                        <thead class="thead-light font-size-12">
+                            <th class="border-0 pl-20"
+                            *ngFor="let header of gridConf">
+                                {{ header?.title }}
+                            </th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="pl-20"
+                                *ngFor="let td of gridConf">
+                                    <div *ngIf="activityDetails">
+                                        <div *ngIf="td.key === 'title'">
+                                            <span >{{ activityDetails[td.key] }}</span>
+                                            <mat-icon *ngIf="!activityDetails[td.key]">
+                                                remove
+                                            </mat-icon>
+                                        </div>
+                                        <span *ngIf="td.key === 'activity_date'">
+                                            <span >{{ activityDetails[td.key] | date: 'dd-MM-yyyy' }}</span>
+                                            <mat-icon *ngIf="!activityDetails[td.key]">
+                                                remove
+                                            </mat-icon>
+                                        </span>
+                                        <span *ngIf="td.key === 'total'">
+                                            <span>{{ activityDetails[td.key] | currency: 'Kshs ' }}</span>
+                                            <mat-icon *ngIf="!activityDetails[td.key]">
+                                                remove
+                                            </mat-icon>
+                                        </span>
+                                        <span *ngIf="td.key === 'rationalized_total'">
+                                            <span>{{ activityDetails[td.key] | currency: 'Kshs ' }}</span>
+                                            <mat-icon *ngIf="!activityDetails[td.key]">
+                                                remove
+                                            </mat-icon>
+                                        </span>
+                                        <span *ngIf="td.key === 'actual_total'">
+                                            <span>{{ activityDetails[td.key] | currency: 'Kshs ' }}</span>
+                                            <mat-icon *ngIf="!activityDetails[td.key]">
+                                                remove
+                                            </mat-icon>
+                                        </span>
+                                        <span *ngIf="td.key === 'status'">
+                                            <span class="badge {{activityDetails[td.key] | lowercase}}">
+                                                {{ activityDetails[td.key] }}
+                                            </span>
+                                            <mat-icon *ngIf="!activityDetails[td.key]">
+                                                remove
+                                            </mat-icon>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td [attr.colspan]="gridConf?.length" class="pb-0">
+                                    <div class="card border-0 mb-n3">
+                                        <mat-accordion>
+                                            <mat-expansion-panel 
+                                            (opened)="panelOpenState = true"
+                                            (closed)="panelOpenState = false">
+                                                <mat-expansion-panel-header>
+                                                <mat-panel-title>
+                                                    <span class="text-muted">Total Budget</span>
+                                                    &nbsp; -&nbsp; {{ activityBudget?.actual_total | currency: 'Kshs ' }}
+                                                </mat-panel-title>
+                                                <mat-panel-description>
+                                                    Budget Date: &nbsp;<b>{{ activityDetails?.created | date: 'dd-MM-yyyy' }}</b>
+                                                </mat-panel-description>
+                                                </mat-expansion-panel-header>
+                                                <mat-list class="mt-n5">
+                                                    <mat-list-item class="ml-n3 py-0 mb-n3"
+                                                    *ngFor="let activity of activityBudget?.activities"> 
+                                                    <mat-icon matListIcon>note</mat-icon>
+                                                    <h4 matLine>{{activity.title}}</h4>
+                                                    <div matLine class="list-inline d-flex flex-row font-size-12 mb-0">
+                                                        <!-- <div class="list-inline-item">
+                                                            <p matLine class="demo-2"> 
+                                                                <span class="text-muted">Applied:</span>&nbsp;
+                                                                {{activity.total | currency: 'Kshs '}} 
+                                                            </p>
+                                                        </div> -->
+                                                        <div class="list-inline-item pl-0">
+                                                            <p class="demo-2"> 
+                                                                <span class="text-muted">Rationalized:</span>&nbsp;
+                                                                {{activity.rationalized_total | currency: 'Kshs '}} 
+                                                            </p>
+                                                        </div>
+                                                        <div class="list-inline-item pl-3">
+                                                            <p class="demo-2"> 
+                                                                <span class="text-muted">Approved:</span>&nbsp;
+                                                                {{activity.actual_total | currency: 'Kshs '}} 
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    </mat-list-item>
+                                                </mat-list>
+                                            </mat-expansion-panel>
+                                        </mat-accordion>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

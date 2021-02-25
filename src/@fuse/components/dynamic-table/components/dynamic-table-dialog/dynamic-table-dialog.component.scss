@@ -1,0 +1,30 @@
+:host ::ng-deep {
+    .input-wrapper, mat-form-field {
+        font-size: 13px !important;
+        input{
+            font-size: 14.5px !important;
+        }
+        .mat-form-field-wrapper {
+            padding-bottom: 0.95rem !important;
+        }
+    }
+    @keyframes spinner {
+        to {transform: rotate(360deg);}
+    }
+    
+    .spinner:before {
+        content: '';
+        box-sizing: border-box;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        margin-top: -10px;
+        margin-left: -10px;
+        border-radius: 50%;
+        border: 2px solid #ffffff;
+        border-top-color: #000000;
+        animation: spinner .8s linear infinite;
+    }
+}

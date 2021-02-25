@@ -1,0 +1,55 @@
+<div class="w-100-p">
+    <div class="login-wrapper">
+        <div class="login-main-content" fxLayout="row">
+            <div class="login-content with-img order-2 justify-content-center 
+            align-items-center" fxLayout="row" fxFlex="50%" 
+            fxFlex.gt-md="50%" fxHide.lt-md
+            style="min-height: 33rem;">
+                <div class="d-flex margin-auto w-75-p">
+                    <img src="../../../assets/images/logos/logo.png" alt=""
+                    style="z-index: 10">
+                </div>
+            </div>
+            <div class="login-content bg-white"  fxLayout="column" fxFlex="100%" 
+            fxFlex.gt-sm="50%">
+                <div class="w-100-p pb-20">
+                    <h4 class="text-center font-size-20">{{ 
+                        loading ? 'VERIFYING YOUR EMAIL' : 'EMAIL VERIFIED' }}</h4>
+                </div>
+                <div class="pt-20 px-4 mt-10 text-center pr-100"
+                *ngIf="!loading">
+                    <mat-icon class="font-size-112 text-success">check_circle_outline</mat-icon>
+                </div>
+                <div class="py-60 px-4 mt-10 text-center d-flex justify-content-center"
+                *ngIf="loading">
+                    <mat-spinner diameter="60"></mat-spinner>
+                </div>
+                <div class="pt-24 px-2">
+                    <p class="lead text-center text-muted font-size-16 text-bold">
+                        {{ loading ? 'This will take a few moments only...' : 'Welcome Back' }}
+                    </p>
+                    <p class="text-center text-muted pt-16 pb-20"
+                    *ngIf="!loading">
+                        Your email has been successfully verified. Your account is now 
+                        fully setup. Proceed to login and start utilizing our 
+                        resources. Thank you for joining the SASDEF community
+                    </p>
+                    <p class="text-center text-muted" *ngIf="loading">
+                        To ensure security we verify emails of users who register on our platform
+                        to ensure your data is secure and only accessible by yourself and no one else.
+                    </p>
+                </div>
+                <div class="w-100-p text-center pb-20 pt-20 px-3">
+                    <a routerLink="/auth/signin">
+                        <button mat-raised-button color="warn"
+                        [disabled]="loading"
+                        class="w-100-p py-xl-1 btn btn-success">
+                            PROCEED TO LOGIN
+                        </button>
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>

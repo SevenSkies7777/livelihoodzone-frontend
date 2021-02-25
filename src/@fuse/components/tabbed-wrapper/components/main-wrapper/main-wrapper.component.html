@@ -1,0 +1,406 @@
+<div id="no-print">
+    <!-- Start of header -->
+    <div class="main-cont header">
+        <div class="d-flex w-100-p align-items-center pl-3">
+            <div class="pt-12 pr-3"
+            *ngIf="listRoute">
+                <span mat-icon-button class="back-btn" aria-label="Back to list"
+                (click)="goBack()">
+                    <mat-icon class="font-size-28">
+                        arrow_back
+                    </mat-icon>
+            </span>
+            </div>
+            <div class="text-light px-3 pt-3">
+                <mat-icon class="font-size-48">
+                    {{ headerConfig['icon'] || 'business' }}
+                </mat-icon>
+            </div>
+            <div class="flex-fill title-cont pl-5">
+                <div class="title-text pt-3 text-light font-size-20">
+                    {{ headerConfig['headerLabel']}} 
+                    {{ headerConfig['headerValue'] 
+                        ? item[headerConfig['headerValue']] 
+                        : item?.name
+                    }}
+                </div>
+                <div class="desc-text text-light font-size-14 pt-2">
+                    {{ headerConfig['subTitleLabel'] }}
+                    
+                    {{ headerConfig['subTitleValue'] 
+                        ? getNested(headerConfig['subTitleValue'])
+                        : item?.org_type_code
+                        | removeUnderscore
+                    }}
+                </div>
+            </div>
+            <div class="actions pr-4" 
+            *ngIf="headerConfig?.actions">
+                <div class="pr-3" *ngIf="item?.id">
+                    <span *ngFor="let act of headerConfig?.actions">
+                        <button mat-raised-button class="pl-3 mr-3"
+                        [color]="act.color" *ngIf="statusChecker(act) && authChecker(act)"
+                        (click)="headerActions[act.action](act?.configs, act?.btnText)">
+                            <mat-icon *ngIf="act?.icon">{{act?.icon}}</mat-icon>
+                            &nbsp;{{act?.btnText}}
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of header -->
+    <div class="px-5">
+        <div class="px-5">
+            <mat-card class="w-100-p raised mb-5 p-0">
+                <mat-card-content class="p-0">
+                    <ng-container *ngIf="(asyncTabs | async) === null">
+                        Loading tabs...
+                      </ng-container>
+                      
+                      <mat-tab-group #mainTabs
+                      (selectedTabChange)="tabSelectChange($event)">
+                        <mat-tab *ngFor="let tab of asyncTabs | async; let i = index;">
+                          <ng-template mat-tab-label>{{tab.label}}</ng-template>
+                          <div *ngIf="tab.content === 'form' && i === currIndex"
+                          class="mb-5">
+                              <div class="d-flex px-5 pt-5 pb-3">
+                                <div class="flex-fill pl-3 text-muted font-weight-bold
+                                font-size-12" [class.pt-3]="tab.context === 'Application'">
+                                    {{ tab['context'] || 'ORAGNIZATION' | uppercase }} DETAILS
+                                </div>
+                                <div class="pb-16 pr-12"
+                                *ngIf="tab?.context === 'Application' && orgType === 'SASDEF'">
+                                    <button mat-stroked-button
+                                    class="pl-3"
+                                    (click)="downloadSummary()">
+                                        <mat-icon class="font-size-22 mt-1">
+                                            get_app
+                                        </mat-icon>
+                                        &nbsp;<span class="font-size-12">SUMMARY</span>
+                                    </button>
+                                </div>
+                              </div>
+                              <div class="d-flex w-100-p px-5 pt-3">
+                                  <div *ngFor="let conf of tab.detailsConf"
+                                  class="col-lg-3 col-12">
+                                      <div class="d-flex w-100-p align-items-center">
+                                          <div class="pr-3">
+                                              <mat-icon class="font-size-32 text-success">
+                                                  {{conf.icon}}
+                                              </mat-icon>
+                                          </div>
+                                          <div class="pl-3">
+                                              <div class="text-muted font-size-13">
+                                                  {{ conf.label}}
+                                              </div>
+                                              <div>
+                                                  <div *ngIf="conf.type">
+                                                    <div *ngIf="conf.type === 'currency'">
+                                                        {{ item[conf.key] | currency: 'Kshs ' }}
+                                                    </div>
+                                                    <div *ngIf="conf.type === 'date'">
+                                                        {{ item[conf.key] | date: 'dd-MM-yyyy' }}
+                                                    </div>
+                                                    <div *ngIf="conf.type === 'status' && item?.id">
+                                                        <span class="badge {{item[conf.key] | lowercase }} 
+                                                        px-2 pb-1 pt-2 font-size-10">
+                                                            {{ item[conf.key] | removeUnderscore }}
+                                                        </span>                            
+                                                    </div>
+                                                    <div *ngIf="conf.type === 'nested' && item['organization']">
+                                                        <nested-string [type]="conf.fieldType"
+                                                        [config]="conf" [item]="item">
+                                                        </nested-string>
+                                                    </div>
+                                                  </div>
+                                                  <div *ngIf="!conf.type" class="font-size-13">
+                                                      {{ removeUnderscore(item[conf.key]) }}
+                                                  </div>
+                                                  <span *ngIf="!item[conf.key]">
+                                                      <mat-icon>
+                                                          remove
+                                                      </mat-icon>
+                                                  </span>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="px-3" *ngIf="item?.id && tab?.extraDetails">
+                                <ng-container *ngTemplateOutlet="extraDetails"></ng-container>
+                              </div>
+                              <div class="px-3" *ngIf="item?.id && tab?.totalsSummary">
+                                <ng-container *ngTemplateOutlet="totalsSummary"></ng-container>
+                              </div>
+                              <div class="px-3 pt-3" *ngIf="tab?.orgSummary">
+                                <organization-summary [organization]="item['organization_data']"></organization-summary>
+                              </div>
+                              <div *ngIf="tab?.applicationME && item?.id">
+                                <application-me [item]="item"></application-me>
+                              </div>
+                              <div class="px-40 pt-5 pb-0"
+                              *ngIf="tab?.bankConfs && item?.id">
+                                <tabbed-inline-list [tab]="tab" [item]="item"
+                                [parentKey]="tab?.parentKey"></tabbed-inline-list>
+                              </div>
+                              <div class="px-3 pt-3" *ngIf="item?.id && tab?.activitySummary">
+                                <activity-summary [activity]="item['organization_data']"
+                                [item]="item"></activity-summary>
+                              </div>
+                              <div class="px-3 pt-3" *ngIf="tab?.auditTrail && item?.id">
+                                <audit-trail [context]="tab['context']"
+                                [item]="item"></audit-trail>
+                              </div>
+                              <div class="px-3 pt-3" *ngIf="tab?.attachments && item?.id">
+                                <header-attachments [context]="tab['context']"
+                                [item]="item"></header-attachments>
+                              </div>
+                          </div>
+                          <div *ngIf="tab.content === 'grid' && i === currIndex && item?.id">
+                              <dynamic-table title="Listing"
+                                [tabbedItem]="item"
+                                class="w-100-p" [addOrg]="true"
+                                [modelKey]="tab?.modelKey" [cmptParams]="tab?.cmptParams"
+                                [headers]="tab?.headers" [no-card]="true"
+                                [has-action]="true" [store]="tab?.gridConf.getStore"
+                                [dropDownActions]="tab?.dropDownActions"
+                                [topActions]="tab?.topActions" [hasSearch]="true"
+                                [actions]="tab?.actions" [rows]="tab.rows">
+                              </dynamic-table>
+                          </div>
+                          <div *ngIf="tab.content === 'attachments' 
+                          && i === currIndex && item?.id">
+                            <attachments-listing [tab]="tab" [item]="item"></attachments-listing>
+                          </div>
+                          <div *ngIf="tab.content === 'nested-list' && item?.id 
+                          && i == currIndex">
+                              <nested-list [item]="item"></nested-list>
+                          </div>
+                          <div *ngIf="tab.content === 'nested-inline-list' && item?.id">
+                            <nested-inline-tabbed-list [item]="item" [tab]="tab"></nested-inline-tabbed-list>
+                          </div>
+                        </mat-tab>
+                      </mat-tab-group>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>
+
+<!-- Start of extra details -->
+<ng-template #extraDetails>
+    <div class="w-100-p pt-3">
+        <div class="px-5 pt-5 pb-3">
+            <div class="card">
+                <div class="card-header pt-3 pb-1 bg-white">
+                    <div class="pl-3 text-muted font-weight-bold
+                    pb-2 d-flex align-items-center">
+                        <div class="pt-2 pr-2">
+                            <mat-icon>assignment</mat-icon>&nbsp;
+                        </div>
+                        <div>Other Application Details</div>
+                    </div>
+                </div>
+                <div class="card-body px-0 pb-3 pt-0">
+                    <div>
+                        <table class="table borderless font-size-14">
+                            <thead class="thead-light">
+                                <th class="pl-20">
+                                    Type
+                                </th>
+                                <th>
+                                    Organization
+                                </th>
+                                <th>
+                                    Organization Type
+                                </th>
+                                <th>
+                                    Rationalized
+                                </th>
+                                <th>
+                                    Approved
+                                </th>
+                                <th>
+                                    Variance
+                                </th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="pl-20">
+                                        <span class="badge badge-secondary px-3 py-2">
+                                            {{ item?.application_type }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {{ item?.organization_data.name }}
+                                    </td>
+                                    <td class="font-size-13">
+                                        {{ item?.organization_data.org_type_code | removeUnderscore }}
+                                    </td>
+                                    <td>
+                                        {{ item?.rationalized_total | currency: 'Kshs ' }}
+                                        <mat-icon *ngIf="!item?.rationalized_total">remove</mat-icon>
+                                    </td>
+                                    <td>
+                                        {{ item?.actual_total | currency: 'Kshs ' }}
+                                        <mat-icon *ngIf="!item?.actual_total">remove</mat-icon>
+                                    </td>
+                                    <td>
+                                        <span *ngIf="item?.total"
+                                        [ngClass]="{
+                                            'text-danger': item?.total > item.activity_actual_total,
+                                            'text-success': item?.total < item.activity_actual_total }">
+                                            {{ (item?.total / item?.activity_actual_total) | number: '1.1-2'}}
+                                            <span>%</span>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<!-- End of extra details -->
+
+<!-- Start of extra details -->
+<ng-template #totalsSummary>
+    <div class="w-100-p pt-3">
+        <div class="px-5 pt-5 pb-0">
+            <div class="card">
+                <div class="card-header pt-3 pb-1 bg-white">
+                    <div class="pl-3 text-muted font-weight-bold
+                    pb-2 d-flex align-items-center">
+                        <div class="pt-2 pr-2">
+                            <mat-icon>monetization_on</mat-icon>&nbsp;
+                        </div>
+                        <div>Totals Summary</div>
+                    </div>
+                </div>
+                <div class="card-body px-0 pb-0 pt-0">
+                    <div>
+                        <table class="table borderless font-size-13">
+                            <thead class="thead-light font-size-12">
+                                <th class="pl-20">
+                                    Applied Total
+                                </th>
+                                <th>
+                                    Rationalized Total
+                                </th>
+                                <th>
+                                    Approved Total
+                                </th>
+                                
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="pl-20">
+                                        {{ item?.total | currency: 'Kshs ' }}
+                                    </td>
+                                    <td>
+                                        {{ item?.rationalized_total | currency: 'Kshs ' }}
+                                        <mat-icon *ngIf="!item?.rationalized_total">remove</mat-icon>
+                                    </td>
+                                    <td>
+                                        {{ item?.actual_total | currency: 'Kshs ' }}
+                                        <mat-icon *ngIf="!item?.actual_total">remove</mat-icon>
+                                    </td>
+                                    
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<!-- End of extra details -->
+<div id="print" *ngIf="item?.id">
+    <div class="container-fluid">
+        <div class="row no-gutters">
+          <div class="col">
+            <h1> Application Nº {{ item?.id}} </h1>
+          </div>
+        </div>
+      
+        <div class="row no-gutters">
+          <div class="col">
+            <img
+            src="../../../../../assets/images/logos/logo.png"
+            alt="logotipo"
+            class="logotipo">
+          </div>
+      
+          <div class="col">
+            <!-- <h2>{{item?.organization_data.name }}</h2> -->
+            <!-- <p><span class="badge">{{ item?.organization_data.org_type_code }}</span></p>     -->
+            <div class="address">
+              <!-- <p>geral@nreparacoes.com</p>
+              <p>Av. Dr. Ribeiro de Magalhães, 1391</p>
+              <p>Centro Comercial 123, Loja BD</p>
+              <p>4610-108 Felgueiras</p> -->
+            </div>
+          </div>
+        </div>
+      
+        <div class="row no-gutters items-group">
+          <div class="col-3 label">
+            <p>Financial Year:</p>
+            <p>Required By:</p>
+          </div>
+      
+          <div class="col-9">
+            <div class="d-flex">
+                <!-- <div class="font-size-14">{{ item?.financal_year_data.starts_on | date: 'MM/yy' }}&nbsp;</div> -->
+                <div style="margin-top:-1.05rem;">
+                    <mat-icon >minimize</mat-icon>&nbsp;
+                </div>
+                <!-- <div class="font-size-14">{{ item?.financial_year_data.ends_on | date: 'MM/yy' }}</div> -->
+            </div>
+            <!-- <p>{{ item?.date_requested | date: 'dd-MM-yyyy' }}</p> -->
+          </div>
+        </div>
+      
+        <div class="row no-gutters items-group">
+          <div class="col-3 label">
+            <p>Approved Amount:</p>
+            <p>Applied Amount:</p>
+            <p>Rationalized:</p>
+            <p>Approved:</p>
+            <!-- <p>Observações:</p> -->
+          </div>
+      
+          <div class="col-9">
+            <!-- <p>{{ item?.activity_actual_total }}</p> -->
+            <p></p>
+            <p></p>
+            <p></p>
+          </div>
+        </div>
+      
+        <!-- <div class="row no-gutters items-group">
+          <div class="col">
+            <p class="label">Condições Gerais:</p>
+            <ul class="disclaimer">
+              <li>Prazo para levantar 90 dias</li>
+              <li>Garantia 90 dias</li>
+              <li>Esta assistência só é entregue a quem apresentar este documento</li>
+              <li>O preço acresce 10% a cada 30 dias após fim do prazo de levantamento (taxa de conservação)</li>
+              <li>Os dados do cliente, acima mencionados, ficam registados na N Reparações apenas para efeitos de comunicação
+                em relação às suas assistências e facturação
+              </li>
+            </ul>
+          </div>
+        </div>
+      
+        <div class="row no-gutters">
+          <div class="col">
+            <p class="disclaimer signature-field">Declaro que li e concordo com o disposto neste documento em 03/02/2019</p>
+          </div>
+        </div>
+      </div> -->
+</div>

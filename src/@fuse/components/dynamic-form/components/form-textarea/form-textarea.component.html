@@ -1,0 +1,20 @@
+<div class="input-wrapper">
+    <mat-form-field appearance="outline" color="primary"
+    class="w-100-p pb-0 mb-0">
+        <mat-label>{{to.label}}</mat-label>
+        <textarea matInput [placeholder]="to.placeholder"
+        rows="{{to.rows}}" [formControl]="formControl" 
+        [formlyAttributes]="field" [name]="to.label">
+        </textarea>
+        <mat-hint>{{ to.hint }}</mat-hint>
+        <mat-error *ngIf="formControl.invalid && (formControl.dirty || formControl.touched)">
+            <ng-container *ngFor="let error of formControl.errors">
+            <span *ngFor="let item of error | keyvalue">
+              <span *ngIf="formControl.hasError(item.key)">
+                {{ item.value }}
+              </span>
+            </span>
+            </ng-container>
+        </mat-error>
+    </mat-form-field>
+</div>

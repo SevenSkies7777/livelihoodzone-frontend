@@ -1,0 +1,364 @@
+<div class="w-100-p">
+    <div class="cont d-flex flex-column">
+        <div class="flex-fill w-100-p pb-1">
+            <span class="title pl-5">Welcome back, {{ user?.first_name }}</span>
+        </div>
+        <div class="w-100-p px-32 pt-20">
+            <div class="d-inline-flex org-cont 
+            py-3 px-24 border-radius-top-4">
+                Logged Into, &nbsp; <mat-icon class="font-size-16 w-20 h-20 pt-1">business</mat-icon>
+                &nbsp;<b>{{ organization?.organization_name }}</b>&nbsp;
+                <span>&nbsp;&nbsp;|</span>&nbsp;&nbsp;
+                <mat-icon class="font-size-16 w-20 h-20 pt-1">calendar_today</mat-icon>
+                &nbsp;{{ currentFinancialYear?.starts_on || '31-07-2020' | date: 'dd-MM-yyyy' }}&nbsp;
+                <mat-icon class="mt-n0">remove</mat-icon>
+                &nbsp;{{ currentFinancialYear?.ends_on || '01-06-2021' | date: 'dd-MM-yyyy'}}
+                <span>&nbsp;&nbsp;|</span>&nbsp;&nbsp;
+                <span class="badge badge-pill badge-light font-size-12 px-2 pt-2 pb-0
+                line-height-1.25">
+                    {{ currentFinancialYear?.days_to_expiry}}
+                </span>
+                &nbsp; days to year end
+            </div>
+        </div>
+    </div>
+    <!-- Start of dashboard content -->
+    <div class="w-100-p px-40 d-flex mx-n3 pt-24">
+        <div class="col-lg-3 col-12"
+        *ngFor="let conf of countConfigs">
+            <div class="w-100-p {{conf?.bgColor}} d-flex
+            border-radius-4 mat-elevation-z1 pl-24 pr-16 align-items-center">
+                <div class="flex-fill pt-24">
+                    <div><span class="text-white font-size-12">{{ conf?.title }}</span></div>
+                    <div class="py-2">
+                        <span class="text-white 
+                        font-size-40 line-height-1 font-weight-500">
+                            {{conf?.count}}
+                        </span>
+                    </div>
+                    <div class="pb-24 text-white font-size-11">
+                        {{conf?.description}}
+                    </div>
+                </div>
+                <div>
+                    <div class="icon-container d-flex justify-content-center 
+                    align-items-center">
+                        <mat-icon class="text-white font-size-30
+                        w-60 h-60 d-flex justify-content-center 
+                        align-items-center">{{conf?.icon}}</mat-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of dashboard content -->
+
+    <!-- Start of bar graph -->
+    <div class="w-100-p pl-40 pr-56 pt-40 mb-32">
+        <div class="d-flex mx-n3">
+            <div class="col-lg-8 col-12">
+                <div class="card border-0 mat-elevation-z1 h-100-p">
+                    <div class="card-header bg-white text-muted py-16
+                    font-size-16 pl-20">
+                        Balance Summary
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <div>
+                              <canvas baseChart
+                                      [datasets]="barChartData"
+                                      [labels]="barChartLabels"
+                                      [options]="barChartOptions"
+                                      [legend]="barChartLegend"
+                                      [chartType]="barChartType">
+                              </canvas>
+                            </div>
+                        </div>              
+                    </div>
+                </div>
+            </div>
+            <!-- Start of applications piechart -->
+            <div class="col-lg-4 col-12"
+            *ngIf="pieChartContext === 'Applications'">
+                <div class="card border-0 mat-elevation-z1 h-100-p">
+                    <div class="card-header bg-white text-muted py-16">
+                        {{pieChartContext}} Summary
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <div style="display: block">
+                                <canvas baseChart
+                                [colors]="pieChartColors"
+                                [data]="doughnutChartData"
+                                [labels]="doughnutChartLabels"
+                                [chartType]="doughnutChartType"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="w-100-p text-dark px-20 pt-20 mb-20">
+                            <div class="text-muted">Total {{pieChartContext}}</div>
+                            <div class="font-size-24">
+                                {{ budgetSummary?.total || 0 | currency: 'Kshs ' }}
+                            </div>
+                        </div>
+                        <div class="w-100-p px-20">
+                            <!-- Start of progress portionings -->
+                            <div class="text-muted">
+                                Available: <b>{{ budgetSummary?.available || 0 | currency: 'Kshs ' }}</b>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div 
+                                [style.width.%]="budgetSummary?.available / budgetSummary?.total * 100 ">
+                                    <mat-progress-bar mode="determinate" 
+                                    color="accent"
+                                    value="100"></mat-progress-bar>
+                                </div>
+                                <div class="font-size-10 text-dark pl-3"
+                                style="white-space:nowrap;" 
+                                *ngIf="budgetSummary?.total && budgetSummary?.total !== 0">
+                                    {{ budgetSummary?.available / budgetSummary?.total * 100  }} %
+                                </div>
+                                <div class="font-size-10 text-dark pl-3"
+                                style="white-space:nowrap;"
+                                *ngIf="!budgetSummary?.total || budgetSummary?.total === 0">
+                                    {{ budgetSummary?.total || 0  }} %
+                                </div>
+                            </div>
+                            <div class="text-muted pt-16">
+                                Applied: <b>{{ budgetSummary?.applied || 0 | currency: 'Kshs ' }}</b>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div 
+                                [style.width.%]="budgetSummary?.applied / budgetSummary?.total * 100 ">
+                                    <mat-progress-bar mode="determinate" 
+                                    color="warn"
+                                    value="100"></mat-progress-bar>
+                                </div>
+                                <div class="font-size-10 text-dark pl-3"
+                                style="white-space:nowrap;"
+                                *ngIf="budgetSummary?.total && budgetSummary?.total !== 0">
+                                    {{ budgetSummary?.applied / budgetSummary?.total * 100 | number: '1.1-2' }} %
+                                </div>
+                                <div class="font-size-10 text-dark pl-3"
+                                style="white-space:nowrap;"
+                                *ngIf="!budgetSummary?.total || budgetSummary?.total === 0">
+                                    {{ budgetSummary?.total || 0  }} %
+                                </div>
+                            </div>
+                            <div class="text-muted pt-16">
+                                Approved: <b>{{ (budgetSummary?.approved || 0 | currency: 'Kshs ') }}</b>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div 
+                                [style.width.%]="budgetSummary?.approved / budgetSummary?.total * 100 ">
+                                    <mat-progress-bar mode="determinate" 
+                                    color="primary"
+                                    value="100"></mat-progress-bar>
+                                </div>
+                                <div class="font-size-10 text-dark pl-3"
+                                style="white-space:nowrap;"
+                                *ngIf="budgetSummary?.total && budgetSummary?.total !== 0">
+                                    {{ budgetSummary?.approved / budgetSummary?.total * 100 | number:'1.1-2' }} %
+                                </div>
+                                <div class="font-size-10 text-dark pl-3"
+                                style="white-space:nowrap;"
+                                *ngIf="!budgetSummary?.total || budgetSummary?.total === 0">
+                                    {{ budgetSummary?.total || 0 }} %
+                                </div>
+                            </div>
+                            <!-- End of portionings -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End of applications summary -->
+
+            <!-- Start of budget summary -->
+            <div *ngIf="pieChartContext === 'Budgets'"
+            class="col-lg-4 col-12">
+                <div class="card border-0 mat-elevation-z1 h-100-p">
+                    <div class="card-header bg-white text-muted py-16">
+                        {{pieChartContext}} Summary
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <div style="display: block">
+                                <canvas baseChart
+                                [colors]="budgetConfigs['colors']"
+                                [data]="budgetConfigs['data']"
+                                [labels]="budgetConfigs['labels']"
+                                [chartType]="budgetConfigs['chartType']"></canvas>
+                            </div>
+                        </div>
+                        <!-- Totals -->
+                        <div class="w-100-p text-dark px-20 pt-20 mb-16">
+                            <div class="text-muted">Total {{pieChartContext}}</div>
+                            <div class="font-size-20">
+                                {{ budgetConfigs?.totalAmount | currency: 'Kshs ' }}
+                            </div>
+                        </div>
+                        <!-- Start of tatals summary -->
+                        <div class="w-100-p px-20">
+                            <div class="w-100-p pb-3" *ngFor="let summary of budgetConfigs?.totals; let i = index;">
+                                <div class="text-muted">
+                                    {{summary?.label}}: <b>{{ summary?.amount || 0 | currency: 'Kshs ' }}</b>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <div 
+                                    [style.width.%]="summary?.amount / budgetConfigs?.totalAmount * 100 ">
+                                        <mat-progress-bar mode="determinate" 
+                                        [color]="budgetConfigs?.colors[0].backgroundColor[i]"
+                                        value="100"></mat-progress-bar>
+                                    </div>
+                                    <div class="font-size-10 text-dark pl-3"
+                                    style="white-space:nowrap;" 
+                                    *ngIf="summary?.amount && budgetConfigs?.totalAmount !== 0">
+                                        {{ summary?.amount / budgetConfigs?.totalAmount * 100 | number: '1.1-2'  }} %
+                                    </div>
+                                    <div class="font-size-10 text-dark pl-3"
+                                    style="white-space:nowrap;"
+                                    *ngIf="!summary?.amount || budgetConfigs?.totalAmount === 0">
+                                        {{ summary?.amount || 0  }} %
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End of budget summary -->
+        </div>
+    </div>
+    <!-- End of bar graph -->
+
+    <!-- Start of recent listings -->
+    <div class="w-100-p pl-40 pr-56 pt-20 pb-100">
+        <div class="d-flex mx-n3">
+            <div class="col-lg-6 col-12">
+                <div class="card border-0 mat-elevation-z1 h-100-p">
+                    <div class="card-header bg-white text-muted py-16
+                    font-size-16 pl-20">
+                        Recent Applications
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-hover">
+                            <thead class="thead-light">
+                                <th class="pl-20">
+                                    Organization
+                                </th>
+                                <th>
+                                    Amount 
+                                </th>
+                                <th>
+                                    Required by
+                                </th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let app of applications">
+                                    <td class="pl-20">
+                                        {{ app?.organization_data.name }}
+                                    </td>
+                                    <td>
+                                        {{app?.amount_requested | currency: 'Kshs '}}
+                                    </td>
+                                    <td>
+                                        {{app?.date_requested | date: 'dd-MM-yyyy'}}
+                                    </td>
+                                </tr>
+                                <tr *ngIf="!applications.length">
+                                    <td colspan="3">
+                                        <div class="alert alert-primary mb-0 pb-2 pt-3">
+                                            <div class="d-flex align-items-center">
+                                                <div class="pr-20">
+                                                    <mat-icon>
+                                                        info_circle
+                                                    </mat-icon>
+                                                </div>
+                                                <div class="flex-fill">
+                                                    There is currently no applications.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>            
+                    </div>
+                    <div class="card-footer py-16 bg-white">
+                        <div class="w-100-p justify-content-end d-flex">
+                            <a mat-button routerLink="/applications" 
+                            class="d-flex text-decoration-none">
+                                <span class="d-flex pt-1 pr-1">View all</span> 
+                                <mat-icon class="font-size-18
+                                w-20 h-20 mt-1">arrow_forward</mat-icon>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-12">
+                <div class="card border-0 mat-elevation-z1 h-100-p">
+                    <div class="card-header bg-white text-muted py-16
+                    font-size-16 pl-20">
+                        Recent Budgets
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-hover">
+                            <thead class="thead-light">
+                                <th class="pl-20">
+                                    Organization
+                                </th>
+                                <th>
+                                    Amount
+                                </th>
+                                <th>
+                                    Date
+                                </th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let budget of budgets">
+                                    <td class="pl-20">
+                                        {{ budget?.organization_data.name }}
+                                    </td>
+                                    <td>
+                                        {{budget?.amount | currency: 'Kshs '}}
+                                    </td>
+                                    <td>
+                                        {{budget?.created | date: 'dd-MM-yyyy'}}
+                                    </td>
+                                </tr>
+                                <tr *ngIf="!budgets.length">
+                                    <td colspan="3">
+                                        <div class="alert alert-primary mb-0 pb-2 pt-3">
+                                            <div class="d-flex align-items-center">
+                                                <div class="pr-20">
+                                                    <mat-icon>
+                                                        info_circle
+                                                    </mat-icon>
+                                                </div>
+                                                <div class="flex-fill">
+                                                    There is currently no budget.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>                  
+                    </div>
+                    <div class="card-footer py-16 bg-white">
+                        <div class="w-100-p justify-content-end d-flex">
+                            <a mat-button routerLink="/budgets" 
+                            class="d-flex text-decoration-none">
+                                <span class="d-flex pt-1 pr-1">View all</span> 
+                                <mat-icon class="font-size-18
+                                w-20 h-20 mt-1">arrow_forward</mat-icon>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of recent listings -->
+</div>

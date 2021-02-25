@@ -1,0 +1,16 @@
+<div class="font-size-14">
+    <div class="d-flex align-items-center mb-n3">
+        <div class="flex-fill">
+            <h3 mat-dialog-title class="pb-3">Add Activity</h3>
+        </div>
+    </div>
+    <div mat-dialog-content class="text-muted fullwidth">
+        <dynamic-form 
+        btnClass="tiny mr-3" [submitted]="submitted"
+        [baseCancel]="true" btnStatus="primary"
+        store="organization-budget-activities" btnText="SAVE"
+        (cancelFxn)="closeDialog()"
+        (submitModel)="receiveModel($event)">
+        </dynamic-form>
+    </div>
+</div>

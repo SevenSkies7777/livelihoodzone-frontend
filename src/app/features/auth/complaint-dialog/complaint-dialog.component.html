@@ -1,0 +1,44 @@
+<div class="px-20 pt-20">
+    <h3 mnat-dialog-title class="pb-0 font-size-18 font-weight-600">Submit Complaint / Feedback</h3>
+    <div mat-dialog-content class="pb-2 pt-2">
+        Kindly tell more about yourself, incase we require to contact you:
+    </div>
+    <div class="w-100-p">
+        <form class="w-100-p" [formGroup]="complaintForm"
+        name="frm" novalidate (ngSubmit)="submitComplaint()">
+            <div class="form-controls row px-3">
+                <div *ngFor="let ctrl of fields" class="w-100-p">
+                    <div [ngSwitch]="ctrl.type" class="d-flex w-100-p">
+                        <div *ngSwitchCase="'text'" class="w-100-p">
+                            <mat-form-field appearance="outline"
+                            class="w-100-p">
+                                <mat-label>{{ctrl?.label}}{{ ctrl?.required ? '*' : '' }}</mat-label>
+                                <input type="text" matInput [formControlName]="ctrl.field"
+                                [placeholder]="ctrl.label">
+                            </mat-form-field>
+                        </div>
+                        <div *ngSwitchCase="'text-area'" class="w-100-p">
+                            <mat-form-field appearance="outline"
+                            class="w-100-p">
+                                <mat-label>{{ctrl?.label}}{{ ctrl?.required ? '*' : '' }}</mat-label>
+                                <textarea type="text" matInput [formControlName]="ctrl.field"
+                                rows="6"
+                                [placeholder]="ctrl.label"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div mat-dialog-actions class="pt-2 d-flex justify-content-end pb-4">
+                <button mat-button mat-dialog-close
+                type="button"
+                (click)="closeDialog()">CLOSE</button>
+                <button mat-button type="submit"
+                [disabled]="loading" [class.spinner]="loading">
+                    <mat-icon>save</mat-icon>
+                    &nbsp;SUBMIT
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

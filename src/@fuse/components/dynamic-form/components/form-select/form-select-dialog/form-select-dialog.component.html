@@ -1,0 +1,20 @@
+<div class="px-16 pt-8 pb-16">
+    <div class="pb-2 d-flex" mat-dialog-title>
+        <div class="title-text flex-fill">ADD NEW</div>
+        <div>
+            <mat-icon class="hover-pointer" 
+            (click)="closeDialog()">close</mat-icon>
+        </div>
+    </div>
+    <div mat-dialog-content class="">
+        <div>
+            <dynamic-form 
+            btnClass="tiny mr-3" [submitted]="submitted" 
+            [baseCancel]="true" btnStatus="primary"
+            store="organization-bank-accounts" btnText="SAVE"
+            (cancelFxn)="closeDialog()"
+            (submitModel)="receiveModel($event)">
+            </dynamic-form>
+        </div>
+    </div>
+</div>

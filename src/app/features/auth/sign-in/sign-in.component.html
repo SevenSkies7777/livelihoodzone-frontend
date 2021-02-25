@@ -1,0 +1,80 @@
+<div class="w-100-p">
+    <div class="login-wrapper">
+        <div class="login-main-content" fxLayout="row">
+            <div class="login-content"  fxLayout="column" fxFlex="100%" fxFlex.gt-sm="50%">
+                <div class="w-100-p d-flex justify-content-center">
+                    <img src="../../../../assets/images/logos/logo.png" alt=""
+                    fxFlex="40%">
+                </div>
+                <div class="w-100-p pt-5">
+                    <h3 class="text-center font-size-24">SIGN IN</h3>
+                    <p class="text-center text-muted">Please sign in to access your account</p>
+                </div>
+                <div class="pt-20 px-20">
+                    <dynamic-form btnTxt="SIGN IN"
+                    [submitted]="submitted"
+                    store="login" btnStatus="success"
+                    (submitModel)="receiveModel($event)"></dynamic-form>
+                </div>
+                <div class="w-100-p text-center pb-20 pt-20"
+                style="margin-top: -1.5rem;">
+                    <a routerLink="/auth/signup">
+                        Create an Account
+                    </a>
+                </div>
+            </div>
+            <div class="login-content with-img" fxLayout="row" fxFlex="50%" 
+            fxFlex.gt-md="50%" fxHide.lt-md>
+                <div class="text-white px-20"
+                style="z-index: 100;">
+                    <div class="font-size-30 pt-32 font-weight-400">
+                        Livelihood<b>zones</b>-MIS
+                    </div>
+                    <div class="font-size-20 pt-2 font-weight-500">
+                        Committed to Ending Drought Emergencies
+                    </div>
+                    <div class="pt-24 font-size-16"
+                    style="line-height: 1.75;">
+                        NDMA is an agency of the Government of Kenya mandated to 
+                        establish mechanisms which ensure that drought does not 
+                        result in emergencies and that the impacts of climate 
+                        change are sufficiently mitigated.
+                    </div>
+                    <div>
+                        <div class="text-underlined d-flex pt-32">
+                            <div>
+                                <div class="font-size-24 pl-0 font-weight-400">
+                                    We achieve this through
+                                </div>
+                                <div class="font-size-14 pl-0 pt-3">
+                                    <ul class="list-unstyled">
+                                        <li class="list-item pb-3 font-size-16 d-flex align-items-center">
+                                            <div><mat-icon class="font-size-20 pt-1">check_circle_outline</mat-icon></div>
+                                            <div class="pl-2">Drought Resilience</div>
+                                        </li>
+                                        <li class="list-item font-size-16 pb-2 d-flex align-items-center">
+                                            <div><mat-icon class="font-size-20 pt-1">check_circle_outline</mat-icon></div>
+                                            <div class="pl-2">Drought Information</div>
+                                        </li>
+                                        <li class="list-item font-size-16 pb-2 d-flex align-items-center">
+                                            <div><mat-icon class="font-size-20 pt-1">check_circle_outline</mat-icon></div>
+                                            <div class="pl-2">Drought Contingency Planning & Response</div>
+                                        </li>
+                                        <li class="list-item font-size-16 pb-2 d-flex align-items-center">
+                                            <div><mat-icon class="font-size-20 pt-1">check_circle_outline</mat-icon></div>
+                                            <div class="pl-2">Knowledge Management</div>
+                                        </li>
+                                        <li class="list-item font-size-16 d-flex align-items-center">
+                                            <div><mat-icon class="font-size-20 pt-1">check_circle_outline</mat-icon></div>
+                                            <div class="pl-2">Coordination</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

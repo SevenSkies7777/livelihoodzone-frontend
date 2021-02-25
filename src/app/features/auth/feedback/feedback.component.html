@@ -1,0 +1,58 @@
+<div class="w-100-p">
+    <div class="login-wrapper">
+        <div class="login-main-content d-flex" fxLayout="row">
+            <div class="login-content with-img order-2 justify-content-center 
+            align-items-center" fxLayout="row" fxFlex="50%"
+            fxFlex.gt-md="50%" fxHide.lt-md>
+                <div class="d-flex justify-content-center pt-32 align-middle">
+                    <img src="../../../../assets/images/logos/logo.png" alt=""
+                    style="z-index: 10">
+                </div>
+            </div>
+            <div class="login-content bg-white"  fxLayout="column" fxFlex="100%" 
+            fxFlex.gt-sm="50%">
+                <div class="w-100-p pb-20">
+                    <div class="text-center font-size-20 d-flex 
+                    align-items-center justify-content-center">
+                        <div><mat-icon class="mt-1 mr-3 text-success">check_circle</mat-icon></div>
+                        <div>SUCCESSFULLY SIGNED UP</div>
+                    </div>
+                </div>
+                <div class="pt-20 px-4 feedback-img mt-10"></div>
+                <div class="pt-24 px-2">
+                    <p class="lead text-center text-muted font-size-16 text-bold">
+                        Thank you for signing up, proceed to log in
+                    </p>
+                </div>
+                <div>
+                    <ul>
+                        <li>
+                            Begin by logging in
+                        </li>
+                        <li>
+                            <b>Select</b> the organization you are member of, to access our resources. 
+                        </li>
+                        <li>
+                            If <b>no organization</b> is listed, 
+                            proceed to search for it and send a request to be added as
+                            a member.
+                        </li>
+                        <li>
+                            Once the request is approved you should be able to 
+                            log in as its member
+                        </li>
+                    </ul>
+                </div>
+                <div class="w-100-p text-center pb-20 pt-20 px-3">
+                    <a [routerLink]="['/auth/signin']">
+                        <button mat-raised-button color="warn"
+                        class="w-100-p py-xl-1 btn btn-success">
+                            BACK TO LOGIN
+                        </button>
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>

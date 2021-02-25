@@ -1,0 +1,111 @@
+:host{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container-wrapper {
+    position: relative;
+    max-width: 1120px;
+    width: 94%;
+    margin: 0 auto;
+    z-index: 10;
+    .main-content{
+        // display: flex;
+        // flex-direction: row;
+        // flex-wrap: wrap;
+        background-color: #fff;
+        -o-box-shadow: 0 1px 4px 0 rgba(0,0,0,.25);
+        box-shadow: 0 1px 4px 0 rgba(0,0,0,.25);
+        border-radius: 4px;
+        font-size: 14px;
+        overflow: hidden;
+        .side-content{
+            // background-color: #f1f1f1!important;
+            // background-image: url(/static/media/receive-payment.557d5b0b.jpg);
+            background-position: 100%;
+            // -webkit-filter: brightness(.85);
+            // filter: brightness(.85);
+            object-position: right;
+            background-size: cover;
+            background-repeat: no-repeat;
+            // width: 50%;
+            // order: 2;
+            position: relative;
+            padding: 35px 35px 20px;
+        }
+    }
+    .content-form {
+        width: 384px;
+        max-width: 384px;
+        padding: 32px;
+        text-align: center;
+            box-shadow: 0 8px 10px -5px rgba(0,0,0,.2), 
+                0 16px 24px 2px rgba(0,0,0,.14), 
+                0 6px 30px 5px rgba(0,0,0,.12);
+    }
+    .input-wrapper, mat-form-field {
+        font-size: 13px !important;
+        input{
+            font-size: 14.5px !important;
+        }
+        .mat-form-field-wrapper {
+            padding-bottom: 0.95rem !important;
+        }
+    
+        .ng-select {
+            padding-bottom: 0rem !important;
+            .ng-select-container {
+                align-items: center !important;
+                &:after {
+                    content: "";
+                    position: absolute;
+                    border-bottom: none !important;
+                }
+            }
+            .ng-value-container {
+                padding: 0rem !important;
+            }
+        }
+        .ng-select ::ng-deep .ng-select-container  {            
+            border: none !important;
+            line-height: 0.95;
+            height: 35px !important;
+            align-items: center;
+            margin-top: -2.95rem;
+            margin-bottom: -1.025rem;
+            font-size: 14.5px !important;
+            &:after{
+                content: "";
+                border-bottom: none !important;
+            }
+            .ng-value-container{
+                padding: 0.63rem 0.5rem;
+                align-items: center;
+                .ng-value{
+                    // padding: 0.35rem 0.5rem;
+                    // background-color: #d7ebff;
+                    // margin-bottom: 2.5px;
+                    // border-radius: 0.35rem;
+                    // font-size: 0.9rem;
+                    .ng-value-icon{
+                        font-size: 1.35rem;
+                        padding-top: 0px;
+                    }
+                    .ng-value-label {
+                        font-size: 1.4rem;
+                    }
+                    .ng-arrow {
+                        height: 1rem;
+                    }
+                }
+                .ng-placeholder{
+                    padding-top:0.5rem;
+                }
+            }
+        }
+        .mat-form-field-appearance-outline .mat-form-field-infix {
+            padding: 0 0 0.75rem !important;
+        }
+    } 
+}

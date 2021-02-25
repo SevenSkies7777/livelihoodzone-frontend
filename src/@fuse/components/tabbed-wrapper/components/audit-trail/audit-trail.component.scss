@@ -1,0 +1,25 @@
+:host ::ng-deep {
+    .badge{
+        &.pending, &.open, &.on_going, &.created, &.draft{
+          background-color: #ffc107;
+          color: #212529;
+        }
+        &.assigned, &.submitted, &.first_level_approved{
+          background-color: #2196F3;
+          color: #FFFFFF;
+        }
+        &.cancelled, &.rejected {
+          background-color: #dc3545;
+          color: #FFFFFF;
+        }
+        &.overdue{
+          background-color: #343a40;
+          color: #FFFFFF;
+        }
+        &.approved, &.accepted, &.completed, 
+        &.finished, &.final_approved{
+          background-color: #28a745;
+          color: #FFFFFF;
+        }
+    }
+}

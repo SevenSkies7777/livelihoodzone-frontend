@@ -1,0 +1,145 @@
+<div class="w-100-p">
+    <mat-card class="p-0">
+        <div class="card-header border-bottom-0" mat-card-header>
+            <div class="w-100-p d-flex justify-content-end pb-3 pr-12">
+                <mat-icon class="hover-pointer font-size-32"
+                (click)="toggleReadOnly()">close</mat-icon>
+            </div>
+        </div>
+        <mat-card-content class="px-12 pt-12">
+            <div class="w-100-p title-section d-flex pb-20 align-items-center">
+                <div class="avatar pl-16 pr-52">
+                    <mat-icon class="font-size-70">feedback</mat-icon>
+                </div>
+                <div class="pl-28 flex-fill">
+                    <div class="font-size-20 pt-16">
+                        <span class="text-muted">By:</span>
+                        &nbsp;{{ item?.full_name }}
+                    </div>
+                    <div class="d-flex pt-8">
+                        <div class="d-flex pr-16">
+                            <div class="pr-1">
+                                <mat-icon class="font-size-20">phone</mat-icon></div>
+                            <div>{{ item?.phone_number }}</div>
+                        </div>
+                        <div class="d-flex pr-16">
+                            <div class="pr-1" >
+                                <mat-icon class="font-size-20">mail</mat-icon></div>
+                            <div>{{ item?.email }}</div>
+                        </div>
+                        <div>
+                            <span class="badge badge {{ item?.status | lowercase }}">
+                                {{ item?.status }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button mat-raised-button *ngIf="item.status === 'PENDING'"
+                    (click)="openDialog('Review')">
+                        REVIEW
+                    </button>
+                    <button mat-raised-button color="success"
+                    *ngIf="item.status === 'IN_REVIEW'"
+                    (click)="openDialog('Resolve')">
+                        RESOLVE
+                    </button>
+                    <button mat-raised-button color="warn"
+                    *ngIf="item.status === 'PENDING' || item.status === 'IN_REVIEW'"
+                    (click)="openDialog('Close')">
+                        CLOSE
+                    </button>
+                </div>
+            </div>
+            <!-- Start of message content sections -->
+            <div class="content section pt-16 pb-28 pl-20 pr-12">
+                <div class="w-100-p pb-32">
+                    <div class="card">
+                        <div class="card-header py-12 pl-16">
+                            <span class="text-muted">Subject:</span>&nbsp;&nbsp;{{ item?.subject }}
+                        </div>
+                        <div class="card-body pl-16">
+                            <div class="font-size-14 text-muted pb-3">Message</div>
+                            <div class="pb-16">
+                                {{ item?.body}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-100-p pb-12">
+                    <div class="card">
+                        <div class="card-header pt-12 pb-8 d-flex">
+                            <div><mat-icon>assessment</mat-icon></div>
+                            <div class="font-size-14 pl-2">&nbsp;Complaint Status</div>
+                        </div>
+                        <div class="card-body p-0">
+                            <table class=" mb-32">
+                                <thead>
+                                    <tr>
+                                        <th>Status</th>
+                                        <th>Notes</th>
+                                        <th>Attachment</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of list">
+                                        <td>
+                                            <span class="badge {{item?.review_status | lowercase }}">
+                                                {{ item?.review_status | removeUnderscore }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {{ item?.notes }}
+                                        </td>
+                                        <td>
+                                            <span *ngIf="item?.file">
+                                                <a mat-stroked-button download target="_blank"
+                                                [attr.href]="item['file']['file']">
+                                                    <mat-icon>cloud_download</mat-icon>&nbsp;
+                                                    Download
+                                                </a>
+                                            </span>
+                                            <span *ngIf="!item?.file" class="d-flex ml-2">
+                                                <span class="badge badge-secondary p-2">
+                                                    No Attachment
+                                                </span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr *ngIf="loading">
+                                        <td colspan="4">
+                                            <div class="d-flex justify-content-center py-20">
+                                                <mat-spinner diameter="40"></mat-spinner>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr *ngIf="!loading && !list.length">
+                                        <td colspan="4">
+                                            <div>
+                                                <div class="alert alert-primary mb-0 pb-2 pt-3">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="pr-20">
+                                                            <mat-icon>
+                                                                info_circle
+                                                            </mat-icon>
+                                                        </div>
+                                                        <div class="flex-fill">
+                                                            There is currently no status changes for this complaint.
+                                                            Get started by reviewing this complaint
+                                                        </div>
+                                                        <div class="pr-8">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

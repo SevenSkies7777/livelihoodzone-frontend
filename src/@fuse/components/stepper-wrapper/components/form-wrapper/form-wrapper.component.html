@@ -1,0 +1,23 @@
+<div class="w-100-p">
+    <div class="title-cont py-12 px-32 border-bottom">
+        <div class="font-size-18 text-muted">
+            Manage Details
+        </div>
+    </div>
+    <div class="w-100-p px-32 pb-12 pt-20">
+        <div class="w-100-p" *ngIf="configs && formStore">
+            <dynamic-form [model]="item"
+            btnClass="tiny mr-3" [submitted]="submitted" 
+            [cancelBtn]="true" btnStatus="primary"
+            [store]="formStore" 
+            [stepConfig]="configs"
+            [multiStep]="multistepConfig"
+            [cancelTxt]="configs?.cancelTxt"
+            [btnTxt]="configs?.nextTxt"
+            (onBack)="stepBack()"
+            (onPrestine)="noChanges($event)"
+            (submitModel)="receiveModel($event)">
+            </dynamic-form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,109 @@
+<div class="w-100-p">
+    <!-- Start of stepper header -->
+    <div class="container-header w-100-p">
+        <div class="d-flex">
+            <div class="d-flex flex-column flex-fill pt-12">
+                <div class="title">
+                    {{ isEdit ? 'Review' : 'New' }} {{ context }}
+                </div>
+                <div class="text-light pt-2 d-flex">
+                    <div class="pr-2">
+                        {{ currentStep?.help_text }}:
+                    </div>
+                    <div>
+                        <b>{{ currentStep?.label }}</b>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-around">
+                <div *ngFor="let step of steps"
+                class="steps-cont sm">
+                    <div class="circle d-flex justify-content-center">
+                        <div class="rounded-circle counter
+                        {{ step.active ? 'active' : '' }}
+                        {{ step.done ? 'done' : '' }}">
+                            <span class="font-size-18">
+                                <mat-icon *ngIf="!step.done">
+                                    {{ step.icon }}
+                                </mat-icon>
+                                <mat-icon *ngIf="step.done && !step.active">
+                                    check
+                                </mat-icon>
+                                <mat-icon 
+                                *ngIf="step.done && step.active">
+                                    {{ step.icon }}
+                                </mat-icon>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="stepper-label sm pt-3
+                    {{ step.active ? 'active font-weight-bold' : '' }}
+                    {{ step.done ? 'done font-weight-bold' : '' }}">
+                        <div class="w-100-p text-center text-light">
+                            {{ step.shortLabel }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of stepper header -->
+
+    <!-- Start of stepper content -->
+    <div class="px-5">
+        <div class="px-5">
+            <mat-card class="w-100-p raised mb-5 p-0">
+                <mat-card-content class="p-0">
+                    <ng-container [ngTemplateOutlet]="this[cmpt]"></ng-container>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+    <!-- End of stepper content -->
+</div>
+
+<ng-template #one>
+    <form-wrapper
+    [steps]="steps" class="fade-in"
+    (onNavigate)="navigate($event)">
+    </form-wrapper>
+</ng-template>
+<ng-template #two>
+    <div *ngIf="cmpt === 'two'">
+        <list-wrapper 
+        [steps]="steps" class="fade-in"
+        (onNavigate)="navigate($event)">
+        </list-wrapper>
+    </div>
+</ng-template>
+<ng-template #three>
+    <div *ngIf="cmpt === 'three'">
+        <attachment-wrapper
+        [steps]="steps" class="fade-in"
+        (onNavigate)="navigate($event)">
+        </attachment-wrapper>
+    </div>
+</ng-template>
+<ng-template #four>
+    <div *ngIf="cmpt === 'four'">
+        <inline-list-wrapper
+        [steps]="steps" class="fade-in"
+        (onNavigate)="navigate($event)">
+        </inline-list-wrapper>
+    </div>
+</ng-template>
+<ng-template #five>
+    <div *ngIf="cmpt === 'five'">
+        <nested-inline-list
+        [steps]="steps" class="fade-in"
+        (onNavigate)="navigate($event)">
+        </nested-inline-list>
+    </div>
+</ng-template>
+<ng-template #six>
+    <div *ngIf="cmpt === 'six'">
+        <nested-list [steps]="steps"
+        (onNavigate)="navigate($event)">
+        </nested-list>
+    </div>
+</ng-template>

@@ -1,0 +1,38 @@
+<div class="w-100-p pt-3">
+    <div class="px-5 pt-5 pb-3">
+        <div class="card">
+            <div class="card-header pt-2 pb-1">
+                <div class="pl-3 text-muted font-weight-bold
+                pb-2 d-flex align-items-center">
+                    <div class="pt-2 pr-2"><mat-icon>business</mat-icon>&nbsp;</div>
+                    <div>Organization</div>
+                </div>
+            </div>
+            <div class="card-body px-0 pb-1 pt-0">
+                <div>
+                    <table class="table borderless font-size-13 mb-0">
+                        <thead>
+                            <th class="border-0 pl-20 font-size-12"
+                            *ngFor="let header of gridConf">
+                                {{ header?.title }}
+                            </th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="pl-20"
+                                *ngFor="let td of gridConf">
+                                    <div *ngIf="organization">
+                                        <span>{{ organization[td.key] | removeUnderscore }}</span>
+                                        <mat-icon *ngIf="!organization[td.key]">
+                                            remove
+                                        </mat-icon>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

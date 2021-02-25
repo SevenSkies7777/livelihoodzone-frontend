@@ -1,0 +1,19 @@
+:host ::ng-deep {
+    .customClass{
+        color: red;
+    }
+    .box-info {
+        background: #2196F3 !important;
+    }
+    .box-success {
+        background: teal !important;
+    }
+    .box-error {
+        background: #B00020 !important;
+    }
+    .hover-pointer{
+        &:hover{
+            cursor: pointer;
+        }
+    }
+}

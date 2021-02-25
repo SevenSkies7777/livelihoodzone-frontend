@@ -1,0 +1,37 @@
+<div class="input-wrapper">
+    <mat-form-field appearance="outline" color="primary"
+    class="w-100-p pb-0">
+        <mat-label>{{to.label}}</mat-label>
+        <input [placeholder]="to.placeholder" matInput
+        [type]="to.type" [pattern]="to.pattern"
+        [formControl]="formControl" [name]="to.label"
+        [formlyAttributes]="field" autocomplete="new-password" />
+      </mat-form-field>
+      <div class="mt-n3" *ngIf="to.hint">
+        <mat-hint>{{ formControl.value | currency: 'Kshs ' }}</mat-hint>
+      </div>
+      <!-- Start of validatio messages -->
+      <ng-container class="mt-n3"
+      *ngIf="formControl.touched && formControl.invalid">
+        <ul class="list-inline text-danger err-cont mt-n3">
+          <li class="list-inline-item text-danger" 
+          *ngIf="formControl.errors?.pattern">
+            Enter a valid email
+          </li>
+          <li class="list-inline-item text-danger"
+          *ngIf="formControl.errors?.required">
+            This field is required
+          </li>
+          <li class="list-inline-item text-danger"
+          *ngIf="formControl.errors?.minlength">
+              Field should contain at least 
+              {{formControl.errors.minlength.requiredLength}} 
+              characters,
+          </li>
+          <li class="list-inline-item text-danger"
+          *ngIf="formControl.errors?.fieldMatch">
+              Password does not match
+          </li>
+        </ul>
+      </ng-container>
+</div>

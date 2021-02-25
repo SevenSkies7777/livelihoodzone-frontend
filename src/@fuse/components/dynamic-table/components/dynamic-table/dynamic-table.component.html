@@ -1,0 +1,228 @@
+<mat-card class="table-cont w-100-p p-0 raised mb-5"
+[class.noElevation]="noCard">
+    <div matCardHeader class="card-header bg-white"
+    *ngIf="!customHeader">
+        <div class="d-flex pt-2 pb-1">
+            <div class="flex-fill font-weight-600 font-size-16 pt-2 pl-3">{{title}}</div>
+            <div class="d-flex flex-1 justify-content-end pr-3">
+                <span *ngFor="let act of topActions">
+                    <button class="pl-3" 
+                    mat-stroked-button color="accent"
+                    (click)="activateAction[act.action](act.conf)">
+                        <mat-icon>add</mat-icon>
+                        {{ act.btnText }}
+                    </button>
+                </span>
+            </div>
+            <!-- Search container -->
+            <div class="float-left d-flex flex-1
+            justify-content-end" *ngIf="hasSearch">
+                <!-- TODO: Implement search -->
+            </div>
+            <!-- End of search container -->
+        </div>
+        
+    </div>
+    <mat-card-content class="card-body p-0">
+        <!-- Start of creation -->
+        <div class="header-form-cont pt-15 py-3 bg-light-grey"
+        *ngIf="headerInline" [ngClass]="{'px-5': !largForms, 'px-2': largeForms}">
+            <div class="col-12 why"
+            [ngClass]="{'col-lg-8': !largeForms, 'col-lg-11': largeForms}"
+            style="margin: auto;">
+                <mat-card class="card p-0">
+                    <div class="card-header py-0">
+                        <div class="d-flex py-2">
+                            <div class="flex-fill pt-3">
+                                ADD {{inlineHeaderConf.context | uppercase }}
+                            </div>
+                            <div>
+                                <span style="cursor: pointer;"
+                                class="float-right font-size-28
+                                text-muted" (click)="activateAction.inline()">
+                                    &times;
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body px-5 pt-5">
+                        <!-- TODO: Implement creation form -->
+                        <dynamic-form 
+                        btnClass="tiny mr-3" [submitted]="submitted" 
+                        [baseCancel]="true" btnStatus="primary"
+                        [store]="inlineHeaderConf?.store" btnText="SAVE"
+                        (cancelFxn)="activateAction.inline()"
+                        (submitModel)="receiveModel($event, inlineHeaderConf?.store)">
+                        </dynamic-form>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+        <!-- End of creations -->
+        <table class="table row-border bordered w-100-p">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col" 
+                    class="font-size-13 py-2"
+                    *ngFor="let header of headers">
+                        {{ header?.title }}
+                    </th>
+                </tr>
+            </thead>
+            <tbody *ngIf="list.length">
+                <tr scope="row" *ngFor="let item of list">
+                    <td *ngFor="let td of rows" 
+                    class="py-2"
+                    [hidden]="item.showInline">
+                        <span *ngIf="td.type === 'string'"
+                        class="font-size-14">
+                            {{ replaceUnderscore(item[td.key]) }}
+                            <div style="margin-top: -1rem;"
+                            *ngIf="!item[td.key]">
+                                <mat-icon>
+                                    minimize
+                                </mat-icon>
+                            </div>
+                        </span>
+                        <span *ngIf="td.type === 'date'"
+                        class="font-size-14">
+                            {{ item[td.key] | date: 'dd-MM-yyyy' }}
+                        </span>
+                        <span *ngIf="td.type === 'currency'"
+                        class="font-size-14">
+                            {{ item[td.key] | currency: 'Kshs '}}
+                        </span>
+                        <span *ngIf="td.type === 'number'"
+                        class="font-size-14">
+                            {{ item[td.key] | number }}
+                        </span>
+                        <span *ngIf="td.type === 'status'">
+                            <span class="badge {{item[td.key] | lowercase }} 
+                            p-2">
+                                {{ item[td.key] | removeUnderscore }}
+                            </span>                            
+                        </span>
+                        <span *ngIf="td.type === 'nested'">
+                            <nested-string [type]="td.fieldType"
+                            [config]="td" [item]="item">
+                            </nested-string>
+                        </span>
+                        <div *ngIf="td.type === 'compact-line'">
+                            <compact-line [item]="item"
+                            [config]="td"></compact-line>
+                        </div>
+                        <span *ngIf="td.type === 'boolean'">
+                            <mat-icon *ngIf="item[td.key]"
+                            class="font-size-26 text-success">check</mat-icon>
+                            <mat-icon *ngIf="!item[td.key]"
+                            class="font-size-26 text-danger">close</mat-icon>
+                        </span>
+                    </td>
+                    <td *ngIf="hasAction && !item.showInline"
+                    class="py-0">
+                        <button mat-raised-button [color]="act.status"
+                        *ngFor="let act of actions"
+                        class="{{ act.customClass }}"
+                        [disabled]="stateChecker(item, act.modalConf)"
+                        (click)="gridActions[act.action](item, act.modalConf)">
+                            {{ act?.btnText }}
+                        </button>
+                        <!-- Start of drop down actions -->
+                        <button mat-mini-fab color="default"
+                        class="mat-elevation-z0 border bg-light h-32 w-32"
+                        aria-label="Click to select more actions"
+                        [matMenuTriggerFor]="menu"
+                        *ngIf="dropDownActions && dropDownActions.length">
+                            <mat-icon class="mt-n2 font-size-20">more_vert</mat-icon>
+                        </button>
+                        <!-- Start of dropdown menu -->
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item 
+                            *ngFor="let act of actChecker(item)"
+                            (click)="gridActions[act.action](item, act.modalConf)">
+                                <mat-icon class="{{ act?.class || 'text-primary'}} 
+                                font-size-18 mr-0">{{ act?.icon }}</mat-icon>
+                                {{ act?.btnText }}
+                            </button>
+                            <!-- <button mat-menu-item 
+                            *ngFor="let act of dropDownActions"
+                            (click)="gridActions[act.action](item, act.modalConf)">
+                                <mat-icon class="{{ act?.class || 'text-primary'}} 
+                                font-size-18 mr-0">{{ act?.icon }}</mat-icon>
+                                {{ act?.btnText }}
+                            </button> -->
+                        </mat-menu>
+                    </td>
+                    <td *ngIf="item.showInline"
+                    [attr.colspan]="headers.length"
+                    class="bg-light-grey py-3 px-5">
+                        <div class="col-12 col-lg-8"
+                        style="margin: auto;" *ngIf="!item.readOnly">
+                            <mat-card class="card p-0">
+                                <div class="card-header py-0">
+                                    <div class="d-flex py-2">
+                                        <div class="flex-fill pt-3">
+                                            EDIT {{inlineConf?.context | uppercase }}
+                                        </div>
+                                        <div>
+                                            <span style="cursor: pointer;"
+                                            class="font-size-28 text-muted"
+                                            (click)="toggleInlineRow(item)">
+                                                &times;
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body px-5 pt-5">
+                                    <!-- TODO: Implement inline form -->
+                                    <dynamic-form btnText="SAVE"
+                                    btnClass="tiny" [model]="selectedItem"
+                                    [submitted]="submitted" [baseCancel]="true"
+                                    [store]="inlineConf?.store" btnStatus="primary"
+                                    (cancelFxn)="toggleInlineRow(item)"
+                                    (submitModel)="receiveModel($event, inlineConf?.store)">
+                                    </dynamic-form>
+                                </div>
+                            </mat-card>
+                        </div>
+                        <div class="w-100-p bg-light-grey px-12 py-3"
+                        *ngIf="item.readOnly">
+                            <inline-readonly [item]="item"
+                            (refreshList)="getData()"
+                            (toggleRow)="toggleReadOnly($event)"></inline-readonly>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody *ngIf="!list?.length">
+                <tr scope="row" *ngIf="loading">
+                    <td [attr.colspan]="headers?.length">
+                        <div class="w-100-p d-flex justify-content-center py-16">
+                            <mat-spinner diameter="45"></mat-spinner>
+                        </div>
+                    </td>
+                </tr>
+                <tr scope="row" *ngIf="!loading">
+                    <td [attr.colspan]="headers?.length">
+                        <div class="col-md-12">
+                            <div class="text-center">
+                                <mat-icon class="font-size-100 w-100-p text-muted">folder_open</mat-icon>
+                            </div>
+                            <div class="col-md-12 text-center font-size-18 text-muted"
+                            *ngIf="!loading">
+                                No data present to display.
+                            </div>
+                            <div class="col-md-12 text-center font-size-18 pb-16">
+                                <small *ngIf="!loading">
+                                    Once a new recorded is added it will be displayed here.
+                                </small>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <pagination class="d-flex" [controls]="paginationCtrl" 
+        (goToPage)="paginate($event)"></pagination>
+    </mat-card-content>
+</mat-card>

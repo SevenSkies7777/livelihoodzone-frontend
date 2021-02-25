@@ -1,0 +1,60 @@
+<div class="px-20 pt-20">
+    <h3 mat-dialog-title class="pb-3">Provide more information about the organization</h3>
+    <div mat-dialog-content class="text-muted">
+        Kindly provide the following information about the organization
+        you would like to join before you proceed.
+    </div>
+    <form [formGroup]="orgForm" name="frm" (ngSubmit)="submitQuery(orgForm)">
+        <div class="w-100-p pt-5">
+            <div class="input-wrapper w-100-p">
+                <mat-form-field appearance="outline" color="primary"
+                class="w-100-p pb-0 mb-0">
+                    <mat-label>What is the name of your organization*</mat-label>
+                    <input matInput placeholder="Enter the name of the organization" 
+                    [ngClass]="{ 'is-invalid': f.name.invalid && (f.name.touched || f.name.dirty) }"
+                    class="" formControlName="name" />
+                </mat-form-field>
+                <div *ngIf="f.name.invalid && (f.name.touched || f.name.dirty)" 
+                class="invalid-feedback">
+                    <div *ngIf="f.name.errors.required">Organization name is required</div>
+                </div>
+            </div>
+            <div class="input-wrapper w-100-p">
+                <mat-form-field appearance="outline" color="primary"
+                [floatLabel]="f.organizationType.value ? 'always' : ''"
+                class="w-100-p mb-0">
+                    <mat-label>What is the type of your organization* (e.g Sports Federation)</mat-label>
+                    <ng-select [items]="organizationTypes"
+                        matInput ngSelectMat
+                        class="flex-fill px-0" appendTo="body"
+                        bindLabel="org_type_code"
+                        bindValue="id"
+                        loadingText="Loading organization types"
+                        [hideSelected]="true"
+                        [searchable]="false"
+                        formControlName="organizationType"
+                        [multiple]="false"
+                        notFoundText="No result matched your search"
+                        [closeOnSelect]="true">
+                        <ng-template ng-label-temp let-item="item">
+                            {{ item?.org_type_code }}
+                        </ng-template>
+                        <ng-template ng-option-tmp let-item="item"
+                        let-index="index">
+                            {{item?.org_type_code }}
+                        </ng-template>
+                    </ng-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div mat-dialog-actions class="pt-5 d-flex justify-content-end">
+            <button mat-button mat-dialog-close
+            type="button"
+            (click)="closeDialogue()">CLOSE</button>
+            <button mat-button type="submit">
+                <mat-icon>search</mat-icon>
+                &nbsp;SEARCH
+            </button>
+        </div>
+    </form>
+</div>

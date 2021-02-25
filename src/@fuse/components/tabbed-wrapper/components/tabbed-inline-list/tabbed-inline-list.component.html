@@ -1,0 +1,133 @@
+<div class="card">
+    <div class="card-header pt-3 bg-white">
+        <div class="pl-3 text-muted font-weight-bold
+        pb-2 d-flex align-items-center">
+            <div class="pt-2 pr-2"><mat-icon>account_balance</mat-icon>&nbsp;</div>
+            <div>Bank Account</div>
+        </div>
+    </div>
+    <div class="card-body px-0 pb-1 pt-0">
+        <div>
+            <table class="table borderless font-size-13">
+                <thead class="thead-light font-size-12">
+                    <th *ngFor="let conf of tab?.bankConfs"
+                    class="border-0 pl-20">
+                        {{ conf.title }}
+                    </th>
+                    <th class="border-0 pl-20"></th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let anItem of list">
+                        <td *ngFor="let conf of tab?.bankConfs"
+                        class="pl-20 vertical-align-center" 
+                        valign="middle"
+                        [hidden]="anItem.showInline">
+                            {{ anItem[conf.key] }}
+                            <mat-icon *ngIf="!anItem[conf.key]">
+                                remove
+                            </mat-icon>
+                        </td>
+                        <td valign="middle" class="vertical-align-center"
+                        [hidden]="anItem.showInline">
+                            <button mat-stroked-button color="accent"
+                            (click)="toggleForm(anItem)">
+                                Edit
+                            </button>
+                        </td>
+                        <td [attr.colspan]="tab?.bankConfs.length + 1"
+                        class="bg-light-grey py-3 px-5" *ngIf="anItem.showInline">
+                            <div class="col-12 col-lg-8"
+                            style="margin: auto;">
+                                <mat-card class="card p-0">
+                                    <div class="card-header py-0">
+                                        <div class="d-flex">
+                                            <div class="flex-fill pt-3">
+                                                EDIT BANK DETAILS
+                                            </div>
+                                            <div>
+                                                <span style="cursor: pointer;"
+                                                class="font-size-28 text-muted"
+                                                (click)="toggleForm(anItem)">
+                                                    &times;
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body px-5 pt-5">
+                                        <!-- TODO: Implement inline form -->
+                                        <dynamic-form btnText="SAVE"
+                                        btnClass="tiny" [model]="anItem"
+                                        [submitted]="submitted" [baseCancel]="true"
+                                        store="organization-bank-accounts" btnStatus="primary"
+                                        (cancelFxn)="toggleForm(anItem)"
+                                        (submitModel)="receiveModel($event)">
+                                        </dynamic-form>
+                                    </div>
+                                </mat-card>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr *ngIf="!list?.length">
+                        <td [attr.colspan]="tab?.bankConfs.length + 1" 
+                        class="pb-0 mb-0" *ngIf="!showForm">
+                            <div class="w-100-p px-3">
+                                <div class="alert alert-primary mb-0 pb-2 pt-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="pr-20">
+                                            <mat-icon>
+                                                info_circle
+                                            </mat-icon>
+                                        </div>
+                                        <div class="flex-fill">
+                                            There is currently no bank account
+                                            registered for this organization 
+                                        </div>
+                                        <div class="pr-8">
+                                            <button mat-raised-button color="default"
+                                            (click)="toggleCreateForm()" class="pl-3 mt-n2">
+                                                <mat-icon>add</mat-icon>&nbsp;
+                                                ADD ACCOUNT
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td [attr.colspan]="tab?.bankConfs.length + 1"
+                        class="bg-light-grey py-3 px-5" *ngIf="showForm">
+                            <div class="col-12 col-lg-8"
+                            style="margin: auto;">
+                                <mat-card class="card p-0">
+                                    <div class="card-header py-0">
+                                        <div class="d-flex">
+                                            <div class="flex-fill pt-3">
+                                                ADD BANK DETAILS
+                                            </div>
+                                            <div>
+                                                <span style="cursor: pointer;"
+                                                class="font-size-28 text-muted"
+                                                (click)="toggleCreateForm()">
+                                                    &times;
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body px-5 pt-5">
+                                        <!-- TODO: Implement inline form -->
+                                        <dynamic-form btnText="SAVE"
+                                        btnClass="tiny" 
+                                        [submitted]="submitted" [baseCancel]="true"
+                                        store="organization-bank-accounts" btnStatus="primary"
+                                        (cancelFxn)="toggleCreateForm()"
+                                        (submitModel)="receiveModel($event)">
+                                        </dynamic-form>
+                                    </div>
+                                </mat-card>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

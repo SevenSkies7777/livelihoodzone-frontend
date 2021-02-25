@@ -1,0 +1,26 @@
+<div class="w-100-p">
+    <mat-form-field appearance="outline"
+    color="primary"
+    class="w-100-p pb-0 mb-0">
+        <mat-label>{{to.label}}</mat-label>
+        <input matInput 
+        [name]="to.label"
+        [matDatepicker]="picker"
+        [formlyAttributes]="field" 
+        [formControl]="formControl"
+        [placeholder]="to.placeholder" 
+        >
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <ng-container 
+    *ngIf="formControl.touched && formControl.invalid">
+        <ul class="list-inline text-danger err-cont"
+        style="margin-top: -2.25rem;">
+            <li class="list-inline-item text-danger"
+            *ngIf="formControl.errors?.required">
+                This field is required,
+            </li>
+        </ul>
+    </ng-container>
+</div>

@@ -1,0 +1,35 @@
+<div class="pt-20 pb-8 px-16">
+    <div class="fullwidth mat-elevation-z1">
+        <div class="bg-light py-12 pl-20 border-bottom">
+            Total Summary
+        </div>
+        <table class="table" *ngIf="item">
+            <thead>
+                <tr class="font-size-12">
+                    <th class="border-0 pl-20">
+                        Applied Total
+                    </th>
+                    <th class="border-0">
+                        Rationalized Total
+                    </th>
+                    <th class="border-0">
+                        Actual Total
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="pl-20 py-12">
+                        {{ item?.total || 0 | currency: 'Kshs '}}
+                    </td>
+                    <td class="py-12">
+                        {{ item?.rationalized_total || 0 | currency: 'Kshs '}}
+                    </td>
+                    <td class="py-12">
+                        {{ item?.actual_total || 0 | currency: 'Kshs '}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

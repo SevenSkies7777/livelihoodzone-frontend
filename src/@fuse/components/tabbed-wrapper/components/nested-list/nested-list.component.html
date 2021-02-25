@@ -1,0 +1,247 @@
+<div class="content page-layout simple d-flex flex-column main-wrapper">
+    <!-- Start of title area -->
+    <div class="fullwidth mat-elevation-z1 py-3 px-20 d-flex flex-row">
+        <div class="font-size-16 font-weight-600 text-muted flex-fill pl-3 pt-2">
+            Activities
+        </div>
+        <div class="action">
+            <!-- TODO: Add conditional logic to display depending on item status -->
+            <button mat-raised-button color="accent"
+            class="pl-2 pr-3 py-0 font-size-12" (click)="openDialog()">
+                <mat-icon>add</mat-icon>
+                &nbsp;ADD ACTIVITY
+            </button>
+        </div>
+    </div>
+    <!-- End of title -->
+
+    <!-- Start of content of nested list -->
+    <div class="fullwidth flex-row row px-16">
+        <div *ngIf="!list?.length"
+        class="page-layout col-lg-12 pt-32 pb-36">
+            <div class="w-100-p py-80 col-12">
+                <div class="w-100-p pb-32">
+                    <div class="d-flex w-100-p justify-content-center">
+                        <mat-spinner diameter="45" *ngIf="loading"></mat-spinner>
+                        <mat-icon class="ml-n5 font-size-80"
+                        *ngIf="!loading">folder_open</mat-icon>
+                    </div>
+                </div>
+                <div class="col-12 text-center font-size-18 text-muted
+                pt-20 pl-32">
+                    {{ loading ? 'Loading...' : 'Activity yet to be added for' }}
+                </div>
+                <div class="col-12 text-center font-size-14 text-muted
+                pt-2 pl-32" *ngIf="!loading">
+                    Add an activity and activity item which should be submitted for review
+                </div>
+            </div>
+        </div>
+        <div class="h-100-p overflow-auto innerScroll 
+        page-layout col-lg-3 main-list"
+        *ngIf="list.length">
+            <div class="ps">
+                <div class="mail-list overflow-auto"
+                fuseperfectscrollbar>
+                    <div class="list-item"
+                    *ngFor="let activity of list;let i = index;"
+                    [class.active]="activity.active"
+                    (click)="selectActivity(i)">
+                        <div class="pb-0">
+                            {{activity?.title}}
+                        </div>
+                        <div class="d-flex flex-column align-items-start">
+                            <div class="d-flex flex-row align-items-center fullwidth ml-n1">
+                                <div class="pt-2"><mat-icon class="font-size-18
+                                text-muted">attach_money</mat-icon>
+                                </div>
+                                <div class="font-size-14 text-muted pl-1">
+                                    {{activity?.total | currency: 'Kshs '}}
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row align-items-center fullwidth pt-0 mt-n2">
+                                <div class="pt-2"><mat-icon class="font-size-16
+                                    text-muted">calendar_today</mat-icon>
+                                </div>
+                                <div class="font-size-14 text-muted">
+                                    {{activity?.activity_date | date: 'dd-MM-yyyy'}}
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="badge {{activity?.status | lowercase }}
+                            font-size-10 pt-2 font-size-10 px-8">
+                                {{activity?.status | removeUnderscore}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Start of details of content -->
+        <div class="col-lg-9 overflow-auto innerScroll px-0 mt-1 
+        main-card-content bg-light pb-12 border-left"
+        *ngIf="selectedAct && loading === false">
+            <div class="fullwidht h-100-p bg-light px-16 pt-12 pb-32">
+                <mat-card class="mat-elevation-1 p-0 mb-20">
+                    <div class="card-header bg-white font-size-16">
+                        <div class="d-flex flex-row">
+                            <div class="title pt-12 pb-8 pl-8 flex-fill">
+                                {{ selectedAct?.title }}
+                            </div>
+                            <div class="pt-2">
+                                <button mat-mini-fab color="default"
+                                class="mat-elevation-z0 border bg-light h-32 w-32"
+                                aria-label="Activity actions"
+                                [matMenuTriggerFor]="menu">
+                                    <mat-icon class="mt-n2 fonnt-size-20">more_vert</mat-icon>
+                                </button>
+                                <mat-menu #menu="matMenu">
+                                    <button mat-menu-item
+                                    *ngFor="let btnAct of actActions"
+                                    (click)="openCRUDDialog(btnAct.context)">
+                                        <mat-icon [class]="btnAct?.iconClass">
+                                            {{btnAct?.icon}}
+                                        </mat-icon>
+                                        {{btnAct?.text}}
+                                    </button>
+                                </mat-menu>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Mat card content -->
+                    <mat-card-body class="p-0">
+                        <div class="fullwidth bg-light d-flex border-bottom mb-2"
+                        fxLayout="row">
+                            <div class="col-lg-4 border-right pl-20 py-12 pr-16">
+                                <div class="d-flex flex-row">
+                                    <div class="flex-fill">
+                                        <div class="text-muted font-size-12">DATE</div>
+                                        <div>{{selectedAct?.activity_date | date: 'dd-MM-yyyy'}}</div>
+                                    </div>
+                                    <div class="pt-3">
+                                        <mat-icon class="size-40">calendar_today</mat-icon>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 border-right pr-16 py-12 pl-20">
+                                <div class="d-flex flex-row">
+                                    <div class="flex-fill">
+                                        <div class="text-muted font-size-12">AMOUNT</div>
+                                        <div>{{selectedAct?.total | currency: 'Kshs '}}</div>
+                                    </div>
+                                    <div class="pt-3">
+                                        <mat-icon class="size-50">attach_money</mat-icon>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 pr-16 py-12 pl-20">
+                                <div class="d-flex flex-row">
+                                    <div class="flex-fill">
+                                        <div class="text-muted font-size-12">STATUS</div>
+                                        <div>
+                                            <span class="badge font-size-10
+                                            {{selectedAct?.status | lowercase }} p-2">
+                                                {{ selectedAct?.status | removeUnderscore }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="pt-3">
+                                        <mat-icon class="size-50">assessment</mat-icon>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <nested-totals-summary [item]="selectedAct"></nested-totals-summary>
+
+                        <!-- Start of tabbed section -->
+                        <div class="fullwidth mt-2 px-0"
+                        *ngIf="list.length && selectedAct">
+                            <mat-tab-group
+                            (selectedTabChange)="onTabChange($event)">
+                                <mat-tab *ngFor="let tab of asyncTabs | async; let i = index;">
+                                  <ng-template mat-tab-label>
+                                    <mat-icon class="font-size-24">{{tab.icon}}</mat-icon>
+                                    &nbsp;&nbsp;{{tab.label}}
+                                  </ng-template>
+                                  <div *ngIf="selectedIndexBinding === 0 && cmptParams"
+                                  class="">
+                                    <dynamic-table title="Listing"
+                                        [tabbedItem]="selectedAct" [largeForms]="true"
+                                        class="w-100-p" [addOrg]="true"
+                                        [modelKey]="tabConfigs?.modelKey" [cmptParams]="cmptParams"
+                                        [headers]="tabConfigs?.headers" [no-card]="true"
+                                        [has-action]="true" [store]="tabConfigs?.gridConf.getStore"
+                                        [topActions]="tabConfigs?.topActions" [hasSearch]="true"
+                                        (postCRUDFxn)="refreshSelected()"
+                                        [dropDownActions]="tabConfigs?.actions" [rows]="tabConfigs.rows">
+                                    </dynamic-table>
+                                  </div>
+                                  <div *ngIf="selectedIndexBinding === 1 && cmptParams"
+                                  class="">
+                                    <dynamic-table title="Listing"
+                                        [tabbedItem]="selectedAct" [largeForms]="true"
+                                        class="w-100-p" [addOrg]="true"
+                                        [modelKey]="tabConfigs?.modelKey" [cmptParams]="cmptParams"
+                                        [headers]="tabConfigs?.headers" [no-card]="true"
+                                        [has-action]="true" [store]="tabConfigs?.gridConf.getStore"
+                                        [topActions]="tabConfigs?.topActions" [hasSearch]="true"
+                                        (postCRUDFxn)="refreshSelected()"
+                                        [dropDownActions]="tabConfigs?.actions" [rows]="tabConfigs.rows">
+                                    </dynamic-table>
+                                  </div>
+                                  <div *ngIf="selectedIndexBinding === 2 && cmptParams"
+                                  class="">
+                                    <dynamic-table title="Listing"
+                                        [tabbedItem]="selectedAct" [largeForms]="true"
+                                        class="w-100-p" [addOrg]="true"
+                                        [modelKey]="tabConfigs?.modelKey" [cmptParams]="cmptParams"
+                                        [headers]="tabConfigs?.headers" [no-card]="true"
+                                        [has-action]="true" [store]="tabConfigs?.gridConf.getStore"
+                                        [topActions]="tabConfigs?.topActions" [hasSearch]="true"
+                                        (postCRUDFxn)="refreshSelected()"
+                                        [dropDownActions]="tabConfigs?.actions" [rows]="tabConfigs.rows">
+                                    </dynamic-table>
+                                  </div>
+                                </mat-tab>
+                              </mat-tab-group>
+                        </div>
+                    </mat-card-body>
+                    <!-- End of card content -->
+                </mat-card>
+            </div>
+        </div>
+        <!-- End of detail view -->
+    </div>
+
+    <!-- End of all content -->
+</div>
+<div class="btn-cont px-20 pb-12 pt-3 border-top"
+*ngIf="steps.length">
+    <div class="btn-cont mb-3 pt-12 w-100-p
+    d-flex justify-content-between">
+        <button mat-raised-button
+        class="float-left"
+        (click)="changeStep('prev')">
+        <mat-icon class="btn-icon">keyboard_arrow_left</mat-icon>
+        <mat-icon class="btn-icon">keyboard_arrow_left</mat-icon>
+            &nbsp;&nbsp;BACK
+        </button>
+        <button mat-raised-button
+        *ngIf="!isLast"
+        class="mt-10 float-right mr-0"
+        color="accent" 
+        (click)="changeStep('next')">
+            NEXT&nbsp;
+            <mat-icon class="btn-icon">keyboard_arrow_right</mat-icon>
+            <mat-icon class="btn-icon">keyboard_arrow_right</mat-icon>
+        </button>
+        <button mat-raised-button
+        *ngIf="isLast" color="success"
+        class="mt-10 float-right mr-0"
+        (click)="changeStep('next')">
+            COMPLETE
+        </button>
+    </div>
+</div>

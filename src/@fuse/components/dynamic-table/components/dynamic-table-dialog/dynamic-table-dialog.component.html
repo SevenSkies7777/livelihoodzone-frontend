@@ -1,0 +1,272 @@
+<div class="px-16 pt-8 pb-20">
+    <div mat-dialog-title class="pb-3 d-flex">
+        <div class="title-text flex-fill">
+            {{ configs?.title || 'Approve Request' }}
+        </div>
+    </div>
+    <div mat-dialog-content>
+        {{configs?.description}}
+    </div>
+    <div mat-dialog-actions class="pt-5 pb-4 hidden d-flex justify-content-end"
+    *ngIf="configs?.btnText === 'REJECT'">
+
+        <button mat-button mat-dialog-close
+        (click)="closeDialog()">CLOSE</button>
+
+        <button mat-button [class.spinner]="loading"
+        [disabled]="loading"
+        (click)="dialogActions[configs.action]()">
+            {{ configs?.btnText || 'APPROVE' }}
+        </button>
+        
+    </div>
+    <!-- Start of table dialog form -->
+    <div mat-dialog-actions class="w-100-p pt-5 pb-4"
+    *ngIf="configs?.btnText === 'APPROVE'">
+        <form [formGroup]="dialogForm" name="frm" 
+        (ngSubmit)="submitForm(dialogForm)" class="w-100-p">
+            <div class="w-100-p">
+                <mat-form-field appearance="outline" color="default"
+                class="w-100-p">
+                    <mat-label>Select Role</mat-label>
+                    <mat-select formControlName="group">
+                        <mat-option>--</mat-option>
+                        <mat-option *ngFor="let role of roles" [value]="role.id">
+                            {{role?.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div *ngIf="f.group.invalid && 
+                (f.group.touched || f.group.dirty)"  
+                class="invalid-feedback">
+                    <div *ngIf="f.group.errors.required">
+                        Role is required
+                    </div>
+                </div>
+            </div>
+            <div class="btn-container d-flex justify-content-end">
+                <button mat-button mat-dialog-close
+                type="button"
+                (click)="closeDialog()">CLOSE</button>
+                <button mat-button type="submit"
+                [class.spinner]="loading" [disabled]="loading">
+                    {{ configs?.btnText || 'APPROVE' }}
+                </button>
+            </div>
+        </form>
+    </div>
+    <!-- end of table dialog form -->
+
+    <!-- Start of rationalizing amount -->
+    <div mat-dialog-actions 
+    class="w-100-p pt-16 pb-12 mt-n5 flex-column align-items-start"
+    *ngIf="context === 'rationalize'">
+        <div class="w-100-p">
+            <ul class="list-unstyled">
+                <li class="list-item d-flex"
+                *ngIf="item?.item_data">
+                    <div class="pr-3 font-weight-600">Item name:</div> 
+                    <div class="pl-2"> {{ item?.item_data.name }} </div>
+                </li>
+                <li class="list-item d-flex"
+                *ngIf="item?.allowance_data">
+                    <div class="pr-16 font-weight-600">Item name:</div> 
+                    <div class="pl-2"> {{ item?.allowance_data.name }} </div>
+                </li>
+                <li class="d-flex font-size-13 pt-2"
+                *ngIf="!item?.allowance_data">
+                    <div class="pr-32 font-weight-600">Quantity:</div> 
+                    <div> {{ item?.quantity | number: '1.0' }} </div>
+                    <div class="pl-1 pr-2">@</div>
+                    <div> {{ item?.unit_price | currency: 'Kshs '}} </div>
+                </li>
+                <li class="d-flex font-size-13 pt-2"
+                *ngIf="item?.allowance_data">
+                    <div class="pr-18 font-weight-600">Attendees:</div> 
+                    <div class="font-weight-600 pl-20"> &nbsp;{{ item?.head_count | number: '1.0' }} </div>
+                    <div class="px-2 font-weight-500">for</div>
+                    <div class="font-weight-600"> {{ item?.days | number: '1.0' }} </div>
+                    <div class="font-weight-500">&nbsp;days</div> 
+                        <div class="pl-1 pr-2">@</div>
+                    <div> {{ item?.unit_price || item?.allowance_data.amount | currency: 'Kshs '}} </div>
+                </li>
+                <li class="d-flex font-size-13 pt-2">
+                    <div class="pr-8 font-weight-600">Applied Total: </div>
+                    <div>
+                        {{ item?.total | currency: 'Kshs ' }}
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="w-100-p">
+            <form [formGroup]="adjustAmountForm" name="frm"
+            (ngSubmit)="submitTransitionFrm(adjustAmountForm)">
+                <div class="w-100-p pt-1">
+                    <div class="input-wrapper w-100-p">
+                        <mat-form-field appearance="outline" color="primary"
+                        class="w-100-p pb-0 mb-0">
+                            <mat-label>Rationalized Unit Price</mat-label>
+                            <input name="amount" matInput
+                            placeholder="Kindly enter rationalized unit price..."
+                            formControlName="amount" />
+                        </mat-form-field>
+                        <div class="mt-n4 text-muted">{{ aF.amount.value | currency: 'Kshs ' }}</div>
+                    </div>
+                    <div *ngIf="aF.amount.invalid && 
+                    (aF.amount.touched || aF.amount.dirty)"  
+                    class="invalid-feedback">
+                        <div *ngIf="aF.amount.errors.required">
+                            Rationalized unit price is required
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-container d-flex justify-content-end">
+                    <button mat-button mat-dialog-close
+                    type="button"
+                    (click)="closeDialog()">CLOSE</button>
+                    <button mat-button type="submit"
+                    [class.spinner]="loading" [disabled]="loading">SUBMIT</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Start of product approval -->
+    <div mat-dialog-actions
+    class="w-100-p pt-16 pb-12 mt-n5 flex-column align-items-start"
+    *ngIf="context === 'approve'">
+        <div class="w-100-p">
+            <ul class="list-unstyled">
+                <li class="list-item d-flex"
+                *ngIf="item?.item_name">
+                    <div class="pr-3 font-weight-600">Item name:</div> 
+                    <div class="pl-2"> {{ item?.item_data.name }} </div>
+                </li>
+                <li class="list-item d-flex"
+                *ngIf="item?.allowance_name">
+                    <div class="pr-3 font-weight-600">Item name:</div> 
+                    <div class="pl-2"> {{ item?.allowance_data.name }} </div>
+                </li>
+                <li class="d-flex font-size-13 pt-2"
+                *ngIf="!item?.allowance_data">
+                    <div class="pr-32 font-weight-600">Quantity:</div> 
+                    <div> {{ item?.quantity | number: '1.0' }} </div>
+                    <div class="pl-1 pr-2">@</div>
+                    <div> {{ item?.unit_price | currency: 'Kshs '}} </div>
+                </li>
+                <li class="d-flex font-size-13 pt-2"
+                *ngIf="item?.allowance_data">
+                    <div class="pr-24 font-weight-600">Attendees:</div> 
+                    <div class="font-weight-600 pl-1"> {{ item?.head_count | number: '1.0' }} </div>
+                    <div class="px-2 font-weight-500">for</div>
+                    <div class="font-weight-600"> {{ item?.days | number: '1.0' }} </div>
+                    <div class="font-weight-500">&nbsp;days</div> 
+                        <div class="pl-1 pr-2">@</div>
+                    <div> {{ item?.unit_price || item?.allowance_data.amount | currency: 'Kshs '}} </div>
+                </li>
+                <li class="d-flex font-size-13 pt-2">
+                    <div class="pr-8 font-weight-600">Applied Total: </div>
+                    <div>
+                        {{ item?.total | currency: 'Kshs ' }}
+                    </div>
+                </li>
+                <li class="d-flex font-size-13 pt-2">
+                    <div class="pr-12 font-weight-600">Rationalized: </div>
+                    <div>
+                        {{ item?.rationalized_total | currency: 'Kshs ' }}
+                    </div>
+                    <div class="text-muted pl-3">
+                        (@&nbsp;{{ item?.rationalized_price | currency: 'Kshs ' }})
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="w-100-p">
+            <form [formGroup]="adjustAmountForm" name="frm"
+            (ngSubmit)="submitTransitionFrm(adjustAmountForm)">
+                <div class="w-100-p pt-1">
+                    <div class="input-wrapper w-100-p">
+                        <mat-form-field appearance="outline" color="primary"
+                        class="w-100-p pb-0 mb-0">
+                            <mat-label>Approved Unit Price</mat-label>
+                            <input name="amount" matInput
+                            placeholder="Kindly enter approved unit price..."
+                            formControlName="amount" />
+                        </mat-form-field>
+                        <div class="mt-n4 text-muted">{{ aF.amount.value | currency: 'Kshs ' }}</div>
+                    </div>
+                    <div *ngIf="aF.amount.invalid && 
+                    (aF.amount.touched || aF.amount.dirty)"  
+                    class="invalid-feedback">
+                        <div *ngIf="aF.amount.errors.required">
+                            Approved unit price is required
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-container d-flex justify-content-end">
+                    <button mat-button mat-dialog-close
+                    type="button"
+                    (click)="closeDialog()">CLOSE</button>
+                    <button mat-button type="submit"
+                    [class.spinner]="loading" [disabled]="loading">SUBMIT</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Start of reject workflow -->
+    <div mat-dialog-actions class="w-100-p pt-16 pb-12 mt-n5 flex-column align-items-start"
+    *ngIf="context === 'reject'">
+        <div class="context === 'reject'">
+            <p>
+                Kindly confirm that you would like to reject the following
+                activity:
+            </p>
+            <div class="mb-3">
+                <div class="d-flex">
+                    <div class="text-muted pr-3">
+                        Applied Amount:
+                    </div>
+                    <div class="font-weight-600">
+                        {{ item?.total | currency: 'Kshs '}}
+                    </div>
+                </div>
+                <div class="d-flex pt-2">
+                    <div class="text-muted pr-36">
+                        Rationalized:
+                    </div>
+                    <div class="font-weight-600">
+                        {{ item?.rationalized_total | currency: 'Kshs '}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form [formGroup]="commentForm" name="frm"
+        (ngSubmit)="submitTransitionFrm(commentForm)" class="w-100-p">
+            <div class="w-100-p pt-1">
+                <div class="input-wrapper fullwidth">
+                    <mat-form-field appearance="outline"
+                    color="primary" class="pb-0 mb-0 w-100-p">
+                        <mat-label>Enter comment*</mat-label>
+                        <textarea name="comment" id="" matInput
+                        cols="30" rows="6" formControlName="comment"
+                        placeholder="Kindly enter a comment..."></textarea>
+                    </mat-form-field>
+                </div>
+                <div *ngIf="cF.comment.invalid && 
+                (cF.comment.touched || cF.comment.dirty)"  
+                class="invalid-feedback">
+                    <div *ngIf="cF.comment.errors.required">
+                        Comment is required
+                    </div>
+                </div>
+            </div>
+            <div class="btn-container d-flex justify-content-end w-100-p">
+                <button mat-button mat-dialog-close
+                type="button" (click)="closeDialog()">CLOSE</button>
+                <button mat-button type="submit"
+                [class.spinner]="loading" [disabled]="loading">
+                    SUBMIT
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

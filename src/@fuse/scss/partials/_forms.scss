@@ -1,0 +1,126 @@
+button,
+input[type=email],
+input[type=tel],
+input[type=text],
+input[type=password],
+input[type=image],
+input[type=submit],
+input[type=button],
+input[type=search],
+textarea {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+}
+
+.customClass{
+    color: red;
+}
+  
+.box-info {
+    background: #2196F3 !important;
+}
+.box-success {
+    background: teal !important;
+}
+.box-error {
+    background: #B00020 !important;
+}   
+
+.full-width{
+    display: flex;
+    max-width: 100%;
+    flex: 0 0 100%;
+    formly-group{
+        max-width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex: 0 0 100%;
+        flex-wrap: wrap;
+        .fuller-width{
+          display: flex;
+          max-width: 100%;
+          // display: flex;
+          flex: 0 0 100%;
+          skika-input, skika-form-datepicker,
+          skika-select{
+              flex: 1;
+          }
+        }
+        .half-width{
+            display: flex;
+            max-width: 50%;
+            // display: flex;
+            flex: 0 0 50%;
+            skika-input, skika-form-datepicker,
+            skika-select{
+                flex: 1;
+            }
+            &:first-of-type{
+                padding-right: 0.8rem;
+            }
+            &:last-of-type{
+                padding-left: 0.8rem;
+            }
+        }
+        .two-thirds-width{
+          display: flex;
+          max-width: 66.66667%;
+          // display: flex;
+          flex: 0 0 66.66667%;
+          skika-input, skika-form-datepicker,
+          skika-select{
+              flex: 1;
+          }
+          &:first-of-type{
+              padding-right: 1.5rem;
+          }
+          &:last-of-type{
+              padding-left: 1.5rem;
+          }
+        }
+        .third-width{
+          display: flex;
+          max-width: 33.33333%;
+          // display: flex;
+          flex: 0 0 33.3333%;
+          skika-input, skika-form-datepicker,
+          skika-select{
+              flex: 1;
+          }
+          &:first-of-type{
+              padding-right: 1.5rem;
+          }
+          &:last-of-type{
+              padding-left: 1.5rem;
+          }
+        }
+        .flex{
+            flex:1;
+        }
+    }
+  }
+
+  .half-cust-width{
+      // display: flex;
+      // max-width: 50%;
+      // display: flex;
+      // flex: 0 0 50%;
+      display: inline-block;
+      width: 50%;
+      &:first-of-type{
+          padding-right: 0.8rem;
+      }
+      // &:last-of-type{
+      //     padding-left: 0.8rem;
+      // }
+  }
+  .hidden {
+      display: none;
+  }
+  .hover-pointer{
+      &:hover {
+          cursor: pointer;
+      }
+  }

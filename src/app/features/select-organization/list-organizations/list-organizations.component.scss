@@ -1,0 +1,98 @@
+:host ::ng-deep{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    // padding-top: 10.5rem;
+
+    .search-control {
+      box-shadow: 0 10px 40px 0 #B0C1D9;
+    }
+}
+.mat-list-icon, .mat-icon {
+    &.list-icon {
+        font-size: 4.5rem !important;
+        height: 4rem !important;
+        width: 4rem !important;
+        margin-top: -2rem;
+    }
+    &.font-size-32{
+        font-size: 3.85rem !important;
+    }
+}
+.btn-icon {
+    font-size: 2.4rem !important;
+    height: 2.5rem !important;
+    margin-top: .05rem !important;
+    width: 0.5rem !important;
+    &.font-size-16{
+        font-size: 1.8rem !important;
+        margin-top: .5rem !important;
+    }
+}
+.mat-list-item-content {
+    padding-right: 0px !important;
+}
+.container-wrapper {
+    position: relative;
+    max-width: 920px;
+    width: 70%;
+    &.container-wrapper-lg{
+        width: 90%;
+        max-width: 1200px;
+    }
+    &.container-wrapper-xl{
+        width: 100%;
+        max-width: 4200px;
+    }
+    margin: 0 auto;
+    z-index: 10;
+    justify-content: center;
+    display: flex;
+    .main-content{
+        // display: flex;
+        // flex-direction: row;
+        // flex-wrap: wrap;
+        background-color: #fff;
+        -o-box-shadow: 0 1px 4px 0 rgba(0,0,0,.25);
+        box-shadow: 0 1px 4px 0 rgba(0,0,0,.25);
+        border-radius: 10px;
+        font-size: 14px;
+        overflow: hidden;
+        .side-content{
+            // background-color: #f1f1f1!important;
+            // background-image: url(/static/media/receive-payment.557d5b0b.jpg);
+            background-position: 100%;
+            // -webkit-filter: brightness(.85);
+            // filter: brightness(.85);
+            object-position: right;
+            background-size: cover;
+            background-repeat: no-repeat;
+            // width: 50%;
+            // order: 2;
+            position: relative;
+            // padding: 35px 35px 20px;
+        }
+    }
+    .content-form {
+        width: 384px;
+        max-width: 384px;
+        padding: 32px;
+        text-align: center;
+            box-shadow: 0 8px 10px -5px rgba(0,0,0,.2), 
+                0 16px 24px 2px rgba(0,0,0,.14), 
+                0 6px 30px 5px rgba(0,0,0,.12);
+    }
+}
+
+@mixin toolbar-theme($theme) {
+
+    $foreground: map-get($theme, foreground);
+
+    toolbar {
+
+        .toolbar-separator {
+            background: map-get($foreground, divider);
+        }
+    }
+}

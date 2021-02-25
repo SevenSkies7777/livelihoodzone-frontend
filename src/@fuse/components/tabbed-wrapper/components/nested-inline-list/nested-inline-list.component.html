@@ -1,0 +1,114 @@
+<div class="card main-wrapper">
+    <div class="card-header pt-3 bg-white">
+        <div class="pl-3 text-muted font-weight-bold pb-2 d-flex
+        align-items-center">
+            <div class="pt-2 pr-2">
+                <mat-icon>account_balance_wallet</mat-icon>
+            </div>
+            <div>
+                Allowances
+            </div>
+        </div>
+    </div>
+    <div class="card-body px-0 pb-0 pt-0">
+        <div>
+            <!-- Start of content -->
+            <div class="w-100-p d-flex flex-row  px-0">
+                <div class="h-100-p overflow-auto innerScroll
+                page-layout col-lg-3 main-list">
+                    <div class="ps">
+                        <div class="mail-list overflow-auto"
+                        fuseperfectscrollbar>
+                            <div class="list-item"
+                            *ngFor="let allowance of list;let i = index;"
+                            [class.active]="allowance.active"
+                            (click)="setSelected(allowance.id)">
+                                <div class="pb-0">
+                                    {{allowance?.allowance_data.name}}
+                                </div>
+                                <div class="d-flex flex-column align-items-start">
+                                    <div class="d-flex flex-row align-items-center fullwidth ml-n1">
+                                        <div class="pt-2"><mat-icon class="font-size-18
+                                        text-muted">attach_money</mat-icon>
+                                        </div>
+                                        <div class="font-size-14 text-muted pl-1">
+                                            {{allowance?.actual_total | currency: 'Kshs '}}
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-row align-items-center fullwidth pt-0 mt-n2">
+                                        <div class="pt-2"><mat-icon class="font-size-16
+                                            text-muted">people</mat-icon>
+                                        </div>
+                                        <div class="font-size-14 text-muted">
+                                            {{allowance?.head_count }} 
+                                            <span class="font-weight-bold">
+                                                &nbsp;For&nbsp;
+                                            </span>
+                                            {{allowance?.days | number: '1.0'}} day(s)
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div>
+                                    <span class="badge {{activity?.status | lowercase }}
+                                    font-size-10 pt-2 font-size-10 px-8">
+                                        {{activity?.status | removeUnderscore}}
+                                    </span>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Start of nested list content -->
+                <div class="col-lg-9 overflow-auto innerScroll px-0 mt-1
+                bg-light pb-12"
+                *ngIf="selectedAllowance && !loading">
+                    <div class="full-width bg-light px-16 pt-12 pb-2">
+                        <mat-card class="mat-elevation-z1 p-0 mb-2 w-100-p">
+                            <div class="card-header bg-white font-size-16">
+                                <div class="d-flex flex-row">
+                                    <div class="flex-fill pb-1 pl-8 title pt-2">
+                                        Select Members
+                                    </div>
+                                    <div class="pt-1 pr-3">
+                                        <!-- TODO: Bring back once working correctly -->
+                                        <!-- <button mat-mini-fab color="default"
+                                        class="mat-elevation-z0 border bg-light h-32 w-32"
+                                        aria-label="Activity actions"
+                                        [matMenuTriggerFor]="menu">
+                                            <mat-icon class="mt-n2 fonnt-size-20">more_vert</mat-icon>
+                                        </button> -->
+                                        <mat-menu #menu="matMenu">
+                                            <button mat-menu-item
+                                            *ngFor="let btnAct of actActions"
+                                            (click)="openDialog(btnAct.context)">
+                                                <mat-icon [class]="btnAct?.iconClass">
+                                                    {{btnAct?.icon}}
+                                                </mat-icon>
+                                                {{btnAct?.text}}
+                                            </button>
+                                        </mat-menu>
+                                    </div>
+                                </div>
+                            </div> 
+                            <mat-card-body class="p-0">
+                                <div class="w-100-p mt-0 px-0">
+                                    <dynamic-table title="Listing"
+                                        [tabbedItem]="item" [largeForms]="true"
+                                        class="w-100-p" [addOrg]="true" [customHeader]="true"
+                                        [modelKey]="configs?.modelKey" [cmptParams]="cmptParams"
+                                        [headers]="configs?.headers" [no-card]="true"
+                                        [has-action]="true" [store]="configs?.getStore"
+                                        [topActions]="configs?.topActions" [hasSearch]="true"
+                                        (postCRUDFxn)="refreshSelected()"
+                                        [dropDownActions]="configs?.actions" [rows]="configs.rows">
+                                    </dynamic-table>
+                                </div>
+                            </mat-card-body>
+                        </mat-card>
+                    </div>
+                </div>
+            </div>
+            <!-- End of content -->
+        </div>
+    </div>
+</div>

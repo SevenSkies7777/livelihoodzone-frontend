@@ -1,0 +1,100 @@
+:host ::ng-deep {
+    width: 100%;
+    .back-arrow{
+        i{
+            &:hover{
+                cursor: pointer;
+                text-shadow: 1px 3px 1px rgba(0,0,0,0.3);
+            }
+        }
+    }
+    .main-cont {
+        background-color: #146b3a !important;
+        width: auto!important;
+        transition: all .5s cubic-bezier(0,0,.2,1)!important;
+        left: 13rem;
+        right: 0;
+        padding: 3.05rem 4.5rem 7.5rem;
+        margin-bottom: -4.75rem;
+        .title{
+            font-size: 2rem;
+            color: #FFFFFF;
+        }
+    }
+    .back-btn {
+        color: #FFFFFF;
+        &:hover{
+            cursor: pointer;
+            text-shadow: 1px 3px 1px rgba(0,0,0,0.3);
+        }
+    }
+    .badge{
+        &.pending, &.open, &.on_going, &.created, &.draft{
+          background-color: #ffc107;
+          color: #212529;
+        }
+        &.assigned, &.submitted, &.first_level_approved, &.rationalized{
+          background-color: #2196F3;
+          color: #FFFFFF;
+        }
+        &.cancelled, &.rejected {
+          background-color: #dc3545;
+          color: #FFFFFF;
+        }
+        &.overdue{
+          background-color: #343a40;
+          color: #FFFFFF;
+        }
+        &.approved, &.accepted, &.completed, 
+        &.finished, &.final_approved, &.sasdef_approved{
+          background-color: #28a745;
+          color: #FFFFFF;
+        }
+    }
+    #print {
+      display: none;
+    }
+  }
+  @media print {
+    :host ::ng-deep {
+      #no-print{
+        display: none !important;
+      }
+      #print {
+        display: flex;
+
+        html, body, h1, h2, h3, h4, p, img { margin: 0;} /* margin reset*/
+        h1{font-size: 18pt; font-weight: 500; margin-bottom: 0.5cm;}
+        h2{font-size: 16pt; font-weight: 500;}
+        p{font-size: 12pt;}
+
+        .items-group {
+          border-style: solid;
+          border-color: black;
+          border-width: 1pt 1pt 1pt 1pt;
+          border-radius: 5pt;
+          padding: 3pt 3pt 3pt 3pt;
+          margin: 9pt 0 9pt 0;
+        }
+
+        .logotipo {
+          margin-top: 0.25cm;
+          margin-left: 0.35cm;
+          width: 2.95cm;
+          height: 3.15cm;
+          // margin: -0.5cm;
+        }
+
+        .label { font-weight: 500;}
+
+        .disclaimer, .address p {
+          font-size: 10pt;
+        }
+
+        .signature-field {
+          padding-bottom: 24pt;
+          border-bottom: solid black 1pt;
+        }
+      }
+    }
+  }

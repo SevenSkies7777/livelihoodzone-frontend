@@ -1,0 +1,31 @@
+:host ::ng-deep {
+    color: #FFFFFF;
+    .cont {
+        background-color: #146b3a !important;
+        width: auto!important;
+        transition: all .5s cubic-bezier(0,0,.2,1)!important;
+        left: 13rem;
+        right: 0;
+        padding: 3.05rem 1.5rem 0rem;
+        // margin-bottom: -6rem;
+        &.less-margin{
+            margin-bottom: -5.25rem;
+        }
+        .title{
+            font-size: 2.75rem;
+        }
+    }
+    .border-radius-top-4 {
+        border-radius: 8px 8px 0 0;
+        background-color: rgba(0,0,0,.2);
+    }
+    .icon-container{
+        background-color: rgba(247,247,247,.25)!important;
+        width: 6.05rem;
+        height: 6.05rem;
+        border-radius: 50%;
+    }
+    .font-size-11{
+        font-size: 1.35rem !important;
+    }
+}

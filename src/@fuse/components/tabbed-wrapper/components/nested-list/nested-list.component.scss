@@ -1,0 +1,86 @@
+:host ::ng-deep {
+    .main-wrapper{
+        flex: 1 1 auto;
+        flex-direction: column;
+        box-sizing: border-box;
+        .main-card-content{
+          min-height: 65vh;
+          // height: 85.5vh;
+          max-height: 85.5vh;
+          border-left: 1px solid #e0e0e0;
+        }
+        .main-list{
+            flex: 1 1 0%;
+            box-sizing: border-box;
+            //border-right-color: rgba(0,0,0,.12);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            padding: 0;
+            // border-right: 1px solid #e0e0e0;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            .mail-list{
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+                min-height: 65vh;
+                // height: 85.5vh;
+                max-height: 85.5vh;
+                // overflow: hidden !important;
+            }
+            .list-item{
+                flex-shrink: 0;
+                position: relative;
+                padding: 16px 24px;
+                border-bottom: 1px solid;
+                cursor: pointer;
+                &.active {
+                    background: rgba(0,0,0,.04);
+                }
+                border-bottom-color: rgba(0,0,0,.12)
+            }
+        }
+        .badge{
+            &.pending, &.open, &.on_going, &.created, &.draft{
+              background-color: #ffc107;
+              color: #212529;
+            }
+            &.assigned, &.submitted, &.first_level_approved, &.rationalized{
+              background-color: #2196F3;
+              color: #FFFFFF;
+            }
+            &.cancelled, &.rejected {
+              background-color: #dc3545;
+              color: #FFFFFF;
+            }
+            &.overdue{
+              background-color: #343a40;
+              color: #FFFFFF;
+            }
+            &.approved, &.accepted, &.completed, 
+            &.finished, &.final_approved{
+              background-color: #28a745;
+              color: #FFFFFF;
+            }
+        }
+    }
+    .mat-mini-fab{
+      .mat-button-wrapper{
+        padding-top: 0rem !important;
+      }
+    }
+    .btn-icon{
+      min-width: 1rem;
+      width: 1rem;
+      &:first-of-type {
+          margin-left: -0.5rem;
+      }
+  }
+  .mat-tab-header{
+    padding-left: 1.75rem !important;
+    padding-right: 1.75rem !important;
+  }
+}

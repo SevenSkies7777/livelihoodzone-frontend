@@ -1,0 +1,142 @@
+<div class="">
+    <div class="d-flex align-items-center mb-n3">
+        <div class="flex-fill">
+            <h4 mat-dialog-title class="pb-2 font">
+                {{ configs?.title }}
+            </h4>
+        </div>
+    </div>
+    <div mat-dialog-content class="text-muted fullwidth"
+    *ngIf="configs?.type === 'form'">
+        <dynamic-form 
+        btnClass="tiny mr-3" [submitted]="submitted"
+        [baseCancel]="true" btnStatus="primary"
+        store="organization-budget-activities" btnText="SAVE"
+        (cancelFxn)="closeDialog()" [model]="model"
+        (submitModel)="receiveModel($event)">
+        </dynamic-form>
+    </div>
+    <div mat-dialog-content class="text-muted fullwidth"
+    *ngIf="configs?.type === 'dialog'">
+        <div>{{ configs?.description }}</div>
+        <div *ngIf="context === 'rationalize'">
+            <div>
+                <div>
+                    <div>
+                        <p>
+                            Kindly confirm that you would like to rationalize {{ item?.title }}
+                        </p>
+                        <div class="mb-3">
+                            <div class="d-flex">
+                                <div class="text-muted pr-3">
+                                    Applied Total:
+                                </div>
+                                <div class="font-weight-600">
+                                    {{ item?.total | currency: 'Kshs '}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p>
+                        Ensure that you have rationalized each activity line item, 
+                        otherwise the applied item amount will
+                        be used as the rationalized amount. If you would 
+                        like to proceed click the <b>SUBMIT</b> button below.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="context === 'approve'">
+            <div>
+                <div>
+                    <p>
+                        Kindly confirm that you would like to approve {{ item?.title }}
+                    </p>
+                    <div class="mb-3">
+                        <div class="d-flex">
+                            <div class="text-muted pr-3">
+                                Applied Total:
+                            </div>
+                            <div class="font-weight-600">
+                                {{ item?.total | currency: 'Kshs '}}
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="text-muted pr-16">
+                                Rationalized:
+                            </div>
+                            <div class="font-weight-600">
+                                {{ item?.rationalized_total | currency: 'Kshs '}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p>
+                    Ensure you have approved each activity line item
+                    otherwise the rationalized amount will be used as the approved amount. 
+                    If you would stil like to proceed click the <b>SUBMIT</b> button below:
+                </p>
+            </div>
+        </div>
+    </div>
+    <div mat-dialog-actions class="pt-5 pb-20 d-flex justify-content-end"
+    *ngIf="configs?.type === 'dialog'">
+        <button mat-button mat-dialog-close
+        (click)="closeDialog()">CLOSE</button>
+        <button mat-button [class.spinner]="loading"
+        [disabled]="loading"
+        (click)="transitionActions()">
+            {{ configs?.action || 'SUBMIT' }}
+        </button>
+    </div>
+    <!-- Start of comment type section -->
+    <div mat-dialog-actions 
+    *ngIf="configs?.type === 'comment'">
+        <div class="context === 'reject'">
+            <p>
+                Kindly confirm that you would like to reject the following
+                activity:
+            </p>
+            <div class="mb-3">
+                <div class="d-flex">
+                    <div class="text-muted pr-3">
+                        Applied Amount:
+                    </div>
+                    <div class="font-weight-600">
+                        {{ item?.total | currency: 'Kshs '}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form [formGroup]="commentForm" name="frm"
+        (ngSubmit)="submitForm(commentForm)" class="w-100-p">
+            <div class="w-100-p pt-1">
+                <div class="input-wrapper fullwidth">
+                    <mat-form-field appearance="outline"
+                    color="primary" class="pb-0 mb-0 w-100-p">
+                        <mat-label>Enter comment*</mat-label>
+                        <textarea name="comment" id="" matInput
+                        cols="30" rows="6" formControlName="comment"
+                        placeholder="Kindly enter a comment..."></textarea>
+                    </mat-form-field>
+                </div>
+                <div *ngIf="f.comment.invalid && 
+                (f.comment.touched || f.comment.dirty)"  
+                class="invalid-feedback">
+                    <div *ngIf="f.comment.errors.required">
+                        Comment is required
+                    </div>
+                </div>
+            </div>
+            <div class="btn-container d-flex justify-content-end w-100-p">
+                <button mat-button mat-dialog-close
+                type="button" (click)="closeDialog()">CLOSE</button>
+                <button mat-button type="submit"
+                [class.spinner]="loading" [disabled]="loading">
+                    SUBMIT
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="py-2"></div>
+</div>
