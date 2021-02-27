@@ -28,7 +28,7 @@
         <div class="header-form-cont pt-15 py-3 bg-light-grey"
         *ngIf="headerInline" [ngClass]="{'px-5': !largForms, 'px-2': largeForms}">
             <div class="col-12 why"
-            [ngClass]="{'col-lg-8': !largeForms, 'col-lg-11': largeForms}"
+            [ngClass]="{'col-lg-10': !largeForms, 'col-lg-11': largeForms}"
             style="margin: auto;">
                 <mat-card class="card p-0">
                     <div class="card-header py-0">
@@ -156,7 +156,7 @@
                     <td *ngIf="item.showInline"
                     [attr.colspan]="headers.length"
                     class="bg-light-grey py-3 px-5">
-                        <div class="col-12 col-lg-8"
+                        <div class="col-12 col-lg-10"
                         style="margin: auto;" *ngIf="!item.readOnly">
                             <mat-card class="card p-0">
                                 <div class="card-header py-0">

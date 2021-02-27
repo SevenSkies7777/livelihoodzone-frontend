@@ -3,16 +3,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { 
     PageContainerComponent 
 } from '@fuse/components/page-container/page-container.component';
-import {
-    SportsCategoriesList
-} from './sports-categories-list/sports-categories-list.component';
+import { UsersList } from './users-list/users-list.component';
+
 const routes: Routes = [
     {
         path: '',
         component: PageContainerComponent,
         children: [
             { path: '', redirectTo: 'list', pathMatch: 'full' },
-            { path: 'list', component: SportsCategoriesList },
+            { path: 'list', component: UsersList },
         ]
     }
 ]
@@ -22,4 +21,4 @@ const routes: Routes = [
     exports : [RouterModule],
 })
 
-export class SportsCategoriesRoutingModule {}
+export class UsersRoutingModule {}

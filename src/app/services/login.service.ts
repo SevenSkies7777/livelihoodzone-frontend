@@ -39,8 +39,8 @@ export class CompleteService {
 
     postLoginRedirect = (): void => {
         const loadState = { params: {} };
-        const user = this.authUrlConfig.getUser().data;
-        const nxt = 'select-organization/list';
+        const user = this.authUrlConfig.getUser();
+        const nxt = 'dashboard';
         this.router.navigate([`/${nxt}`], { queryParams: loadState.params });
     }
 

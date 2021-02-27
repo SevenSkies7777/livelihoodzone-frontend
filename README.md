@@ -1,3 +1,3 @@
-# NDMA Livelihoodzones MIS
+# Jovinga Logistics
 
-MIS to manage Livelihood data collections
+Logistics Management

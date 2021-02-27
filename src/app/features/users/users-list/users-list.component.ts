@@ -1,20 +1,20 @@
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'sports-catgeories-list',
+    selector: 'users-list',
     styles: [
         `:host{
             width: 100%;
         }`
     ],
     template: `
-        <div><page-header title="Sports Categories"></page-header></div>
+        <div><page-header title="Users"></page-header></div>
         <div class="w-100-p d-flex px-5">
             <div class="w-100-p d-flex px-5">
                 <dynamic-table title="Listing"
                 class="w-100-p"
                 [headers]="headers" [no-card]="false"
-                [has-action]="true" store="sports-categories"
+                [has-action]="true" store="users"
                 [topActions]="topActions" [hasSearch]="true"
                 [actions]="actions" [rows]="rows">
                 </dynamic-table>
@@ -23,29 +23,40 @@ import { Component } from '@angular/core';
     `
 })
 
-export class SportsCategoriesList {
+export class UsersList {
     headers: Array<any> = [
-        { title: 'Title' },
-        { title: 'Description' },
+        { title: 'Names' },
+        { title: 'Email' },
+        { title: 'County' },
+        { title: 'Organization' },
         { title: 'Actions' }
     ];
 
     topActions: Array<any> = [
         {
-            btnText: 'CREATE',
+            btnText: 'ADD',
             status: 'primary',
             action: 'inline',
             conf: {
-                context: 'Sports Category',
-                store: 'sports-categories',
+                context: 'User',
+                store: 'users',
                 btnText: 'SAVE',
             }
         }
     ];
 
     rows: Array<any> = [
-        { key: 'name', type: 'string' },
-        { key: 'description', type: 'string' },
+        // { key: 'firstName', type: 'string' },
+        { 
+            key: 'firstName', 
+            type: 'nested',
+            fieldType: 'nested_multistrings',
+            primaryField: 'firstName',
+            secondaryField: 'surname',
+        },
+        { key: 'email', type: 'string' },
+        { key: 'countyName', type: 'string' },
+        { key: 'organizationName', type: 'string' },
     ];
 
     actions:Array<any> = [
@@ -57,8 +68,8 @@ export class SportsCategoriesList {
             action: 'inline',
             modalConf: {
                 store: 'sports-categories',
-                titleKey: 'title',
-                context: 'Sports Categories',
+                titleKey: 'firstName',
+                context: 'User',
                 btnText: 'SAVE',
             }
         },

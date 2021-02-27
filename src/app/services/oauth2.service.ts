@@ -11,7 +11,7 @@ export class AuthUrls {
     revoke = '/token/logout/';
     redirect = '/auth/complete';
     silentRedirect = '/token.html';
-    userInfo = '/auth/me';
+    userInfo = '/users/me';
     passwordReset = '/auth/request-password-reset/';
     passwordChange = '/auth/reset-password/';
 }

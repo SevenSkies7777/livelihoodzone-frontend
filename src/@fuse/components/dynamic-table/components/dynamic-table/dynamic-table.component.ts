@@ -230,7 +230,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
             this.dataLayer.list(this.store, dtParams)
             .subscribe(resp => {
                 this.loading = false;
-                this.list = resp['results'];
+                this.list = has(resp, 'results') ? resp['results'] : resp;
                 this.paginationCtrl = { ...resp };
             }, err => {
                 console.log(err);

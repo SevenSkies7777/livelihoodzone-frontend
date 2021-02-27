@@ -5,8 +5,10 @@
 export const environment = {
     production: false,
     hmr       : false,
-    serverURL: 'http://46.101.179.235:8070',
-    AUTH_SERVER_DOMAIN: 'http://46.101.179.235:8070',
+    // serverURL: 'http://localhost:4200',
+    serverURL: 'http://application.livelihoodzone.xyz',
+    // AUTH_SERVER_DOMAIN: 'http://localhost:4200',
+    AUTH_SERVER_DOMAIN: 'http://application.livelihoodzone.xyz',
     CLIENT_ID: '',
     TIMEOUT: {
         idle: 2400,

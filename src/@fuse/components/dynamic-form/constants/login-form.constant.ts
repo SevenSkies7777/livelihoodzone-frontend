@@ -24,7 +24,7 @@ export const LoginForm = [
             },
             "type": "password",
             "label": "Password",
-            "minLength": 8,
+            "minLength": 4,
             "placeholder": "Password",
             "required": true
         }

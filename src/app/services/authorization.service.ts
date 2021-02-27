@@ -185,23 +185,22 @@ export class Authorization {
     }
 
     setUserDetails = (token: LooseObject): Observable<any> => {
-        function setHeaders() {
-            const authToken = `Token ${token.access_token}`;
-            const httpHeaders = new HttpHeaders({
-                Authorization: authToken,
-            });
-            return httpHeaders;
-        }
-        const dom = this.objectPropChecker(this.configAuthUrls.authUrls, 'domain');
-        const userInfo = this.objectPropChecker(this.configAuthUrls.authUrls, 'userInfo');
-        // const dom = '';
-        const url = this.dataLayerUtils.urlJoin(dom, userInfo);
-        const headerObj = { headers: setHeaders() };
-        return this.http.get(url, headerObj)
-        .pipe(map(data => {
-            this.setUser(data);
-            return data;
-        }));
+        // return observable token stream placeholder
+        const tokenFxn = observer => {
+            if(!_.isEmpty(token)) {
+                
+                const updatedToken = { ...token };
+                this.storeToken(token);
+                observer.next(updatedToken);
+            } else {
+                const tokenErrorObj = token as { error };
+                if (tokenErrorObj.error) {
+                    observer.error(tokenErrorObj.error);
+                }
+            }
+        };
+        const authObservable = new Observable<any>(tokenFxn);
+        return authObservable;
     }
 
     verifyEmail = (token): any => {
@@ -223,9 +222,8 @@ export class Authorization {
     }
 
     isLoggedIn = (): Boolean => {
-        const user = this.getUser();
         const hasToken = this.getToken();
-        return (!_.isNull(user)) && (!_.isNull(hasToken));
+        return (!_.isNull(hasToken));
     }
 
     logout = (isTimeout?: boolean) => {

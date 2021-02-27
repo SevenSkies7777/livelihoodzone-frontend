@@ -117,6 +117,7 @@ export class DynamicTableService {
     }
 
     editInline(model, cmpt, store, editParam?) {
+        store = store === 'users' ? 'register' : store;
         if (model.id) {
             cmpt.submitted = true;
             this.dataLayer.update(store, model.id, model, editParam)

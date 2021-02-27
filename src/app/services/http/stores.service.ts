@@ -1,19 +1,19 @@
 export const stores = [
     { 
         name: 'signin',
-        path: '/auth/login/',
+        path: '/users/signin',
     },
     { 
         name: 'me',
-        path: '/auth/me/',
+        path: '/auth/me',
     },
     { 
         name: 'register',
-        path: '/auth/register/',
+        path: '/users/signup',
     },
     { 
         name: 'users',
-        path: '/auth/users/',
+        path: '/users/all-users',
     },
     {
         name: 'request-verification',

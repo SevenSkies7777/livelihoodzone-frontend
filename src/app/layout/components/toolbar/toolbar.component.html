@@ -18,7 +18,7 @@
             </div>
 
             <div class="px-10 px-md-24 title font-size-24">
-                E-FUND
+                LZ-MIS
             </div>
 
         </div>
@@ -34,7 +34,7 @@
                     </div>
                     <div>
                         <span class="username mr-12" fxHide fxShow.gt-sm>
-                            {{ user?.first_name }} {{ user?.last_name }}
+                            {{ user?.userEmail }} {{ user?.last_name }}
                         </span>
                     </div>
                     <div>
@@ -50,12 +50,6 @@
                     <span>My Profile</span>
                 </button>
 
-                <button mat-menu-item
-                (click)="switchOrganization()">
-                    <mat-icon>compare_arrows</mat-icon>
-                    <span>Switch Organization</span>
-                </button>
-
                 <button mat-menu-item class=""
                 (click)="logoutUser()">
                     <mat-icon>exit_to_app</mat-icon>
@@ -65,8 +59,6 @@
             </mat-menu>
 
             <div class="toolbar-separator"></div>
-
-            <fuse-search-bar (input)="search($event)"></fuse-search-bar>
 
             <!-- TODO: Bring back if ever translater required -->
 

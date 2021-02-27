@@ -1,8 +1,8 @@
 export const environment = {
     production: true,
     hmr       : false,
-    serverURL: 'http://46.101.179.235:8070',
-    AUTH_SERVER_DOMAIN: 'http://46.101.179.235:8070',
+    serverURL: 'http://application.livelihoodzone.xyz',
+    AUTH_SERVER_DOMAIN: 'http://application.livelihoodzone.xyz',
     CLIENT_ID: '',
     TIMEOUT: {
         idle: 2400,

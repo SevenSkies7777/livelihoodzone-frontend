@@ -62,6 +62,11 @@ export class SignInComponent implements OnInit {
             this.logout = params.logout;
             this.logoutUser();
         })
+        const isLoggedIn = this._authConfig.isLoggedIn();
+        console.log(isLoggedIn);
+        if (isLoggedIn) {
+            this.postLogin();
+        }
     }
 
     openDialog() {
@@ -74,9 +79,9 @@ export class SignInComponent implements OnInit {
         dialogRef.afterClosed().subscribe(resp => {});
     }
 
-    postLogin(result) {
+    postLogin(result?) {
         this.submitted = false;
-        const redirect = '/select-organization';
+        const redirect = '/dashboard';
         setTimeout(() => {
             return this._router.navigateByUrl(redirect);
         }, this.redirectDelay);

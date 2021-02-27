@@ -43,6 +43,7 @@ export class NestedStringComponent implements OnInit {
 
     ngOnInit() {
         this.primaryField = _.get(this.item, this.config['primaryField'], null);
-        this.secondaryField = _.get(this.item, this.config['secondaryField'], null);
+        this.secondaryField = _.get(
+            this.item, this.config['secondaryField'], null);
     }
 }

@@ -14,54 +14,14 @@ const routes: Routes = [
             .then(m => m.DashboardModule),
     },
     {
-        path: 'applications',
-        loadChildren: () => import('./features/applications/applications.module')
-            .then(m => m.ApplicationsModule),
-    },
-    {
-        path: 'budgets',
-        loadChildren: () => import('./features/budgets/budgets.module')
-            .then(m => m.BudgetsModule),
+        path: 'users',
+        loadChildren: () => import('./features/users/users.module')
+            .then(m => m.UsersModule)
     },
     {
         path: 'organizations',
         loadChildren: () => import('./features/organizations/organization.module')
             .then(m => m.OrganizationModule),
-    },
-    {
-        path: 'sports-categories',
-        loadChildren: () => import('./features/sports-categories/sports-categories.module')
-            .then(m => m.SportsCategoriesModule),
-    },
-    {
-        path: 'billable-items',
-        loadChildren: () => import('./features/billable-items/billable-items.module')
-            .then(m => m.BillableItemsModule),
-    },
-    {
-        path: 'allowances',
-        loadChildren: () => import('./features/allowances/allowances.module')
-            .then(m => m.AllowancesModule),
-    },
-    {
-        path: 'organization-join-requests',
-        loadChildren: () => import('./features/organization-join-requests/organization-join-requests.module')
-            .then(m => m.OrganizationJoinRequests),
-    },
-    {
-        path: 'document-types',
-        loadChildren: () => import('./features/document-types/document-types.module')
-            .then(m => m.DocumentTypesModule),
-    },
-    {
-        path: 'financial-years',
-        loadChildren: () => import('./features/financial-years/financial-years.module')
-            .then(m => m.FinancialYearsModule),
-    },
-    {
-        path: 'my-organization',
-        loadChildren: () => import('./features/my-organization/my-organization.module')
-            .then(m => m.MyOrganizationModule),
     },
     {
         path: 'auth',
@@ -72,16 +32,6 @@ const routes: Routes = [
         path: 'verification',
         loadChildren: () => import('./features/email-verification/email-verification.module')
             .then(m => m.EmailVerificationModule),
-    },
-    {
-        path: 'select-organization',
-        loadChildren: () => import('./features/select-organization/select-organization.module')
-            .then(m => m.SelectOrganizationModule),
-    },
-    {
-        path: 'crm',
-        loadChildren: () => import('./features/CRM/crm.module')
-            .then(m => m.CRMModule),
     },
     { path: '', redirectTo: 'auth', pathMatch: 'full' },
     { path: '**', redirectTo: 'auth' },

@@ -32,12 +32,14 @@ import { OrganizationBudgetActivityAttendee } from '../constants/organization-bu
 import { OrganizationAcitivityAllowance } from '../constants/organization-budget-activity-allowances.constant';
 import { ApplicationMEForm } from '../constants/application-me.constant';
 import { ApplicationAllowanceForm } from '../constants/application-allowances';
+import { UsersForm } from '../constants/users.constant';
 
 @Injectable()
 export class FormlyService {
     formConfig: Array<any> = [
         { name: 'login', field: LoginForm },
         { name: 'registration', field: RegistrationForm },
+        { name: 'users', field: UsersForm },
         { name: 'document-types', field: DocumentTypesForm },
         { name: 'applications', field: ApplicationForm },
         { name: 'billable-items', field:  BillableItemsForm },
