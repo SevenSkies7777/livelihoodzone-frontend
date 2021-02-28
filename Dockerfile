@@ -1,13 +1,19 @@
+FROM nginx:1.17.0-alpine
+RUN rm -rf /etc/nginx/conf.d
 
-# Stage 1
-FROM node:10-alpine as build-step
-RUN mkdir -p /src
-WORKDIR /src
-COPY package.json /src
-RUN npm install
-COPY . /src
-RUN npm run build-prod
- 
-# Stage 2
-FROM nginx:1.17.1-alpine
-COPY --from=build-step /src/dist /usr/share/nginx/html
+COPY nginx/static-server /etc/nginx
+# Allow all users to write to /var/cache/nginx
+RUN chmod -Rc a+w /var/cache/nginx
+
+# Allow all users to write to /run (for nginx.pid files)
+RUN chmod -c a+w /run
+
+COPY dist/fuse /usr/share/nginx/html
+
+RUN nginx -t
+
+# Remove the created nginx.pid file
+RUN rm -v /var/run/nginx.pid
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
