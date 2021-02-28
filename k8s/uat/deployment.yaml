@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: uat
+  name: lz-web-application
+  labels:
+    name: lz-web-application
+    app: lz-web-application
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: lz-web-application
+  template:
+    metadata:
+      name: lz-web-application
+      labels:
+        name: lz-web-application
+        app: lz-web-application
+    spec:
+      containers:
+        - name: lz-web-application
+          imagePullPolicy: Always
+          image: sevenskies/lz-web-application:latest
+          ports:
+            - containerPort: 80
