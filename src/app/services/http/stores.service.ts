@@ -15,6 +15,14 @@ export const stores = [
         name: 'users',
         path: '/users/all-users',
     },
+    { 
+        name: 'roles',
+        path: '/users/all-roles',
+    },
+    {
+        name: 'counties',
+        path: '/counties',
+    },
     {
         name: 'request-verification',
         path: '/authorization/users/resend_activation/',

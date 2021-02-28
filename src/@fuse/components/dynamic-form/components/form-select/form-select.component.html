@@ -23,61 +23,6 @@
         (search)="getOptions($event)"
         notFoundText="No result matched your search"
         >
-            <!-- Custom dropdown header -->
-            <ng-template ng-header-tmp
-            *ngIf="to.optionsTitle">
-                Select option
-            </ng-template>
-            <!-- End of custom drop down header -->
-            <ng-template ng-label-tmp let-item="item"
-            *ngIf="!to.template">
-                <mat-icon *ngIf="to.icon">{{to.icon}}</mat-icon>
-                {{ underScoreReplace(item[to.bindLabel])}}
-            </ng-template>
-            <ng-template ng-label-tmp let-item="item"
-            *ngIf="to.template === 'financial_year'">
-                <div class="d-flex pt-3">
-                    <div>
-                        {{ item[to.bindLabel] | date: 'MM/yy'}}
-                    </div>
-                    <div class="d-flex justify-content-center mt-n2 ml-0 pr-1">
-                        <mat-icon>remove</mat-icon>
-                    </div>
-                    <div>
-                        {{underScoreReplace(item['ends_on']) | date: 'MM/yy'}}
-                    </div>
-                </div>
-            </ng-template>
-            <!-- Start of options -->
-            <ng-template ng-option-tmp let-item="item"
-            let-index="index" *ngIf="!to.template">
-                <mat-icon *ngIf="to.icon">{{to.icon}}</mat-icon>
-                {{underScoreReplace(item[to.bindLabel])}}
-            </ng-template>
-            <ng-template ng-option-tmp let-item="item"
-            let-index="index" *ngIf="to.template === 'financial_year'">
-                <div class="d-flex">
-                    <div class="">
-                        {{underScoreReplace(item[to.bindLabel] | date: 'MM/yy')}}
-                    </div>
-                    <div class="d-flex justify-content-center mt-3 ml-0 pr-1">
-                        <mat-icon>remove</mat-icon>
-                    </div>
-                    <div>
-                        {{underScoreReplace(item['ends_on']) | date: 'MM/yy'}}
-                    </div>
-                </div>
-            </ng-template>
-            <!-- Footer -->
-            <ng-template ng-footer-tmp
-            *ngIf="to.addNew && !items.length">
-                <div class="create-new text-primary d-flex align-items-center hover-pointer"
-                (click)="addNew()">
-                    <div class="d-flex pr-8"><mat-icon>add_circle</mat-icon></div>
-                    <div>Create New </div>
-                </div>
-            </ng-template>
-            <!-- End of footer -->
         </ng-select>
     </mat-form-field>
     <ng-container 

@@ -93,4 +93,32 @@ export const UsersForm = [
             "required": true
         }
     },
+    {
+        "key": "countyId",
+        "type": "select",
+        "templateOptions": {
+            "bindLabel": "name",
+            "label": "Assign County*",
+            "optionsResource": "counties",
+            "searchable": true,
+            "multiple": false,
+            "hideSelected": true,
+            "closeOnSelect": true,
+            "required": false
+        }
+    },
+    {
+        "key": "rolesToBeAssigned",
+        "type": "select",
+        "templateOptions": {
+            "bindLabel": "roleDescription",
+            "label": "User roles*",
+            "optionsResource": "roles",
+            "searchable": false,
+            "multiple": true,
+            "hideSelected": true,
+            "closeOnSelect": true,
+            "required": true
+        }
+    },
 ];

@@ -137,6 +137,17 @@ export class DynamicTableService {
                 this.dataLayer.openDynamicSnackBar(errMsg, 'error');
             })
         } else {
+            if (store === 'register') {
+                model.rolesToBeAssigned.map(role => {
+                    delete role.roleCode;
+                    delete role.roleDescription;
+                    role.toBeAssignedThisRole = true;
+                    return role;
+                })
+                model.countyId = model.countyId || 1;
+                model.middleName = model.middleName || '';
+                delete model.confirm_password;
+            }
             this.prefillModel(cmpt, model, store);
             this.dataLayer.create(store, model, undefined, editParam)
             .subscribe((resp: any) => {

@@ -40,7 +40,7 @@ export class FormSelectComponent extends FieldType implements OnInit {
         if (this.to.optionsResource) {
             this.dataLayer.list(this.to.optionsResource, opts)
             .subscribe(resp => {
-                this.items = resp['results'];
+                this.items = has(resp, 'results') ? resp['results'] : resp;
             }, err => console.log(err));
         }
     }

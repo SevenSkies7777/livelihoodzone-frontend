@@ -1,0 +1,8 @@
+{
+    "/**": {
+      "target": "http://application.livelihoodzone.xyz",
+      "secure": false,
+      "changeOrigin": true,
+      "logLevel": "debug"
+    }
+  }
