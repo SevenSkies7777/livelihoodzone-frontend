@@ -245,6 +245,20 @@
                     border-left: 0.5rem solid #146b3a !important;
                     padding-left: 20px !important;
                 }
+                .nav-link-title{
+                    font-size: 1.35rem !important;
+                }
+            }
+            .children {
+                .nav-link {
+                    padding-left: 46px !important;
+                    &.active {
+                        padding-left: 47.5px !important;
+                    }
+                    .nav-link-title{
+                        font-size: 1.3rem !important;
+                    }
+                }
             }
         }
     }

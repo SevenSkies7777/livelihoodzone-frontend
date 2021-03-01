@@ -3,18 +3,16 @@ import { RouterModule, Routes } from '@angular/router';
 import { 
     PageContainerComponent 
 } from '@fuse/components/page-container/page-container.component';
-import { DashboardWrapper }  from './dashboard-wrapper/dashboard-wrapper.component';
-
+import { QuestionnaireList } from './questionnaire-list/questionnaire-list.component';
 
 const routes: Routes = [
     {
         path: '',
         component: PageContainerComponent,
         children: [
-            { path: '', redirectTo: 'labor', pathMatch: 'full' },
-            { path: 'labor', component: DashboardWrapper },
-            { path: 'income', component: DashboardWrapper },
-        ],
+            { path: '', redirectTo: 'list', pathMatch: 'full' },
+            { path: 'list', component: QuestionnaireList },
+        ]
     }
 ]
 
@@ -23,4 +21,4 @@ const routes: Routes = [
     exports : [RouterModule],
 })
 
-export class DashboardRoutingModule {}
+export class QuestionnaireRoutingModule {}
