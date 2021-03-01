@@ -19,6 +19,11 @@ const routes: Routes = [
             .then(m => m.UsersModule)
     },
     {
+        path: 'questionnaires',
+        loadChildren: () => import('./features/questionnaires/questionnaire.module')
+            .then(m => m.QuestionnaireModule)
+    },
+    {
         path: 'organizations',
         loadChildren: () => import('./features/organizations/organization.module')
             .then(m => m.OrganizationModule),
