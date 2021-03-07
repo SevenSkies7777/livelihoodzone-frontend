@@ -1,0 +1,46 @@
+<div>
+    <page-header [title]="configs?.title"></page-header>
+    <div class="w-100-p d-flex px-5">
+        <div class="w-100-p d-flex px-5">
+            <!-- Content start -->
+            <mat-card class="w-100-p p-0 raised mb-5">
+                <div matCardHeader class="card-header bg-white">
+                    <div class="font-weight-600 font-size-16 pt-8 pl-3 pb-12">
+                        Manage Report
+                    </div>
+                </div>
+                <mat-card-content class="p-0">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item p-0"
+                        *ngFor="let zone of gridConfigs.configs.livelihood_zones">
+                            <div class="pl-24 bg-secondary text-light text-semi-bold py-8">
+                                {{ zone?.title }}
+                            </div>
+                            <div>
+                                <table class="table table-hover table-stripped mb-0 border-bttom-0">
+                                    <thead>
+                                        <tr>
+                                            <th *ngFor="let header of zone.headers;let i = index"
+                                            class="font-size-12 border-0"
+                                            [class.pl-24]="i === 0">
+                                                {{ header?.title }}
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of zone.data">
+                                            <td *ngFor="let cell of zone.row;let j = index"
+                                            [class.pl-24]="j === 0">
+                                                {{ item[cell.key] }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </li>
+                    </ul>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

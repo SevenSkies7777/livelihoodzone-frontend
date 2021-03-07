@@ -6,6 +6,7 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { HttpModule } from '../../services/http/http.module';
 
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule }  from '@angular/material/progress-bar';
 
 import {
@@ -13,19 +14,26 @@ import {
 } from './dashboard-routing.module';
 
 import { DashboardWrapper } from './dashboard-wrapper/dashboard-wrapper.component';
+import { ReportWrapperComponent } from './reports-wrapper/reports-wrapper.component';
+import { PageHeaderModule } from '@fuse/components/page-header/page-header.module';
 
 @NgModule({
     imports: [
         HttpModule,
         RouterModule,
         ChartsModule,
+        
+        MatCardModule,
         MatIconModule,
-        FuseSharedModule,
         MatProgressBarModule,
-        DashboardRoutingModule
+
+        FuseSharedModule,
+        DashboardRoutingModule,
+        PageHeaderModule,
     ],
     declarations: [
-        DashboardWrapper
+        DashboardWrapper,
+        ReportWrapperComponent,
     ],
 })
 
