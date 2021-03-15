@@ -97,7 +97,8 @@ export const UsersForm = [
         "key": "countyId",
         "type": "select",
         "templateOptions": {
-            "bindLabel": "name",
+            "bindLabel": "countyName",
+            "bindValue": "countyId",
             "label": "Assign County*",
             "optionsResource": "counties",
             "searchable": true,

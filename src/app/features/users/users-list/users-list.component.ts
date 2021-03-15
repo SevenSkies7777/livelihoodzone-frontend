@@ -67,7 +67,7 @@ export class UsersList {
             disableStatus: 'FINISHED',
             action: 'inline',
             modalConf: {
-                store: 'sports-categories',
+                store: 'users',
                 titleKey: 'firstName',
                 context: 'User',
                 btnText: 'SAVE',

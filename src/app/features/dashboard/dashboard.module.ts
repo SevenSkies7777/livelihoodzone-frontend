@@ -16,6 +16,7 @@ import {
 import { DashboardWrapper } from './dashboard-wrapper/dashboard-wrapper.component';
 import { ReportWrapperComponent } from './reports-wrapper/reports-wrapper.component';
 import { PageHeaderModule } from '@fuse/components/page-header/page-header.module';
+import { MapWrapperComponent } from './map-wrapper/map-wrapper.component';
 
 @NgModule({
     imports: [
@@ -33,6 +34,7 @@ import { PageHeaderModule } from '@fuse/components/page-header/page-header.modul
     ],
     declarations: [
         DashboardWrapper,
+        MapWrapperComponent,
         ReportWrapperComponent,
     ],
 })

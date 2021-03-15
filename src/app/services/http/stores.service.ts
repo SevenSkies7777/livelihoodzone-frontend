@@ -21,7 +21,7 @@ export const stores = [
     },
     {
         name: 'counties',
-        path: '/counties',
+        path: '/counties/all-counties',
     },
     {
         name: 'request-verification',
