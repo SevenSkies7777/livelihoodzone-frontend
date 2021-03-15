@@ -84,7 +84,14 @@ export const navigation: FuseNavigation[] = [
                         type : 'item',
                         icon : '',
                         url  : '/dashboard/economic-activities'
-                    }
+                    },
+                    {
+                        id   : 'map-wrapper',
+                        title: 'Map Report',
+                        type : 'item',
+                        icon : '',
+                        url  : '/dashboard/map-report'
+                    },
                 ]
             },
             {

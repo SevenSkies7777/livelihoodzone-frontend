@@ -4,6 +4,7 @@ import {
     PageContainerComponent 
 } from '@fuse/components/page-container/page-container.component';
 import { DashboardWrapper }  from './dashboard-wrapper/dashboard-wrapper.component';
+import { MapWrapperComponent } from './map-wrapper/map-wrapper.component';
 import { ReportWrapperComponent } from './reports-wrapper/reports-wrapper.component';
 
 const stateObj = (path, title) => { 
@@ -36,6 +37,10 @@ const routes: Routes = [
             { 
                 path: 'income', 
                 component: ReportWrapperComponent 
+            },
+            {
+                path: 'map-report',
+                component: MapWrapperComponent,
             },
         ],
     }
