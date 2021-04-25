@@ -8,6 +8,27 @@ export const navigation: FuseNavigation[] = [
         type     : 'group',
         children : [
             {
+                id       : 'counties',
+                title    : 'Counties',
+                type     : 'item',
+                icon     : 'language',
+                url      : '/counties',
+            },
+            {
+                id       : 'livelihoodzones',
+                title    : 'Livelihoodzones',
+                type     : 'item',
+                icon     : 'assessment',
+                url      : '/livelihoodzones',
+            },
+            {
+                id       : 'users',
+                title    : 'Users',
+                type     : 'item',
+                icon     : 'people',
+                url      : '/users',
+            },
+            {
                 id       : 'dashboard',
                 title    : 'Reports',
                 translate: 'NAV.SAMPLE.TITLE',
@@ -94,20 +115,14 @@ export const navigation: FuseNavigation[] = [
                     },
                 ]
             },
-            {
-                id       : 'users',
-                title    : 'Manage Users',
-                type     : 'item',
-                icon     : 'people',
-                url      : '/users',
-            },
-            {
-                id       : 'questionnaires',
-                title    : 'Data Collection Tools',
-                type     : 'item',
-                icon     : 'assignment',
-                url      : '/questionnaires',
-            },
+            
+            // {
+            //     id       : 'questionnaires',
+            //     title    : 'Data Collection Tools',
+            //     type     : 'item',
+            //     icon     : 'assignment',
+            //     url      : '/questionnaires',
+            // },
         ]
     }
 ];

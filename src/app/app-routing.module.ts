@@ -19,6 +19,16 @@ const routes: Routes = [
             .then(m => m.UsersModule)
     },
     {
+        path: 'counties',
+        loadChildren: () => import('./features/counties/counties.module')
+            .then(m => m.CountiesModule)
+    },
+    {
+        path: 'livelihoodzones',
+        loadChildren: () => import('./features/livelihoodzones/livelihoodzones.module')
+            .then(m => m.LivelihoodzonesModule)
+    },
+    {
         path: 'questionnaires',
         loadChildren: () => import('./features/questionnaires/questionnaire.module')
             .then(m => m.QuestionnaireModule)

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgSelectModule } from '@ng-select/ng-select';
 
@@ -19,6 +19,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatMenuModule } from '@angular/material/menu'
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { DynamicTableComponent } from './components/dynamic-table/dynamic-table.component';
 import { DynamicTableDialog } from './components/dynamic-table-dialog/dynamic-table-dialog.component';
@@ -33,12 +34,14 @@ import { CompactLineDetailsComponent } from './components/compact-line-details/c
         HttpModule,
         RouterModule,
         CommonModule,
+        FormsModule,
         MatIconModule,
         MatCardModule,
         MatButtonModule,
         MatSnackBarModule,
         MatDialogModule,
         MatMenuModule,
+        MatCheckboxModule,
         MatFormFieldModule,
         MatInputModule,
         MatSelectModule,

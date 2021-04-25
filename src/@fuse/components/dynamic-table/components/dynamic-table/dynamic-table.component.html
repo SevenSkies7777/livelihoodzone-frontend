@@ -84,6 +84,11 @@
                                 </mat-icon>
                             </div>
                         </span>
+                        <span *ngIf="td.type === 'counter'">
+                            <span class="badge badge-primary font-size-12">
+                                {{ item.counter || 0 }}
+                            </span>
+                        </span>
                         <span *ngIf="td.type === 'date'"
                         class="font-size-14">
                             {{ item[td.key] | date: 'dd-MM-yyyy' }}

@@ -15,6 +15,18 @@ export const stores = [
         name: 'users',
         path: '/users/all-users',
     },
+    {
+        name: 'livelihoodzones',
+        path: '/livelihoodzones/all-livelihoodzones',
+    },
+    {
+        name: 'county-livelihoodzones',
+        path: '/livelihoodzones/county-livelihoodzones/',
+    },
+    {
+        name: 'update-county-livelihoodzones',
+        path: '/livelihoodzones/update-county-livelihoodzones',
+    },
     { 
         name: 'roles',
         path: '/users/all-roles',
