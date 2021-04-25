@@ -10,7 +10,7 @@ import { has } from 'lodash';
         <div class="cont d-flex"
         [class.less-margin]="actions['length'] > 0">
             <div class="flex-fill">
-                <span class="title pl-5">{{ title }}</span>
+                <span class="title pl-16">{{ title }}</span>
             </div>
             <div class="d-flex justify-content-end pr-20"
             *ngIf="actions['length'] > 0">

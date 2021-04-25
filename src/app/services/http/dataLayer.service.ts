@@ -70,6 +70,16 @@ import {
             .pipe(map(result => result));
     }
 
+    putUpdate(storeName: string, putObj: object) {
+        const url = this.getUrl(storeName);
+        const headersObj = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+        return this.http.put(
+            `${this.serverUrl}${url}`, putObj, { headers: headersObj })
+            .pipe(map(result => result));
+    }
+
     remove(storeName: string, id:any) {
         const url = this.getUrl(storeName);
         const completeUrl = `${this.serverUrl}${url}${id}/`;

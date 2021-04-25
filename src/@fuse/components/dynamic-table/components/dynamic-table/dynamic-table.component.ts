@@ -5,7 +5,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { FormControl } from '@angular/forms';
 
 import * as _ from 'lodash';
-import { find, get, has, indexOf, isUndefined } from 'lodash';
+import { find, findLastIndex, get, has, indexOf, isUndefined, lastIndexOf } from 'lodash';
 
 import { MatDialog } from '@angular/material/dialog';
 import { 
@@ -18,6 +18,7 @@ import {
 import { 
     DynamicTableService } from '../../services/dynamic-table.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
 
     @Component({
         selector: 'dynamic-table',
@@ -108,12 +109,10 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
             this.showModal = !this.showModal;
         }
 
-        toggleReadOnly(event) {
-            console.log(event);
-            const currIndex = indexOf(this.list, find(this.list, { id: event.id }));
-            console.log(currIndex);
-            this.list[currIndex].readOnly = false;
-            this.list[currIndex].showInline = false;
+        toggleReadOnly(item) {
+            const ind = findLastIndex(this.list, { 'countyId': item.countyId });
+            this.list[ind]['readOnly'] = false;
+            this.list[ind]['showInline'] = false;
         }
 
         fetchInline(row) {
@@ -173,7 +172,8 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
                 this.inlineConf = inlineConf;
                 row.showInline = !row.showInline;
                 row.readOnly = !row.readOnly;
-                this.fetchInline(row);
+                this.selectedItem = row;
+                // this.fetchInline(row);
             },
             inlineForm: (row, inlineConf) => {
                 this.inlineModalStatus = !this.inlineModalStatus;
@@ -232,6 +232,15 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
                 this.loading = false;
                 this.list = has(resp, 'results') ? resp['results'] : resp;
                 this.paginationCtrl = { ...resp };
+                if (this.store === 'counties') {
+                    const zonesArr$ = this.list.map(item => 
+                        this.dataLayer.get('county-livelihoodzones', item.countyId));
+                    forkJoin(zonesArr$).subscribe((resp:any) => {
+                        resp.forEach((respItem, ind) => {
+                            this.list[ind]['counter'] = respItem['livelihoodZones'].length;
+                        })
+                    })
+                }
             }, err => {
                 console.log(err);
                 this.loading = false;

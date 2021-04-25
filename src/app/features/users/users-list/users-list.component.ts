@@ -10,7 +10,7 @@ import { Component } from '@angular/core';
     template: `
         <div><page-header title="Users"></page-header></div>
         <div class="w-100-p d-flex px-5">
-            <div class="w-100-p d-flex px-5">
+            <div class="w-100-p d-flex px-2">
                 <dynamic-table title="Listing"
                 class="w-100-p"
                 [headers]="headers" [no-card]="false"
