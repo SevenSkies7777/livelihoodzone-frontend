@@ -21,19 +21,20 @@ const routes: Routes = [
         children: [
             { 
                 path: '', 
-                redirectTo: 'labor', 
+                redirectTo: 'wealth-distribution', 
                 pathMatch: 'full' 
             },
-            stateObj('labor', 'Labor Patterns'),
-            stateObj('migration', 'Migration Patterns'),
-            stateObj('livestock-ownership', 'Livestock Ownership'),
-            stateObj('income', 'Main Income Source'),
-            stateObj('hunger', 'Hunger Patterns'),
-            stateObj('hazard', 'Hazards'),
-            stateObj('expenditure', 'Expenditure Patterns'),
-            stateObj('crop-production', 'Crop Production'),
-            stateObj('crop-contribution', 'Crop Income Contribution'),
-            stateObj('economic-activities', 'Economic Activity Contribution'),
+            stateObj('wealth-distribution', 'Wealth Group Distribution'),
+            // stateObj('labor', 'Labor Patterns'),
+            // stateObj('migration', 'Migration Patterns'),
+            // stateObj('livestock-ownership', 'Livestock Ownership'),
+            // stateObj('income', 'Main Income Source'),
+            // stateObj('hunger', 'Hunger Patterns'),
+            // stateObj('hazard', 'Hazards'),
+            // stateObj('expenditure', 'Expenditure Patterns'),
+            // stateObj('crop-production', 'Crop Production'),
+            // stateObj('crop-contribution', 'Crop Income Contribution'),
+            // stateObj('economic-activities', 'Economic Activity Contribution'),
             { 
                 path: 'income', 
                 component: ReportWrapperComponent 

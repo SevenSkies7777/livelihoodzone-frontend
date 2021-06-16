@@ -1,0 +1,19 @@
+<div class="w-100-p">
+    <ngx-charts-bar-horizontal-normalized
+    [view]="view"
+    [scheme]="colorScheme"
+    [results]="data"
+    [gradient]="gradient"
+    [xAxis]="showXAxis"
+    [yAxis]="showYAxis"
+    [legend]="showLegend"
+    [showXAxisLabel]="showXAxisLabel"
+    [showYAxisLabel]="showYAxisLabel"
+    [trimYAxisTicks]="trimYAxisTicks"
+    [xAxisLabel]="xAxisLabel"
+    [yAxisLabel]="yAxisLabel"
+    legendPosition="right"
+    (select)="onSelect($event)">
+    <!-- [showDataLabel]="showDataLabel" -->
+    </ngx-charts-bar-horizontal-normalized>
+</div>
