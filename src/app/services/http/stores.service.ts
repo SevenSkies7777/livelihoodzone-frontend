@@ -27,6 +27,10 @@ export const stores = [
         name: 'update-county-livelihoodzones',
         path: '/livelihoodzones/update-county-livelihoodzones',
     },
+    {
+        name: 'wealthgroup-distribution',
+        path: '/wealthgroup-reports/zone-wealthgroup-distribution/',
+    },
     { 
         name: 'roles',
         path: '/users/all-roles',

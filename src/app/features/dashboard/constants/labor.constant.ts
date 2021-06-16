@@ -1,4 +1,5 @@
 export const LaborConfigs = {
+    title: '',
     livelihood_zones: [
         {
             title: 'Agro Pastrol',

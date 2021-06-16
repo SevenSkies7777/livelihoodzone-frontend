@@ -1,3 +1,81 @@
 :host ::ng-deep {
     width: 100%;
+    .input-wrapper, mat-form-field {
+        font-size: 13px !important;
+        input{
+            font-size: 14.5px !important;
+        }
+        .mat-form-field-wrapper {
+            padding-bottom: 0.95rem !important;
+        }
+    }
+    // Select styling
+
+    .ng-select {
+        padding-bottom: 0rem !important;
+        .ng-select-container {
+            align-items: center !important;
+            &:after {
+                content: "";
+                position: absolute;
+                border-bottom: none !important;
+            }
+        }
+        .ng-value-container {
+            padding: 0rem !important;
+        }
+    }
+    .ng-select ::ng-deep .ng-select-container  {            
+        border: none !important;
+        line-height: 0.95;
+        height: 35px !important;
+        align-items: center;
+        margin-top: -2.95rem;
+        // margin-bottom: -1.025rem;
+        margin-bottom: -0.65rem;
+        font-size: 14.5px !important;
+        &:after{
+            content: "";
+            border-bottom: none !important;
+        }
+        .ng-value-container{
+            padding: 0.63rem 0.5rem;
+            align-items: center;
+            .ng-value{
+                overflow: initial !important;
+                padding-top: 0.7rem;
+                padding-bottom: 0.4rem;
+                // padding: 0.35rem 0.5rem;
+                // background-color: #d7ebff;
+                // margin-bottom: 2.5px;
+                // border-radius: 0.35rem;
+                // font-size: 0.9rem;
+                .ng-value-icon{
+                    font-size: 1.35rem;
+                    padding-top: 0px;
+                }
+                .ng-value-label {
+                    font-size: 1.4rem;
+                }
+                .ng-arrow {
+                    height: 1rem;
+                }
+            }
+            .ng-placeholder{
+                padding-top:0.5rem;
+            }
+        }
+        .create-new {
+            cursor: pointer;
+            padding-top:5px;
+            padding-bottom:10px
+        }
+        .ng-dropdown-footer{
+            border-top:unset !important;
+            padding: 0px 10px !important;
+        }
+        .ng-dropdown-footer:hover {
+            background-color: #f5faff;
+        }
+    }
 }
