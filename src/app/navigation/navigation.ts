@@ -38,7 +38,7 @@ export const navigation: FuseNavigation[] = [
                 children: [
                     {
                         id   : 'Wealth Distribution',
-                        title: 'Wealth Distribution',
+                        title: 'Wealth Group Distrib...',
                         type : 'item',
                         icon : '',
                         url  : '/dashboard/wealth-distribution'

@@ -24,7 +24,7 @@ const routes: Routes = [
                 redirectTo: 'wealth-distribution', 
                 pathMatch: 'full' 
             },
-            stateObj('wealth-distribution', 'Wealth Distribution'),
+            stateObj('wealth-distribution', 'Wealth Group Distribution'),
             // stateObj('labor', 'Labor Patterns'),
             // stateObj('migration', 'Migration Patterns'),
             // stateObj('livestock-ownership', 'Livestock Ownership'),

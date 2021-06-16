@@ -60,7 +60,6 @@ OnInit, OnChanges {
 
     setChartConfigs(chartData) {
         const configureSeries = (seriesData) => {
-            console.log(seriesData, Object.keys(seriesData));
             return Object.keys(seriesData).map(key =>  {
                 return { name: key, value: seriesData[key]}});
         }

@@ -135,18 +135,21 @@
                                 <div>
                                     <table class="table table-hover table-stripped mb-0 border-bttom-0">
                                         <thead>
-                                            <tr>
-                                                <th *ngFor="let zone of zone?.reportData"
-                                                class="font-size-12 border-0"
+                                            <tr class="pl-24">
+                                                <th *ngFor="let zone of zone?.reportData;let i = index;"
+                                                class="font-size-12 border-0 pl-24"
                                                 [class.pl-24]="i === 0">
-                                                    {{ zone.name }}
+                                                    <span style="text-transform: capitalize;">
+                                                        {{ zone.name }}
+                                                    </span>
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td *ngFor="let zone of zone?.reportData"
-                                                [class.pl-24]="j === 0">
+                                            <tr class="pl-24">
+                                                <td *ngFor="let zone of zone?.reportData; let j = index;"
+                                                [class.pl-24]="j === 0" 
+                                                class="pl-24">
                                                     {{ zone.value }}
                                                 </td>
                                             </tr>
