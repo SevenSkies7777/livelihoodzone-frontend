@@ -29,6 +29,13 @@ export const navigation: FuseNavigation[] = [
                 url      : '/users',
             },
             {
+                id       : 'raw-data',
+                title    : 'Responses',
+                type     : 'item',
+                icon     : 'assignment',
+                url      : '/dashboard/raw-data'
+            },
+            {
                 id       : 'dashboard',
                 title    : 'Reports',
                 translate: 'NAV.SAMPLE.TITLE',
