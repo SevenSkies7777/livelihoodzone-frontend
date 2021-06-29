@@ -1,0 +1,910 @@
+<div class="w-100-p" id="no-print">
+    <page-header title="Questionnaire Responses"></page-header>
+    <div class="w-100-p d-flex px-0">
+        <div class="w-100-p d-flex px-5">
+            <!-- CONTENT -->
+            <div class="w-100-p raised mb-5 bg-white mat-elevation-z1"
+            style="border-radius: 4px;">
+                <mat-tab-group color="primary"
+                (selectedTabChange)="tabSelected($event)">
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <span class="text-dark">Wealth Group Level</span>
+                        </ng-template>
+                        <div *ngTemplateOutlet="wealthGroupList"></div>
+                    </mat-tab>
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <span class="text-dark">Zone Level</span>
+                        </ng-template>
+                        <div *ngIf="activeTab === 1">
+                            <div *ngTemplateOutlet="countyList"></div>
+                        </div>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+            <!-- /CONTENT -->
+        </div>
+    </div>
+</div>
+
+<ng-template #wealthGroupList>
+    <div class="w-100-p">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th [class.pl-16]="i === 0"
+                    *ngFor="let header of headerConfig;let i = index;">
+                        {{ header?.name }}
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let resp of data">
+                    <td class="pl-16">
+                        <div class="pb-0">{{ resp?.questionnaireSessionDescription }}</div>
+                        <div class="d-flex align-items-center">
+                            <div class="pr-0 pt-2">
+                                <mat-icon class="mt-1 font-size-16 text-muted">
+                                    access_time
+                                </mat-icon>
+                            </div>
+                            <div>
+                                <div class="d-flex font-size-13">
+                                    <div class="text-muted">
+                                        {{ resp?.sessionStartDate | date: 'dd MMM, yyyy hh:mm aa' }}
+                                    </div>
+                                    <div class="px-0 mt-n2">
+                                        <mat-icon class="mt-n2 text-muted">minimize</mat-icon>
+                                    </div>
+                                    <div class="text-muted">
+                                        {{ resp?.sessionEndDate | date: 'dd MMM, yyyy hh:mm a' }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="valign-middle">
+                        {{ resp?.userDetails.firstName }}
+                        &nbsp;{{ resp?.userDetails.surname }}
+                    </td>
+                    <td class="valign-middle">
+                        {{ resp?.countyName }}
+                    </td>
+                    <td class="valign-middle">
+                        {{ resp?.livelihoodzoneName }}
+                    </td>
+                    <td class="valign-middle">
+                        {{ resp?.wealthGroupName || resp?.wealthGroupId }}
+                    </td>
+                    <td class="valign-middle pr-20"
+                    style="width: 1px;">
+                        <button class="mat-elevation-z1 border-primary bg-light" 
+                        (click)="downLoadResponse('wealth-group-responses', resp)"
+                        #tooltip="matTooltip" mat-mini-fab color="default"
+                        matTooltip="Click to download response">
+                            <mat-icon class="font-size-24 mt-n1 text-primary"
+                            style="transform: rotate(180deg)">
+                                publish
+                            </mat-icon>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</ng-template>
+
+<ng-template #countyList>
+    <div class="w-100-p">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th [class.pl-16]="i === 0"
+                    *ngFor="let header of countyHeaderConfig;let i = index;">
+                        {{ header?.name }}
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let resp of countyData">
+                    <td class="pl-16">
+                        <div class="pb-0">{{ resp?.questionnaireSessionDescription }}</div>
+                        <div class="d-flex align-items-center">
+                            <div class="pr-0 pt-2">
+                                <mat-icon class="mt-1 font-size-16 text-muted">
+                                    access_time
+                                </mat-icon>
+                            </div>
+                            <div>
+                                <div class="d-flex font-size-13">
+                                    <div class="text-muted">
+                                        {{ resp?.sessionStartDate | date: 'dd MMM, yyyy hh:mm aaa' }}</div>
+                                    <div class="px-0 mt-n2">
+                                        <mat-icon class="mt-n2 text-muted">minimize</mat-icon>
+                                    </div>
+                                    <div class="text-muted">
+                                        {{ resp?.sessionEndDate | date: 'dd MMM, yyyy hh:mm aaa' }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="valign-middle">
+                        {{ resp?.userDetails.firstName }}
+                        &nbsp;{{ resp?.userDetails.surname }}
+                    </td>
+                    <td class="valign-middle">
+                        {{ resp?.countyName }}
+                    </td>
+                    <td class="valign-middle">
+                        {{ resp?.livelihoodzoneName }}
+                    </td>
+                    <td class="valign-middle pr-20"
+                    style="width: 1px;">
+                        <button class="mat-elevation-z1 border-primary bg-light" 
+                        (click)="downLoadResponse('county-responses', resp)"
+                        #tooltip="matTooltip" mat-mini-fab color="default"
+                        matTooltip="Click to download response">
+                            <mat-icon class="font-size-24 mt-n1 text-primary"
+                            style="transform: rotate(180deg)">
+                                publish
+                            </mat-icon>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</ng-template>
+
+<div id="print">
+    <!-- WEALTH GROUP -->
+    <div class="w-100-p"
+    *ngIf="activeTab === 0">
+        <div class="row no-gutters">
+            <div class="col">
+                <h1>
+                    {{ questDetails['countyName'] }}&nbsp;
+                    {{ getItemVal('questionnaireGeography.selectedLivelihoodZone.livelihoodZoneName',
+                        questDetails) || ' ' }} Livelihood Zone 
+                    {{ getItemVal('questionnaireGeography.selectedWealthGroup.wealthGroupName',
+                    questDetails) || ' ' }}
+                    wealth group Raw data questionnaire - {{ questDetails.userDetails?.firstName }}
+                </h1>
+                <div class="pt-24 w-100-p">
+                    <div class="d-flex pb-12" 
+                    *ngFor="let header of reportSections?.header">
+                        <div class="col-3 pl-0 pr-0 mr-n2">
+                            <span class="font-weight-600 font-size-16">
+                                {{ header?.label }}
+                            </span>
+                        </div>
+                        <div class="flex-fill font-size-16 ml-n3">
+                            <span> {{ getVal(header?.key) }} </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-24 w-100-p">
+                    <div class="card">
+                        <div class="card-header bg-secondary">
+                            <span class="font-weight-700">
+                                B(i) {{ reportSections?.incomeAndFoodSourceResponses.title }}
+                            </span>
+                        </div>
+                        <div class="card-content">
+                            <div *ngFor="let item of 
+                            reportSections?.incomeAndFoodSourceResponses.content"
+                            class="row pb-8 border-bottom pt-8">
+                                <div class="col-8 pl-32">
+                                    {{ item.label }}
+                                </div>
+                                <div class="col-4">
+                                    {{ getVal(item.key, 'incomeAndFoodSourceResponses') }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-24 w-100-p">
+                    <div class="card">
+                        <div class="card-header bg-secondary">
+                            <span class="font-weight-700"> 
+                                B(ii) {{reportSections?.foodConsumptionResponses.title}}
+                            </span>
+                        </div>
+                        <div class="card-content">
+                            <div class="w-100-p pb-8">
+                                <table class="table">
+                                    <thead>
+                                        <th></th>
+                                        <th *ngFor="let head of 
+                                        reportSections?.foodConsumptionResponses.header">
+                                            {{ head }}
+                                        </th>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of 
+                                        reportSections?.foodConsumptionResponses.content">
+                                            <td class="pl-20">{{ item?.label }}</td>
+                                            <td>
+                                                {{ 
+                                                    getVal(item.key + '.ownFarm', 'foodConsumptionResponses')
+                                                }}
+                                            </td>
+                                            <td>
+                                                {{ 
+                                                    getVal(item.key + '.marketFoodPurchase', 'foodConsumptionResponses')
+                                                }}
+                                            </td>
+                                            <td>
+                                                {{ 
+                                                    getVal(item.key + '.gifts', 'foodConsumptionResponses')
+                                                }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- CROP CONTRI -->
+                <div class="pt-24 w-100-p">
+                    <div class="card">
+                        <div class="card-header bg-secondary">
+                            <span class="font-weight-700"> 
+                                C. {{reportSections?.cropContributionResponseItems.title}}
+                            </span>
+                        </div>
+                        <div class="card-content">
+                            <div class="w-100-p pb-8">
+                                <table class="table">
+                                    <thead>
+                                        <th></th>
+                                        <th *ngFor="let head of 
+                                        reportSections?.cropContributionResponseItems.header">
+                                            {{ head }}
+                                        </th>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of 
+                                        reportSections?.cropContributionResponseItems.content">
+                                            <td class="pl-20">
+                                                {{ 
+                                                    getItemVal('cropModel.cropName', item)
+                                                }}
+                                            </td>
+                                            <td>
+                                                {{ 
+                                                    getItemVal('cashIncomeRank.actualValue', item)
+                                                }}
+                                            </td>
+                                            <td>
+                                                {{ 
+                                                    getItemVal('cashIncomeApproxPercentage.actualValue', item)
+                                                }}
+                                            </td>
+                                            <td>
+                                                {{ 
+                                                    getItemVal('foodConsumptionRank.actualValue', item)
+                                                }}
+                                            </td>
+                                            <td>
+                                                {{
+                                                    getItemVal('foodConsumptionApproxPercentage.actualValue', item)
+                                                }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /CROP CONTRI -->
+
+                <!-- LIVESTOCK -->
+                <div class="pt-24 w-100-p">
+                    <div class="card">
+                        <div class="card-header bg-secondary">
+                            <span class="font-weight-600"> 
+                                D. {{reportSections?.livestockContributionResponses.title}}
+                            </span>
+                        </div>
+                        <div class="card-content">
+                            <div class="w-100-p pb-8">
+                                <table class="table">
+                                    <thead>
+                                        <th class="pl-20"></th>
+                                        <th *ngFor="let head of 
+                                        reportSections?.livestockContributionResponses.header">
+                                            {{ head }}
+                                        </th>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of 
+                                        reportSections?.livestockContributionResponses.content">
+                                            <td class="pl-20"
+                                            *ngFor="let data of reportSections?.livestockContributionResponses.rows">
+                                                <span *ngIf="data === 'label'">
+                                                    {{  getItemVal(data, item) }}
+                                                </span>
+                                                <span *ngIf="data !== 'label'">
+                                                    {{  getItemVal(data + '.actualValue', item) }}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /LIVESTOCK -->
+
+                <!-- LABOR -->
+                <div class="pt-24 w-100-p">
+                    <div class="card">
+                        <div class="card-header bg-secondary">
+                            <span class="font-weight-700"> 
+                                E. {{reportSections?.labourPatternResponses.title}}
+                            </span>
+                        </div>
+                        <div class="card-content">
+                            <div class="w-100-p pb-8">
+                                <table class="table">
+                                    <thead>
+                                        <th></th>
+                                        <th *ngFor="let head of 
+                                        reportSections?.labourPatternResponses.header">
+                                            {{ head }}
+                                        </th>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of 
+                                        reportSections?.labourPatternResponses.content">
+                                        <td class="pl-20"> {{ item?.label }} </td>
+                                            <td>
+                                                {{ 
+                                                    getVal(item.key + '.women', 'labourPatternResponses')
+                                                }}
+                                            </td>
+                                            <td>
+                                                {{ 
+                                                    getVal(item.key + '.men', 'labourPatternResponses')
+                                                }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /LABOR -->
+
+                <!-- EXPENDITURE -->
+                <div class="pt-24 w-100-p">
+                    <div class="card">
+                        <div class="card-header bg-secondary">
+                            <span class="font-weight-700"> 
+                                F. {{reportSections?.expenditurePatternsResponses.title}}
+                            </span>
+                        </div>
+                        <div class="card-content">
+                            <div class="w-100-p pb-8">
+                                <table class="table">
+                                    <!-- <thead>
+                                        <th *ngFor="let head of 
+                                        reportSections?.expenditurePatternsResponses.header">
+                                            {{ head }}
+                                        </th>
+                                    </thead> -->
+                                    <tbody>
+                                        <tr *ngFor="let item of 
+                                        reportSections?.expenditurePatternsResponses.content">
+                                            <td class="pl-20"> {{ item?.label }} </td>
+                                            <td style="width:1px" class="pr-24">
+                                                {{ item?.value }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /EXPENDITURE -->
+
+                <!-- MIGRATIONS -->
+                <div class="pt-24 w-100-p">
+                    <div class="card">
+                        <div class="card-header bg-secondary">
+                            <span class="font-weight-700"> 
+                                G. {{reportSections?.migrationPatternResponses.title}}
+                            </span>
+                        </div>
+                        <div class="card-content">
+                            <div class="w-100-p pb-8">
+                                <table class="table">
+                                    <!-- <thead>
+                                        <th *ngFor="let head of 
+                                        reportSections?.expenditurePatternsResponses.header">
+                                            {{ head }}
+                                        </th>
+                                    </thead> -->
+                                    <tbody>
+                                        <tr *ngFor="let item of 
+                                        reportSections?.migrationPatternResponses.content">
+                                            <td class="pl-20"> {{ item?.label }} </td>
+                                            <td style="width:1px" class="pr-24">
+                                                {{ item?.value }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /MIGRATIONS -->
+
+                <!-- CONSTRAINTS -->
+                <div class="pt-24 w-100-p">
+                    <div class="card">
+                        <div class="card-header bg-secondary">
+                            <span class="font-weight-700"> 
+                                H. {{reportSections?.constraintsResponses.title}}
+                            </span>
+                        </div>
+                        <div class="card-content">
+                            <div class="w-100-p pb-8" 
+                            *ngFor="let item of reportSections?.constraintsResponses.content">
+                                <div class="border-top border-bottom w-100-p 
+                                bg-light pl-20 pb-8 pt-8">
+                                    <span class="font-weight-600 font-size-16">
+                                        {{ item?.title }}
+                                    </span>
+                                </div>
+                                <table class="table">
+                                    <tbody>
+                                        <tr *ngFor="let nested of item.value">
+                                            <td class="pl-20"> {{ nested?.label }} </td>
+                                            <td style="width:1px" class="pr-24">
+                                                {{ nested?.value }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /CONSTRAINTS -->
+
+                <!-- PARTICIOANTS -->
+                <div class="pt-24 w-100-p">
+                    <div class="card">
+                        <div class="card-header bg-secondary">
+                            <span class="font-weight-700"> 
+                                I. {{reportSections?.fdgParticipants.title}}
+                            </span>
+                        </div>
+                        <div class="card-content">
+                            <div class="w-100-p pb-8">
+                                <table class="table">
+                                    <thead>
+                                        <th *ngFor="let head of 
+                                        reportSections?.fdgParticipants.header; let i = index;"
+                                        [class.pl-20]="i === 0">
+                                            {{ head }}
+                                        </th>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of 
+                                        reportSections?.fdgParticipants.content">
+                                            <td class="pl-20">
+                                                {{  getItemVal('participantName', item) }}
+                                            </td>
+                                            <td> {{  getItemVal('age', item) }} </td>
+                                            <td> {{ getItemVal('gender', item) }} </td>
+                                            <td> {{  getItemVal('disability', item) }} </td>
+                                            <td> {{ getItemVal('levelOfEducation', item) }} </td>
+                                            <td> {{ getItemVal('consentToParticipate', item) }} </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /PARTICIPANTS -->
+
+            </div>
+        </div>
+    </div>
+    <!-- /WEALTH GROUP -->
+
+    <!-- ZONE LEVEL -->
+    <div class="w-100-p" *ngIf="activeTab === 1">
+        <div class="w-100-p">
+            <h1>
+                {{ questDetails['countyName'] }}&nbsp;
+                {{ getItemVal('selectedLivelihoodZone.livelihoodZoneName',
+                    questDetails) || ' ' }} Livelihood Zone 
+                zone level questionnaire - {{ questDetails.userDetails?.firstName }}
+            </h1>
+        </div>
+        <div class="pt-24 w-100-p">
+            <div class="d-flex pb-12" 
+            *ngFor="let header of countyReportsSections?.header">
+                <div class="col-3 pl-0 pr-0 mr-n2">
+                    <span class="font-weight-600 font-size-16">
+                        {{ header?.label }}
+                    </span>
+                </div>
+                <div class="flex-fill font-size-16 ml-n3">
+                    <span> {{ getVal(header?.key) }} </span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="pt-24 w-100-p">
+            <div class="font-weight-18 font-weight-700 pt-24 pb-8">
+                WEALTH GROUP CHARACTERISTICS REPONSES
+            </div>
+            <div class="d-flex pb-8 pt-8 pl-2" 
+            *ngFor="let item of 
+            questDetails?.wealthGroupCharectariticsResponses | keyvalue">
+                <div class="col-3 pl-0 pr-0 mr-n2">
+                    <span class="font-weight-500 font-size-16">
+                        {{ toSentenceCase(item?.key) }}
+                    </span>
+                </div>
+                <div class="flex-fill font-size-16 ml-n3 text-muted">
+                    <ul class="list-inline mb-1">
+                        <li class="list-inline-item mr-2"
+                        *ngFor="let val of item?.value; let i = index">
+                            {{ val }}<span *ngIf="(i + 1) !== item?.value.length">,</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-24 w-100-p">
+            <div class="font-weight-18 font-weight-700 pt-24 pb-8">
+                WEALTH GROUP PERCENTAGES
+            </div>
+            <div class="d-flex pb-8 pt-8 pl-2" 
+            *ngFor="let subHeader of countyReportsSections?.wealthGroupResponse">
+                <div class="col-3 pl-0 pr-0 mr-n2">
+                    <span class="font-weight-500 font-size-16">
+                        {{ subHeader?.label }}
+                    </span>
+                </div>
+                <div class="flex-fill font-size-16 ml-n3 text-muted">
+                    <span> {{ getVal(subHeader?.key) }}% </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CROP PROD -->
+        <div class="pt-36 w-100-p">
+            <div class="card">
+                <div class="card-header bg-secondary">
+                    <span class="font-weight-600"> 
+                        D. {{countyReportsSections?.lzCropProductionResponses.title}}
+                    </span>
+                </div>
+                <div class="card-content">
+                    <div class="w-100-p pb-8">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2"></th>
+                                    <th rowspan="2" class="pl-20"
+                                    colspan="3">
+                                        Long Rains
+                                    </th>
+                                    <th rowspan="2" class="pl-20"
+                                    colspan="3">
+                                        Short Rains
+                                    </th>
+                                </tr>
+                                
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th class="pl-20 font-size-12 valign-middle">
+                                        Crop
+                                    </th>
+                                    <th class="pl-20 font-size-12">
+                                        Rainfed %age cultivated area
+                                    </th>
+                                    <th class="pl-20 font-size-12">
+                                        Rainfed avg yield per HA
+                                    </th>
+                                    <th class="pl-20 font-size-12">
+                                        Irrigated %age cultivated area
+                                    </th>
+                                    <th class="pl-20 font-size-12">
+                                        Rainfed %age cultivated area
+                                    </th>
+                                    <th class="pl-20 font-size-12">
+                                        Rainfed avg yield per HA
+                                    </th>
+                                    <th class="pl-20 font-size-12">
+                                        Irrigated %age cultivated area
+                                    </th>
+                                </tr>
+                                <tr *ngFor="let item of 
+                                countyReportsSections?.lzCropProductionResponses.content">
+                                    <td *ngFor="let data of item.value"
+                                    class="pl-20">
+                                        {{ data }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /CROP PROD -->
+
+        <!-- WATER -->
+        <div class="pt-36 w-100-p">
+            <div class="card">
+                <div class="card-header bg-secondary">
+                    <span class="font-weight-600"> 
+                        E. {{countyReportsSections?.waterSourceResponses.title}}
+                    </span>
+                </div>
+                <div class="card-content">
+                    <div class="w-100-p pb-8">
+                        <table class="table">
+                            <thead>
+                                <th></th>
+                                <th *ngFor="let head of 
+                                countyReportsSections?.waterSourceResponses.header; let i = index;"
+                                class="pl-20">
+                                    {{ head }}
+                                </th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of 
+                                countyReportsSections?.waterSourceResponses.content">
+                                    <td class="pl-20"
+                                    *ngFor="let data of countyReportsSections?.waterSourceResponses.rows">
+                                        <span>
+                                            {{  getItemVal(data, item) }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /WATER -->
+
+        <!-- MARKET -->
+        <div class="pt-24 w-100-p">
+            <div class="card">
+                <div class="card-header bg-secondary">
+                    <span class="font-weight-600"> 
+                        F. {{countyReportsSections?.marketTransactionItems.title}}
+                    </span>
+                </div>
+                <div class="card-content">
+                    <div class="w-100-p pb-8">
+                        <table class="table">
+                            <thead>
+                                <th *ngFor="let head of 
+                                countyReportsSections?.marketTransactionItems.header; let i = index;"
+                                class="pl-20">
+                                    {{ head }}
+                                </th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of 
+                                countyReportsSections?.marketTransactionItems.content">
+                                    <td class="pl-20"
+                                    *ngFor="let data of countyReportsSections?.marketTransactionItems.rows">
+                                        <span>
+                                            {{  getItemVal(data, item) }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /MARKET -->
+
+        <!-- ETHNIC GROUP -->
+        <div class="pt-24 w-100-p">
+            <div class="card">
+                <div class="card-header bg-secondary">
+                    <span class="font-weight-600"> 
+                        G. {{countyReportsSections?.ethnicGroupResponseList.title}}
+                    </span>
+                </div>
+                <div class="card-content">
+                    <div class="w-100-p pb-8">
+                        <table class="table">
+                            <thead>
+                                <th *ngFor="let head of 
+                                countyReportsSections?.ethnicGroupResponseList.header; let i = index;"
+                                class="pl-20">
+                                    {{ head }}
+                                </th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of 
+                                countyReportsSections?.ethnicGroupResponseList.content">
+                                    <td class="pl-20"
+                                    *ngFor="let data of countyReportsSections?.ethnicGroupResponseList.rows">
+                                        <span *ngIf="data !== 'populationPercentage'">
+                                            {{  getItemVal(data + '.ethnicGroupName', item) }}
+                                        </span>
+                                        <span *ngIf="data === 'populationPercentage'">
+                                            {{  getItemVal(data, item) }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /ETHNIC GROUP -->
+
+         <!-- HUNGER -->
+         <div class="pt-24 w-100-p">
+            <div class="card">
+                <div class="card-header bg-secondary">
+                    <span class="font-weight-600"> 
+                        H. {{countyReportsSections?.hungerPatternsResponses.title}}
+                    </span>
+                </div>
+                <div class="card-content">
+                    <div class="w-100-p pb-8">
+                        <table class="table">
+                            <thead>
+                                <th *ngFor="let head of 
+                                countyReportsSections?.hungerPatternsResponses.header; let i = index;"
+                                class="pl-20">
+                                    {{ head }}
+                                </th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of 
+                                countyReportsSections?.hungerPatternsResponses.content">
+                                    <td class="pl-20">
+                                        {{ item?.label }}
+                                    </td>
+                                    <td class="pl-20">
+                                        <span>
+                                            {{  item?.value }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /HUNGER -->
+
+        <!-- HAZARD -->
+        <div class="pt-24 w-100-p">
+            <div class="card">
+                <div class="card-header bg-secondary">
+                    <span class="font-weight-600"> 
+                        I. {{countyReportsSections?.hazardResponses.title}}
+                    </span>
+                </div>
+                <div class="card-content">
+                    <div class="w-100-p pb-8">
+                        <table class="table">
+                            <thead>
+                                <th></th>
+                                <th *ngFor="let head of 
+                                countyReportsSections?.hazardResponses.header; let i = index;"
+                                class="pl-20">
+                                    {{ head }}
+                                </th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of 
+                                countyReportsSections?.hazardResponses.content">
+                                    <td class="pl-20"
+                                    *ngFor="let data of countyReportsSections?.hazardResponses.rows">
+                                        <span>
+                                            {{  getItemVal(data, item) }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /HAZARD -->
+
+        <!-- SEASON -->
+        <div class="pt-24 w-100-p">
+            <div class="card">
+                <div class="card-header bg-primary">
+                    <span class="font-weight-600"> 
+                        J. {{countyReportsSections?.livelihoodZoneSeasonsResponses.title}}
+                    </span>
+                </div>
+                <div class="card-content">
+                    <div class="w-100-p pb-8">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <th class="pl-20">Seasons</th>
+                                    <th *ngFor="let month of monthsList; let i = index;"
+                                    class="pl-20 font-size-12">
+                                        {{ month?.monthName | slice:0:3 }}
+                                    </th>
+                                </tr>
+                                <tr *ngFor="let item of 
+                                countyReportsSections?.livelihoodZoneSeasonsResponses.seasonContent">
+                                    <td class="pl-20">
+                                        {{ item?.label }}
+                                    </td>
+                                    <td *ngFor="let month of monthsList; let i = index;"
+                                    class="pl-20 font-size-12">
+                                        <span *ngFor="let monthVal of item?.value">
+                                            <mat-icon *ngIf="month.monthId === monthVal.monthId"
+                                            class="text-success">check</mat-icon>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="pl-20">Land Preparations</th>
+                                    <th *ngFor="let month of monthsList; let i = index;"
+                                    class="pl-20 font-size-12">
+                                        {{ month?.monthName | slice:0:3 }}
+                                    </th>
+                                </tr>
+                                <tr *ngFor="let item of 
+                                countyReportsSections?.livelihoodZoneSeasonsResponses.content">
+                                    <td class="pl-20">
+                                        {{ item?.label }}
+                                    </td>
+                                    <td *ngFor="let month of monthsList; let i = index;"
+                                    class="pl-20 font-size-12">
+                                        <span *ngFor="let monthVal of item?.value">
+                                            <mat-icon *ngIf="month.monthId === monthVal.monthId"
+                                            class="text-success">check</mat-icon>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /SEASON -->
+
+    </div>
+    <!-- /ZONE LEVEL -->
+</div>

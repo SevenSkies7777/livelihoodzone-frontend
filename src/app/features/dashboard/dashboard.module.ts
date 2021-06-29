@@ -25,11 +25,16 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { DynamicFormModule } from '@fuse/components';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { RawDataComponent } from './raw-data/raw-data.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
     imports: [
         HttpModule,
         RouterModule,
+        CommonModule,
         ChartsModule,
         ReactiveFormsModule,
         FormsModule,
@@ -42,7 +47,9 @@ import { MatInputModule } from '@angular/material/input';
         MatButtonModule,
         MatFormFieldModule,
         MatInputModule,
+        MatTabsModule,
         MatProgressBarModule,
+        MatTooltipModule,
 
         FuseSharedModule,
         DashboardRoutingModule,
@@ -52,6 +59,7 @@ import { MatInputModule } from '@angular/material/input';
         DashboardWrapper,
         MapWrapperComponent,
         ReportWrapperComponent,
+        RawDataComponent,
         SharedBarChartComponent,
     ],
 })

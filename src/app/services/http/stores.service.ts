@@ -27,6 +27,23 @@ export const stores = [
         name: 'update-county-livelihoodzones',
         path: '/livelihoodzones/update-county-livelihoodzones',
     },
+    // retrive responses
+    {
+        name: 'wealth-group-responses',
+        path: '/responses/wealthgroup/retrieve/',
+    },
+    {
+        name: 'county-responses',
+        path: '/responses/county/retrieve/',
+    },
+    {
+        name: 'wealth-group-questionnaire-id',
+        path: '/responses/all-wealth-group-questionnaire-sessions',
+    },
+    {
+        name: 'county-questionnaire-id',
+        path: '/responses/all-zone-level-questionnaire-sessions',
+    },
     {
         name: 'wealthgroup-distribution',
         path: '/wealthgroup-reports/zone-wealthgroup-distribution/',
