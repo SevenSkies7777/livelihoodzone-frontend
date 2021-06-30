@@ -885,7 +885,47 @@
                                     </th>
                                 </tr>
                                 <tr *ngFor="let item of 
-                                countyReportsSections?.livelihoodZoneSeasonsResponses.content">
+                                countyReportsSections?.landPreparationPeriod">
+                                    <td class="pl-20">
+                                        {{ item?.label }}
+                                    </td>
+                                    <td *ngFor="let month of monthsList; let i = index;"
+                                    class="pl-20 font-size-12">
+                                        <span *ngFor="let monthVal of item?.value">
+                                            <mat-icon *ngIf="month.monthId === monthVal.monthId"
+                                            class="text-success">check</mat-icon>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="pl-20">Planting Preparations</th>
+                                    <th *ngFor="let month of monthsList; let i = index;"
+                                    class="pl-20 font-size-12">
+                                        {{ month?.monthName | slice:0:3 }}
+                                    </th>
+                                </tr>
+                                <tr *ngFor="let item of 
+                                countyReportsSections?.plantingPeriod">
+                                    <td class="pl-20">
+                                        {{ item?.label }}
+                                    </td>
+                                    <td *ngFor="let month of monthsList; let i = index;"
+                                    class="pl-20 font-size-12">
+                                        <span *ngFor="let monthVal of item?.value">
+                                            <mat-icon *ngIf="month.monthId === monthVal.monthId"
+                                            class="text-success">check</mat-icon>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="pl-20">Harvesting Preparations</th>
+                                    <th *ngFor="let month of monthsList; let i = index;"
+                                    class="pl-20 font-size-12">
+                                        {{ month?.monthName | slice:0:3 }}
+                                    </th>
+                                </tr>
+                                <tr *ngFor="let item of 
+                                countyReportsSections?.harvestingPeriod">
                                     <td class="pl-20">
                                         {{ item?.label }}
                                     </td>

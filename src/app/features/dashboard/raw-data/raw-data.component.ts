@@ -293,10 +293,10 @@ export class RawDataComponent implements OnInit {
                 this.countyReportsSections[aKey].content = 
                     arrKeys.filter(item => lastIndexOf(seasonsKeys, item) < 0)
                         .map(key => {
-                                return {
-                                    label: startCase(key),
-                                    value: this.questDetails[aKey][key],
-                                }
+                            return {
+                                label: startCase(key),
+                                value: this.questDetails[aKey][key],
+                            }
                         });
             });
 
@@ -305,12 +305,17 @@ export class RawDataComponent implements OnInit {
                 const dataCont = get(this.questDetails, valKey);
                 if (isArray(dataCont) && dataCont.length) {
                     const keysArr = keys(dataCont[0]);
+                    const excemptKeys = [
+                        'harvestingPeriod', 'landPreparationPeriod', 
+                        'plantingPeriod'
+                    ];
                     this.countyReportsSections[aKey].content = 
                         dataCont.map(crop => {
                             const val = {
                                 value: [],
                             };
-                            keysArr.forEach(nestedKey => {
+                            keysArr.filter(item => lastIndexOf(excemptKeys, item) < 0)
+                            .forEach(nestedKey => {
                                 if (nestedKey === 'crop') {
                                     val.value.push(get(crop, 'crop.cropName'));
                                 } else {
@@ -324,6 +329,14 @@ export class RawDataComponent implements OnInit {
                             });
                             return val;
                         });
+                    excemptKeys.forEach(exKey => {
+                        this.countyReportsSections[exKey] = dataCont.map(crop => {
+                            return {
+                                label: get(crop, 'crop.cropName'),
+                                value: get(crop, exKey),
+                            }
+                        })
+                    })
                 }
             });
 
