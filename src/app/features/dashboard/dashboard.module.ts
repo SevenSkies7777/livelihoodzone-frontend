@@ -29,6 +29,7 @@ import { RawDataComponent } from './raw-data/raw-data.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CommonModule } from '@angular/common';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
     imports: [
@@ -50,6 +51,7 @@ import { CommonModule } from '@angular/common';
         MatTabsModule,
         MatProgressBarModule,
         MatTooltipModule,
+        MatMenuModule,
 
         FuseSharedModule,
         DashboardRoutingModule,
