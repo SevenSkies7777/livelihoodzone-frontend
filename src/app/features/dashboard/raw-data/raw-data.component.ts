@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ExcelService } from 'app/services/excel.service';
 import { DataLayerService } from 'app/services/http/dataLayer.service';
 import { get, has, isArray, keys, lastIndexOf, startCase } from 'lodash';
 import { countyReportsConfigs, monthsList } from '../constants/county-reports-configs.constant';
@@ -8,7 +9,7 @@ import { countyReportsConfigs, monthsList } from '../constants/county-reports-co
     templateUrl: 'raw-data.component.html',
     styleUrls: ['raw-data.component.scss',
         '../reports-wrapper/reports-wrapper.component.scss'],
-    providers: [DataLayerService],
+    providers: [DataLayerService, ExcelService],
 })
 
 export class RawDataComponent implements OnInit {
@@ -156,7 +157,9 @@ export class RawDataComponent implements OnInit {
         }
     }
 
-    constructor(private _dataLayer: DataLayerService) {}
+    constructor(
+        private _dataLayer: DataLayerService,
+        private _excelService: ExcelService) {}
 
     getVal = (key, preKey) => {  
         key = preKey ? `${preKey}.${key}` : key;
@@ -384,6 +387,14 @@ export class RawDataComponent implements OnInit {
             .subscribe(resp => {
                 this.data = resp;
             }, err => console.log(err));
+    }
+
+    exportExcel(store, resp) {
+        const responses = this._excelService.fetchResponse(store, resp);
+        responses.subscribe(result => {
+            this._excelService.formatAndExportData(result);
+        });
+        // this._excelService.generateExcel();
     }
 
     ngOnInit() {

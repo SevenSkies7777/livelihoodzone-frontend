@@ -32,6 +32,14 @@
     #print {
         display: none;
     }
+    .action-btn {
+      content: url('https://api.iconify.design/mdi-file-excel.svg?color=%232196f3&height=24');
+      vertical-align: -0.125em;
+    }
+    .action-btn-pdf {
+      content: url('https://api.iconify.design/mdi-file-pdf.svg?color=%CCCCCC&height=24');
+      vertical-align: -0.125em;
+    }
 }
 
 @media print {

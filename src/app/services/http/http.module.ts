@@ -14,6 +14,8 @@ import { ConfigAuthUrl } from '../oauth2.service';
 import { 
     DynamicSnackbarModule 
 } from '@fuse/components/dynamic-snackbar/dynamic-snackbar.module';
+import { DatePipe } from '@angular/common';
+import { ExcelCountyLevelService } from './excel.county-service';
 
 @NgModule({
     imports: [
@@ -32,6 +34,8 @@ import {
             useClass: AuthInterceptor, 
             multi: true,
         },
+        DatePipe,
+        ExcelCountyLevelService,
     ],
 })
 
