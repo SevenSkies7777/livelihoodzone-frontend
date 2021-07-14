@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { ReportConfig } from 'app/features/dashboard/constants/reports-configs.constant';
 import { Fill, Workbook } from 'exceljs';
 import * as fs from 'file-saver';
-import { get, has, keys, startCase } from 'lodash';
+import { find, get, has, keys, startCase } from 'lodash';
 import { map } from 'rxjs/operators';
 import { DataLayerService } from './http/dataLayer.service';
 import { ExcelCountyLevelService } from './http/excel.county-service';
@@ -149,20 +149,56 @@ export class ExcelService {
 
     configParticipant(resp) {
         const contentKeys = [
-            { key: 'participantName'},
-            { key: 'age' },
-            { key: 'gender' },
+            {  key: 'participantName' },
+            { 
+                key: 'age',
+                mappedValue: [
+                    { key: 1, val: '18-24 years' },
+                    { key: 2, val: '25-35 years' },
+                    { key: 3, val: '36-49 years' },
+                    { key: 4, val: '50-59 years' },
+                    { key: 5, val: '60 years and above' },
+                ]
+            },
+            { 
+                key: 'gender', 
+                mappedValue: [
+                    {key: 1, val: 'Male'}, 
+                    {key: 2, val: 'Female'}
+                ] 
+            },
             { key: 'disability' },
-            { key: 'levelOfEducation' },
-            { key: 'consentToParticipate' },
+            { 
+                key: 'levelOfEducation',
+                mappedValue: [
+                    { key: 1, val: 'Non-formal Education' },
+                    { key: 2, val: 'Primary' },
+                    { key: 3, val: 'Secondary' },
+                    { key: 4, val: 'Post-Secondary' },
+                ]
+            },
+            { 
+                key: 'consentToParticipate',
+                mappedValue: [
+                    {key: 1, val: 'Consented'}, 
+                    {key: 2, val: 'Not consented'}
+                ] 
+            },
         ];
         const mainKey = 'fdgParticipants';
         const val = get(resp, mainKey, []);
-        return val.map(participant => [
-            ...contentKeys.map(aKey => 
-                get(participant, aKey.key, 'Not provided')
-            )
+        const finalVal = val.map(participant => [
+            ...contentKeys.map(aKey => {
+                if(has(aKey, 'mappedValue')) {
+                    return get(find(aKey.mappedValue, 
+                        { key: get(participant, aKey.key)}), 
+                            'val', 'Not provided');
+                }
+                return get(participant, aKey.key, 'Not provided')
+            })
         ]);
+        console.log(finalVal);
+        return finalVal;
     }
     
     fetchResponse(store, quest) {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ExcelService } from 'app/services/excel.service';
 import { DataLayerService } from 'app/services/http/dataLayer.service';
-import { get, has, isArray, keys, lastIndexOf, startCase } from 'lodash';
+import { find, get, has, isArray, keys, lastIndexOf, startCase } from 'lodash';
 import { countyReportsConfigs, monthsList } from '../constants/county-reports-configs.constant';
 
 @Component({
@@ -167,6 +167,31 @@ export class RawDataComponent implements OnInit {
     };
 
     getItemVal = (key, item) => { return get(item, key, 'Not provided') }
+
+    getMapItemVal = (key, item) => {
+        const valMap = [
+            { key: 1, val: 'Non-formal Education' },
+            { key: 2, val: 'Primary' },
+            { key: 3, val: 'Secondary' },
+            { key: 4, val: 'Post-Secondary' },
+        ];
+        const valAgeMap = [
+            { key: 1, val: '18-24 years' },
+            { key: 2, val: '25-35 years' },
+            { key: 3, val: '36-49 years' },
+            { key: 4, val: '50-59 years' },
+            { key: 5, val: '60 years and above' },
+        ];
+        if (key === 'levelOfEducation') {
+            const val = get(item, key, 4);
+            return get(find(valMap, { 'key': val}), 'val');
+        }
+        if (key === 'age')
+            return get(find(valAgeMap, {
+                'key': get(item, key, 5)
+            }), 'val');
+    }
+
     toSentenceCase = (str) => { return startCase(str) }
 
     downLoadResponse(type, quest) {
@@ -286,7 +311,8 @@ export class RawDataComponent implements OnInit {
                 const arrKeys = keys(this.questDetails[aKey]);
                 const seasonsKeys = ['dry', 'longRains', 'shortRains'];
                 this.countyReportsSections[aKey].seasonContent = 
-                    arrKeys.filter(item => lastIndexOf(seasonsKeys, item) >= 0)
+                    arrKeys.filter(item => lastIndexOf(seasonsKeys, item) >= 0
+                    || lastIndexOf(seasonsKeys, item) < 0)
                         .map(key => {
                             return {
                                 label: startCase(key),
