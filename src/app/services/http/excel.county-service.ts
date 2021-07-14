@@ -230,7 +230,8 @@ export class ExcelCountyLevelService {
         const seasonsKeys = ['dry', 'longRains', 'shortRains'];
         const arrKeys = keys(get(data, key));
         let seasonsData = arrKeys.filter(
-            item => lastIndexOf(seasonsKeys, item) >= 0)
+            item => lastIndexOf(seasonsKeys, item) >= 0 
+            || lastIndexOf(seasonsKeys, item) < 0)
                 .map(aKey => {
                     return {
                         label: startCase(aKey),
@@ -243,8 +244,6 @@ export class ExcelCountyLevelService {
                 ...season.value.map(month => month.monthId),
             ];
         });
-        console.log(this.seasonCropsVal, 'Seasons prep data');
-        console.log(seasonsRow, 'Called');
         const addMonthsHeaders = (label) => {
             const headerArr = [
                 label,

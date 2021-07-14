@@ -551,11 +551,13 @@
                                             <td class="pl-20">
                                                 {{  getItemVal('participantName', item) }}
                                             </td>
-                                            <td> {{  getItemVal('age', item) }} </td>
-                                            <td> {{ getItemVal('gender', item) }} </td>
+                                            <td> {{  getMapItemVal('age', item) }} </td>
+                                            <td> {{ getItemVal('gender', item) === 1 
+                                                    ? 'Male' : 'Female' }} </td>
                                             <td> {{  getItemVal('disability', item) }} </td>
-                                            <td> {{ getItemVal('levelOfEducation', item) }} </td>
-                                            <td> {{ getItemVal('consentToParticipate', item) }} </td>
+                                            <td> {{ getMapItemVal('levelOfEducation', item)  }} </td>
+                                            <td> {{ getItemVal('consentToParticipate', item) === 1 
+                                                    ? 'Consented' : 'Not consented' }} </td>
                                         </tr>
                                     </tbody>
                                 </table>
